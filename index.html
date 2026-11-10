@@ -81,6 +81,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-size:5.6cqw;letter-spacing:.12em;color:#c9b8a3;font-weight:300;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 .ped span{opacity:.85;transform:translateY(-3cqw)}
 
+.photo{display:block;height:50cqw;width:auto;margin-bottom:-1px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.6)) brightness(.92) contrast(1.05);
+  animation:float 7s ease-in-out infinite;user-select:none;-webkit-user-drag:none}
+.item.soon .ped span{opacity:.35;font-size:3.6cqw;letter-spacing:.3em}
+.item:nth-child(3) .photo{animation-delay:-3s}
 /* bottles */
 .bottle{position:relative;display:flex;flex-direction:column;align-items:center;width:var(--w);margin-bottom:-1px;
   filter:drop-shadow(0 6px 8px rgba(0,0,0,.5));animation:float 7s ease-in-out infinite}
@@ -225,16 +229,12 @@ const CONFIG = {
 };
 // row: 1 = top shelf, 2 = bottom shelf. Add / remove products freely.
 const PRODUCTS = [
-  { id:1, row:1, no:"N° 01", name:"Rouge Velours", notes:["Saffron","Rose","Oud"],         sizes:{50:210, 100:320},
-    look:{w:"15cqw", cw:"9cqw", ch:"5.5cqw", cap:"linear-gradient(90deg,#0c0c0e,#24242a 40%,#0c0c0e)", h:"20cqw", r:"2cqw", bg:"linear-gradient(90deg,#4a0509,#b0121b 45%,#6e0a10)"}, ped:22 },
-  { id:2, row:1, no:"N° 02", name:"Rose Poudrée",  notes:["Pink pepper","Iris","White musk"], sizes:{50:185, 100:285},
-    look:{w:"17cqw", cw:"8cqw", ch:"5cqw", cap:"linear-gradient(90deg,#8d6c43,#e2c590 40%,#8d6c43)", h:"19cqw", r:"4cqw", bg:"linear-gradient(90deg,#d99aa0,#f7cdd0 45%,#e5a9ae)"}, ped:19 },
-  { id:3, row:2, no:"N° 03", name:"Ambre Doré",    notes:["Amber","Oakmoss","Vanilla"],    sizes:{50:240, 100:370},
-    look:{w:"17cqw", cw:"11cqw", ch:"8cqw", cap:"linear-gradient(90deg,#b88b58,#e8c996 40%,#b88b58)", cr:"3px", h:"15cqw", r:"2cqw", liquid:true, bg:"linear-gradient(90deg,#8a4a05,#e08a10 50%,#a85d08)"}, ped:20 },
-  { id:4, row:2, no:"N° 04", name:"Bleu Nuit",     notes:["Bergamot","Cedar","Musk"],      sizes:{50:165, 100:255},
-    look:{w:"10cqw", cw:"7cqw", ch:"9cqw", cap:"linear-gradient(90deg,#6c7390,#d8dcea 40%,#6c7390)", h:"24cqw", r:"1.4cqw", bg:"linear-gradient(90deg,#171a6a,#3a3fb0 50%,#1c2078)"}, ped:15 },
-  { id:5, row:2, no:"N° 05", name:"Vert Mousse",   notes:["Fig","Vetiver","Green tea"],    sizes:{50:260, 100:395},
-    look:{w:"17cqw", cw:"10cqw", ch:"7cqw", cap:"linear-gradient(90deg,#08080c,#1c1c26 40%,#08080c)", h:"17cqw", r:"1.6cqw", bg:"linear-gradient(90deg,#0c2a14,#2c6a3a 50%,#123a1c)"}, ped:22 }
+  { id:1, row:1, no:"N° 01", name:"Aloura Noir",  notes:["Oud","Amber","Vanilla"],      sizes:{100:210}, img:"img/aloura-noir.png",  ped:17 },
+  { id:2, row:1, no:"N° 02", name:"Aloura Rouge", notes:["Rose","Saffron","Musk"],      sizes:{100:210}, img:"img/aloura-rouge.png", ped:17 },
+  // Empty shelf slots: replace "soon" with real product data (name, notes, sizes, img) when ready.
+  { id:3, row:2, soon:true, ped:20 },
+  { id:4, row:2, soon:true, ped:16 },
+  { id:5, row:2, soon:true, ped:20 }
 ];
 /* =================================== */
 
@@ -252,14 +252,11 @@ const rows = $('#rows');
   const spots = list.length===2 ? [25,75] : [18,50,82];
   spots.forEach(x=>{ const s=document.createElement('div'); s.className='spot'; s.style.left=`calc(${x}% - 5.5cqw)`; row.appendChild(s); });
   list.forEach(p=>{
-    const L=p.look, it=document.createElement('div'); it.className='item'; it.dataset.id=p.id;
-    it.innerHTML = `
-      <div class="bottle ${L.liquid?'liquid':''}" style="--w:${L.w};--cw:${L.cw};--ch:${L.ch};--cap:${L.cap};--cr:${L.cr||'2px'};--h:${L.h};--r:${L.r};--glass-bg:${L.bg}">
-        <div class="cap"></div>${L.liquid?'':'<div class="neck"></div>'}<div class="body"></div>
-      </div>
-      <div class="ped" style="height:${p.ped}cqw"><span>${CONFIG.currency}${p.sizes[50]}</span></div>
-      <button class="hit" aria-label="${p.name}"></button>`;
-    it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
+    const it=document.createElement('div'); it.className='item'+(p.soon?' soon':''); it.dataset.id=p.id;
+    const first=p.sizes?Object.keys(p.sizes)[0]:0;
+    it.innerHTML = (p.img?`<img class="photo" src="${p.img}" alt="${p.name}" draggable="false">`:'') + `
+      <div class="ped" style="height:${p.ped}cqw"><span>${p.soon?'SOON':CONFIG.currency+p.sizes[first]}</span></div>` + (p.soon?'':`<button class="hit" aria-label="${p.name}"></button>`);
+    if(!p.soon) it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
     row.appendChild(it);
   });
   rows.appendChild(row);
@@ -278,9 +275,9 @@ const rows = $('#rows');
 /* ---- product zoom ---- */
 function openProduct(id){
   const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
-  current = p; size = 50;
+  current = p; size = +Object.keys(p.sizes)[0];
   const it = document.querySelector(`.item[data-id="${id}"]`);
-  const cr = caseEl.getBoundingClientRect(), br = it.querySelector('.bottle').getBoundingClientRect();
+  const cr = caseEl.getBoundingClientRect(), br = it.querySelector('.photo').getBoundingClientRect();
   const W = cr.width, H = cr.height;
   const cx = br.left-cr.left+br.width/2, cy = br.top-cr.top+br.height/2;
   const s = Math.min(H*0.34/br.height, W*0.72/br.width, 3.6);
