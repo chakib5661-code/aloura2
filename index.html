@@ -17,7 +17,7 @@
   --line:rgba(255,255,255,.14);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#000;color:var(--ink);font-family:Manrope,system-ui,sans-serif;font-weight:300}
+html,body{min-height:100%;background:#0a0807;color:var(--ink);font-family:Manrope,system-ui,sans-serif;font-weight:300}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .app{position:relative;width:100%;max-width:480px;height:100vh;height:100dvh;margin:0 auto;overflow:hidden;background:var(--bg)}
 
@@ -113,7 +113,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .x svg{width:16px;height:16px;stroke:var(--ink);stroke-width:1.5;fill:none;stroke-linecap:round}
 
 /* ---------- drawers ---------- */
-.sheet{position:absolute;z-index:40;inset:0;pointer-events:none}
+.sheet{position:fixed;z-index:40;inset:0;max-width:480px;margin:0 auto;pointer-events:none}
 .sheet .veil{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .4s}
 .sheet .box{position:absolute;top:0;bottom:0;right:0;width:min(88%,380px);padding:calc(env(safe-area-inset-top) + 20px) 22px 22px;
   background:linear-gradient(180deg,#171120,#0c0813);border-left:1px solid var(--line);
@@ -137,10 +137,55 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none}
 .menu p{color:var(--muted);font-size:12px;margin-top:auto;line-height:1.7}
 
-.toast{position:absolute;z-index:60;left:50%;top:calc(env(safe-area-inset-top) + 74px);transform:translate(-50%,-20px);
+.toast{position:fixed;z-index:60;left:50%;top:calc(env(safe-area-inset-top) + 74px);transform:translate(-50%,-20px);
   background:var(--cream);color:#1c1520;padding:11px 18px;border-radius:30px;font-size:12px;letter-spacing:.14em;
   opacity:0;transition:.4s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- scrolling sections ---------- */
+.cue{position:absolute;z-index:6;left:50%;bottom:6px;width:1px;height:16px;background:linear-gradient(180deg,transparent,#c9b8a3);animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.2;transform:translateY(-3px)}50%{opacity:.9;transform:none}}
+.dock{position:fixed;z-index:35;top:0;left:0;right:0;max-width:480px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
+  padding:calc(env(safe-area-inset-top) + 10px) 18px 10px;background:linear-gradient(180deg,rgba(10,8,7,.94),rgba(10,8,7,.7));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transform:translateY(-110%);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.dock.on{transform:none}
+.more{max-width:480px;margin:0 auto;background:#0a0807;overflow:hidden}
+.sec{padding:84px 24px 20px}
+.eyebrow{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.sec h2{font-size:32px;line-height:1.15;font-weight:200;margin:14px 0 26px;letter-spacing:.005em}
+.sec p{color:#bdb1a6;font-size:15px;line-height:1.75;margin-bottom:16px}
+.sec p.lead{color:var(--ink);font-size:17px;font-weight:300}
+.orn{height:1px;width:64px;background:linear-gradient(90deg,var(--gold),transparent);margin:-6px 0 24px}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:30px}
+.trio div{padding:18px 8px;border:1px solid var(--line);border-radius:16px;text-align:center;background:rgba(255,255,255,.02)}
+.trio b{display:block;font-weight:300;font-size:17px;letter-spacing:.06em;margin-bottom:6px}
+.trio span{font-size:11px;color:var(--muted);letter-spacing:.08em}
+.cards{display:grid;gap:16px}
+.card{display:grid;grid-template-columns:104px 1fr;gap:18px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:22px;
+  background:radial-gradient(120% 120% at 20% 0,rgba(217,191,140,.10),rgba(255,255,255,.02) 60%)}
+.card img{width:100%;height:auto;filter:drop-shadow(0 8px 10px rgba(0,0,0,.55))}
+.card .no{font-size:10px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
+.card h3{font-weight:300;font-size:22px;margin:6px 0}
+.card .nt{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.card button{padding:11px 16px;border-radius:12px;border:1px solid var(--line);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink)}
+.card button:active{background:rgba(255,255,255,.06)}
+.card.soon{opacity:.45;grid-template-columns:1fr;text-align:center;padding:26px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.stores{display:grid;gap:12px}
+.store{padding:20px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02)}
+.store b{display:block;font-weight:300;font-size:20px;margin-bottom:6px}
+.store span{display:block;color:var(--muted);font-size:13px;line-height:1.7}
+.contact{margin-top:22px;display:grid;gap:10px}
+.contact a{display:block;padding:15px;border-radius:14px;border:1px solid var(--line);text-align:center;text-decoration:none;color:var(--ink);font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+.foot{padding-bottom:calc(env(safe-area-inset-bottom) + 40px);border-top:1px solid var(--line);margin-top:70px;background:linear-gradient(180deg,#0a0807,#050404)}
+.nl{display:flex;gap:10px;margin-bottom:34px}
+.nl input{flex:1;min-width:0;padding:15px 16px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font:inherit;font-size:14px;outline:0}
+.nl input:focus{border-color:var(--gold)}
+.nl button{padding:0 20px;border-radius:14px;background:var(--cream);color:#1c1520;font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase}
+.fl{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:30px}
+.fl button{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.copy{font-size:11px;line-height:1.9;color:#6f665e;letter-spacing:.08em}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -150,8 +195,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <header class="top">
     <div class="logo">ALOURA</div>
     <div class="tools">
-      <button class="round" id="menuBtn" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></button>
-      <button class="round" id="bagBtn" aria-label="Open bag"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8zM9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="badge" id="badge">0</span></button>
+      <button class="round" data-menu aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></button>
+      <button class="round" data-bag aria-label="Open bag"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8zM9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="badge">0</span></button>
     </div>
   </header>
 
@@ -159,6 +204,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <div class="stage" id="stage"></div>
   </section>
   <div class="hint" id="hint">Tap a bottle to look closer</div>
+  <div class="cue" id="cue"></div>
   <div class="dim" id="dim"></div>
 
   <aside class="panel" id="panel" aria-live="polite">
@@ -169,6 +215,51 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <div class="sizes" id="pSizes"></div>
     <button class="add" id="addBtn"></button>
   </aside>
+
+</main>
+
+<div class="dock" id="dock">
+  <div class="logo">ALOURA</div>
+  <div class="tools">
+    <button class="round" data-menu aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></button>
+    <button class="round" data-bag aria-label="Open bag"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8zM9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="badge">0</span></button>
+  </div>
+</div>
+
+<div class="more">
+  <section class="sec" id="collection">
+    <div class="eyebrow rv">The collection</div>
+    <h2 class="rv">Every bottle, one light.</h2>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="sec" id="maison">
+    <div class="eyebrow rv">La Maison</div>
+    <h2 class="rv">Scent, slowed down.</h2>
+    <div class="orn rv"></div>
+    <p class="lead rv">ALOURA is a house of eau de parfum made for the evening: warm woods, soft florals and a trail that stays after you leave the room.</p>
+    <p class="rv">Each fragrance is shown the way it should be met — alone, in the light, close enough to feel its character before you ever spray it.</p>
+    <div class="trio rv"><div><b>Light</b><span>Opens bright</span></div><div><b>Amber</b><span>Settles warm</span></div><div><b>Night</b><span>Lingers on</span></div></div>
+  </section>
+
+  <section class="sec" id="boutiques">
+    <div class="eyebrow rv">Boutiques</div>
+    <h2 class="rv">Find us.</h2>
+    <div class="stores" id="stores"></div>
+    <div class="contact rv" id="contact"></div>
+  </section>
+
+  <footer class="sec foot" id="pie">
+    <div class="eyebrow rv">Newsletter</div>
+    <h2 class="rv">Be first to the next bottle.</h2>
+    <form class="nl rv" id="nl" novalidate>
+      <input type="email" id="nlMail" placeholder="Your email" autocomplete="email" aria-label="Email">
+      <button type="submit">Subscribe</button>
+    </form>
+    <div class="fl rv"><button data-go="top">Collection</button><button data-go="maison">La Maison</button><button data-go="boutiques">Boutiques</button></div>
+    <div class="copy">ALOURA · Eau de Parfum<br>© 2026 ALOURA. All rights reserved.</div>
+  </footer>
+</div>
 
   <div class="sheet" id="bagSheet">
     <div class="veil" data-close></div>
@@ -185,23 +276,30 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <div class="veil" data-close></div>
     <div class="box menu">
       <div class="sh-head"><h3>Menu</h3><button class="x" style="position:static" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-      <button class="m" data-close>Collection</button>
-      <button class="m" data-close>Our story</button>
-      <button class="m" data-close>Contact</button>
-      <p>ALOURA · Eau de Parfum<br>Pages for Story &amp; Contact come next.</p>
+      <button class="m" data-go="top">Collection</button>
+      <button class="m" data-go="maison">La Maison</button>
+      <button class="m" data-go="boutiques">Boutiques</button>
+      <button class="m" data-go="pie">Newsletter</button>
+      <p>ALOURA · Eau de Parfum</p>
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
-</main>
 
 <script>
 /* ============ EDIT HERE ============ */
 const CONFIG = {
   currency: "$",
   theme: "warm",          // "warm" or "dark" (background image in /img)
+  email: "",              // shown in Boutiques → Contact
+  newsletterEndpoint: "",  // URL that accepts a POST {email}. Empty = newsletter not connected yet.
   whatsapp: ""            // e.g. "213555123456" (country code + number, no +). Leave empty to hide the button.
 };
+// Boutiques section. Add or edit freely.
+const STORES = [
+  { city:"Your city", address:"Address coming soon", hours:"" }
+];
+
 // Fixed pedestal positions of the background image (percent of the picture). Slot 0-1 top shelf, 2-4 bottom shelf.
 const SLOTS = [
   { x:29.6, base:34.5, w:20.8, bottom:45.4, price:40.0, lamp:[29.0,6.4] },
@@ -293,7 +391,7 @@ function orderText(){
 }
 function renderBag(){
   const count = bag.reduce((t,l)=>t+l.qty,0);
-  $('#badge').textContent=count; $('#badge').classList.toggle('on',count>0);
+  document.querySelectorAll('.badge').forEach(b=>{b.textContent=count;b.classList.toggle('on',count>0);});
   const total = bag.reduce((t,l)=>t+PRODUCTS.find(x=>x.id===l.id).sizes[l.size]*l.qty,0);
   $('#total').textContent = money(total);
   $('#lines').innerHTML = bag.length ? bag.map((l,i)=>{const p=PRODUCTS.find(x=>x.id===l.id);return `
@@ -315,12 +413,41 @@ $('#copyOrder').onclick = async()=>{
 
 /* ---- sheets, toast ---- */
 const sheet = (id,on)=>$(id).classList.toggle('on',on);
-$('#bagBtn').onclick = ()=>sheet('#bagSheet',true);
-$('#menuBtn').onclick = ()=>sheet('#menuSheet',true);
+document.querySelectorAll('[data-bag]').forEach(b=>b.onclick=()=>sheet('#bagSheet',true));
+document.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>sheet('#menuSheet',true));
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>{sheet('#bagSheet',false);sheet('#menuSheet',false);}));
 let tt; function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800);}
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeProduct();sheet('#bagSheet',false);sheet('#menuSheet',false);} });
 renderBag();
+
+/* ---- sections ---- */
+$('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
+  <div class="card rv"><img src="${p.img}" alt="${p.name}">
+    <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.join(' · ')} — from ${CONFIG.currency}${Math.min(...Object.values(p.sizes))}</div>
+    <button data-look="${p.id}">Look closer</button></div></div>`).join('')
+  + (PRODUCTS.some(p=>p.soon)?'<div class="card soon rv">More bottles coming soon</div>':'');
+document.querySelectorAll('[data-look]').forEach(b=>b.onclick=()=>{ window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>openProduct(+b.dataset.look),700); });
+$('#stores').innerHTML = STORES.map(t=>`<div class="store rv"><b>${t.city}</b><span>${t.address}${t.hours?'<br>'+t.hours:''}</span></div>`).join('');
+$('#contact').innerHTML = (CONFIG.whatsapp?`<a href="https://wa.me/${CONFIG.whatsapp}" >WhatsApp us</a>`:'') + (CONFIG.email?`<a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`:'');
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+  sheet('#bagSheet',false); sheet('#menuSheet',false);
+  const t=b.dataset.go; closeProduct();
+  setTimeout(()=>{ t==='top' ? window.scrollTo({top:0,behavior:'smooth'}) : document.getElementById(t).scrollIntoView({behavior:'smooth'}); },200);
+}));
+$('#nl').addEventListener('submit',async e=>{
+  e.preventDefault(); const v=$('#nlMail').value.trim();
+  if(!/^\S+@\S+\.\S+$/.test(v)) return toast('Please enter a valid email');
+  if(!CONFIG.newsletterEndpoint) return toast('Newsletter is not connected yet');
+  try{ const r=await fetch(CONFIG.newsletterEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:v})});
+       if(!r.ok) throw 0; $('#nlMail').value=''; toast('Thank you — you are on the list'); }
+  catch(_){ toast('Could not subscribe, try again later'); }
+});
+/* reveal on scroll + floating header */
+const rvs=document.querySelectorAll('.rv');
+if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} }),{threshold:.12});
+  rvs.forEach(el=>io.observe(el)); } else rvs.forEach(el=>el.classList.add('in'));
+const dock=$('#dock'), cue=$('#cue');
+addEventListener('scroll',()=>{ const y=scrollY; dock.classList.toggle('on',y>innerHeight*.7); cue.style.opacity=y>40?0:''; },{passive:true});
 </script>
 </body>
 </html>
