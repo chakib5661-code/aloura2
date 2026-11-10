@@ -35,83 +35,27 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .badge.on{transform:scale(1)}
 
 /* ---------- display case ---------- */
-.case{position:absolute;inset:0;container-type:size;transform-origin:0 0;
-  transition:transform 1s cubic-bezier(.65,0,.2,1);
-  display:flex;flex-direction:column;padding:78px 8px 56px;will-change:transform;
-  background:#0b0714}
-.case::before{ /* outer frame */
-  content:"";position:absolute;inset:70px 4px 48px;border:2px solid #14102a;border-radius:2px;
-  box-shadow:inset 0 0 40px rgba(0,0,0,.8);pointer-events:none;z-index:5}
-.wall{position:absolute;inset:78px 8px 56px;overflow:hidden;
-  background:
-   radial-gradient(60% 40% at 30% 18%,rgba(190,150,120,.20),transparent 70%),
-   radial-gradient(60% 40% at 72% 20%,rgba(190,150,120,.16),transparent 70%),
-   radial-gradient(60% 35% at 30% 70%,rgba(170,130,110,.16),transparent 70%),
-   radial-gradient(70% 40% at 70% 72%,rgba(170,130,110,.14),transparent 70%),
-   linear-gradient(180deg,#2a2230,#3a2e35 50%,#2b2230)}
-.wall::before{ /* marble veining */
-  content:"";position:absolute;inset:0;opacity:.55;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='700'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.006 .012' numOctaves='5' seed='7'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .9  0 0 0 0 .85  0 0 0 2.2 -.9'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
-  background-size:100% 100%}
-.wall::after{ /* vignette */
-  content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 40%,transparent 40%,rgba(5,3,10,.7))}
-.drops{position:absolute;inset:0;pointer-events:none}
-.drop{position:absolute;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,rgba(255,235,220,.75),rgba(200,160,140,.25) 55%,transparent 70%);
-  box-shadow:0 1px 1px rgba(0,0,0,.4)}
-.streak{position:absolute;width:2px;background:linear-gradient(180deg,transparent,rgba(255,225,205,.35),transparent);border-radius:2px}
-
-.rows{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;min-height:0}
-.row{position:relative;flex:1;display:flex;justify-content:space-evenly;align-items:flex-end;padding:0 3cqw;min-height:0}
-.shelf{position:relative;height:8cqw;margin:0 -8px;flex:none;
-  background:linear-gradient(180deg,#2c2848,#1b1830 60%,#12101f);
-  border-top:1px solid rgba(255,255,255,.12);box-shadow:0 8px 20px rgba(0,0,0,.6)}
-.spot{position:absolute;top:2%;width:11cqw;height:2.2cqw;border-radius:50%;
-  background:radial-gradient(ellipse,#fff7e6 0%,#ffe2b0 45%,transparent 75%);filter:blur(.6px);
-  box-shadow:0 0 18px 4px rgba(255,220,170,.55)}
-.spot::after{content:"";position:absolute;left:50%;top:100%;width:34cqw;height:60cqw;transform:translateX(-50%);
-  background:radial-gradient(ellipse at 50% 0,rgba(255,224,180,.22),transparent 65%);pointer-events:none}
-
-.item{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-  width:26cqw;transition:opacity .8s,filter .8s}
-.item button.hit{position:absolute;inset:-6px -4px 0;z-index:5}
-.ped{width:25cqw;display:grid;place-items:center;padding-top:2cqw;
-  background:linear-gradient(180deg,rgba(40,36,64,1),rgba(24,21,44,1));
-  border-top:1px solid rgba(255,255,255,.14);box-shadow:inset 0 0 22px rgba(0,0,0,.55);
-  font-size:5.6cqw;letter-spacing:.12em;color:#c9b8a3;font-weight:300;text-shadow:0 1px 4px rgba(0,0,0,.6)}
-.ped span{opacity:.85;transform:translateY(-3cqw)}
-
-.photo{display:block;height:50cqw;width:auto;margin-bottom:-1px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.6)) brightness(.92) contrast(1.05);
-  animation:float 7s ease-in-out infinite;user-select:none;-webkit-user-drag:none}
-.item.soon .ped span{opacity:.35;font-size:3.6cqw;letter-spacing:.3em}
-.item:nth-child(3) .photo{animation-delay:-3s}
-/* bottles */
-.bottle{position:relative;display:flex;flex-direction:column;align-items:center;width:var(--w);margin-bottom:-1px;
-  filter:drop-shadow(0 6px 8px rgba(0,0,0,.5));animation:float 7s ease-in-out infinite}
-.bottle .cap{position:relative;width:var(--cw);height:var(--ch);background:var(--cap);border-radius:var(--cr,2px);
-  box-shadow:inset 3px 0 5px rgba(255,255,255,.22),inset -4px 0 6px rgba(0,0,0,.35)}
-.bottle .neck{width:var(--nw,26%);height:2cqw;background:var(--neck,#5a5560)}
-.bottle .body{position:relative;width:100%;height:var(--h);border-radius:var(--r);background:var(--glass-bg);overflow:hidden;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 6px 0 10px rgba(255,255,255,.12),inset -8px 0 14px rgba(0,0,0,.4)}
-.bottle .body::before{content:"";position:absolute;top:6%;bottom:8%;left:12%;width:12%;border-radius:10px;
-  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.05));opacity:.55}
-.bottle .body::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;
-  background:linear-gradient(180deg,transparent,rgba(0,0,0,.25))}
-.bottle.liquid .body{border:1.2cqw solid rgba(210,200,190,.22);border-bottom-width:2.4cqw}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-.6cqw)}}
-.item:nth-child(2) .bottle{animation-delay:-2s}.item:nth-child(3) .bottle{animation-delay:-4s}
-
-.hint{position:absolute;z-index:6;left:0;right:0;bottom:calc(56px + 4px);text-align:center;
+.app{container-type:size}
+.case{position:absolute;inset:0;background:#0a0807;overflow:hidden}
+.stage{--sw:min(100cqw,66.667cqh);position:absolute;width:var(--sw);height:calc(var(--sw)*1.5);
+  left:calc((100cqw - var(--sw))/2);top:calc((100cqh - var(--sw)*1.5)/2);
+  container-type:size;transform-origin:0 0;transition:transform 1s cubic-bezier(.65,0,.2,1);will-change:transform;
+  background:#0a0807 center/100% 100% no-repeat}
+.item{position:absolute;inset:0;pointer-events:none;transition:opacity .8s,filter .8s}
+.photo{position:absolute;display:block;height:25%;width:auto;transform:translate(-50%,-100%);user-select:none;-webkit-user-drag:none;
+  filter:brightness(.93) contrast(1.05) drop-shadow(0 .6cqh 1cqh rgba(0,0,0,.6))}
+.shadow{position:absolute;width:15cqw;height:2.2cqw;transform:translate(-50%,-55%);border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,0,0,.65),transparent 70%);filter:blur(2px)}
+.price{position:absolute;transform:translate(-50%,-50%);font-size:4.4cqw;letter-spacing:.14em;color:#d3c1aa;
+  text-shadow:0 1px 6px rgba(0,0,0,.7);white-space:nowrap}
+.item.soon .price{font-size:3cqw;letter-spacing:.34em;opacity:.38}
+.hit{position:absolute;pointer-events:auto;cursor:pointer}
+.hint{position:absolute;z-index:6;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 22px);text-align:center;
   font-size:11px;letter-spacing:.32em;color:#b4a99c;font-weight:300;text-transform:uppercase;transition:opacity .5s}
-.floor{position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(180deg,#171320,#0b0810)}
-
-/* zoom state */
-.case.zoom .item:not(.sel){opacity:.12;filter:blur(2px)}
-.case.zoom .spot,.case.zoom .shelf{opacity:.35}
-.case.zoom .item.sel .bottle{animation-play-state:paused}
-.case.zoom ~ .hint{opacity:0}
+.stage.zoom .item:not(.sel){opacity:.12;filter:blur(2px)}
+.hint.off{opacity:0}
 .dim{position:absolute;inset:0;z-index:12;pointer-events:none;opacity:0;transition:opacity .6s;
-  background:linear-gradient(180deg,rgba(0,0,0,.2) 0,transparent 25%,transparent 45%,rgba(5,3,10,.85) 100%)}
+  background:linear-gradient(180deg,rgba(0,0,0,.25) 0,transparent 25%,transparent 45%,rgba(5,3,10,.88) 100%)}
 .dim.on{opacity:1}
 
 /* ---------- product panel ---------- */
@@ -180,9 +124,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   </header>
 
   <section class="case" id="case" aria-label="Fragrance collection">
-    <div class="wall"><div class="drops" id="drops"></div></div>
-    <div class="rows" id="rows"></div>
-    <div class="floor"></div>
+    <div class="stage" id="stage"></div>
   </section>
   <div class="hint" id="hint">Tap a bottle to look closer</div>
   <div class="dim" id="dim"></div>
@@ -225,73 +167,65 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ============ EDIT HERE ============ */
 const CONFIG = {
   currency: "$",
+  theme: "warm",          // "warm" or "dark" (background image in /img)
   whatsapp: ""            // e.g. "213555123456" (country code + number, no +). Leave empty to hide the button.
 };
-// row: 1 = top shelf, 2 = bottom shelf. Add / remove products freely.
+// Fixed pedestal positions of the background image (percent of the picture). Slot 0-1 top shelf, 2-4 bottom shelf.
+const SLOTS = [
+  { x:29.6, base:34.5, w:20.8, bottom:45.4, price:40.0 },
+  { x:70.8, base:34.5, w:20.5, bottom:45.4, price:40.0 },
+  { x:22.7, base:78.4, w:22.0, bottom:92.5, price:86.0 },
+  { x:50.1, base:81.0, w:20.5, bottom:92.5, price:87.5 },
+  { x:77.2, base:78.4, w:22.0, bottom:92.5, price:86.0 }
+];
+// Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
 const PRODUCTS = [
-  { id:1, row:1, no:"N° 01", name:"Aloura Noir",  notes:["Oud","Amber","Vanilla"],      sizes:{100:210}, img:"img/aloura-noir.png",  ped:17 },
-  { id:2, row:1, no:"N° 02", name:"Aloura Rouge", notes:["Rose","Saffron","Musk"],      sizes:{100:210}, img:"img/aloura-rouge.png", ped:17 },
-  // Empty shelf slots: replace "soon" with real product data (name, notes, sizes, img) when ready.
-  { id:3, row:2, soon:true, ped:20 },
-  { id:4, row:2, soon:true, ped:16 },
-  { id:5, row:2, soon:true, ped:20 }
+  { id:1, slot:0, no:"N° 01", name:"Aloura Noir",  notes:["Oud","Amber","Vanilla"], sizes:{100:210}, img:"img/aloura-noir.png"  },
+  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", notes:["Rose","Saffron","Musk"], sizes:{100:210}, img:"img/aloura-rouge.png" },
+  { id:3, slot:2, soon:true },
+  { id:4, slot:3, soon:true },
+  { id:5, slot:4, soon:true }
 ];
 /* =================================== */
 
 const $ = s => document.querySelector(s);
-const caseEl = $('#case'), panel = $('#panel'), dim = $('#dim');
+const caseEl = $('#stage'), panel = $('#panel'), dim = $('#dim');
 let bag = [];   // {id,size,qty}
 try { bag = JSON.parse(localStorage.getItem('aloura-bag')||'[]'); } catch(e){}
-let current = null, size = 50;
+let current = null, size = 100;
 
-/* ---- build shelves ---- */
-const rows = $('#rows');
-[1,2].forEach((r,i)=>{
-  const row = document.createElement('div'); row.className='row';
-  const list = PRODUCTS.filter(p=>p.row===r);
-  const spots = list.length===2 ? [25,75] : [18,50,82];
-  spots.forEach(x=>{ const s=document.createElement('div'); s.className='spot'; s.style.left=`calc(${x}% - 5.5cqw)`; row.appendChild(s); });
-  list.forEach(p=>{
-    const it=document.createElement('div'); it.className='item'+(p.soon?' soon':''); it.dataset.id=p.id;
-    const first=p.sizes?Object.keys(p.sizes)[0]:0;
-    it.innerHTML = (p.img?`<img class="photo" src="${p.img}" alt="${p.name}" draggable="false">`:'') + `
-      <div class="ped" style="height:${p.ped}cqw"><span>${p.soon?'SOON':CONFIG.currency+p.sizes[first]}</span></div>` + (p.soon?'':`<button class="hit" aria-label="${p.name}"></button>`);
-    if(!p.soon) it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
-    row.appendChild(it);
-  });
-  rows.appendChild(row);
-  if(i===0){ const sh=document.createElement('div'); sh.className='shelf'; rows.appendChild(sh); }
+/* ---- build the scene ---- */
+caseEl.style.backgroundImage = `url(img/niche-${CONFIG.theme==='dark'?'dark':'warm'}.jpg)`;
+PRODUCTS.forEach(p=>{
+  const S=SLOTS[p.slot], it=document.createElement('div'); it.className='item'+(p.soon?' soon':''); it.dataset.id=p.id;
+  const first=p.sizes?Object.keys(p.sizes)[0]:0;
+  it.innerHTML = (p.img?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo" src="${p.img}" alt="${p.name}" draggable="false" style="left:${S.x}%;top:${S.base}%">`:'')
+    + `<div class="price" style="left:${S.x}%;top:${S.price}%">${p.soon?'SOON':CONFIG.currency+p.sizes[first]}</div>`
+    + (p.soon?'':`<button class="hit" aria-label="${p.name}" style="left:${S.x-S.w/2}%;top:${S.base-25}%;width:${S.w}%;height:${S.bottom-S.base+25}%"></button>`);
+  if(!p.soon) it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
+  caseEl.appendChild(it);
 });
-
-/* ---- water drops ---- */
-(function(){
-  const d=$('#drops'); let h='';
-  for(let i=0;i<90;i++){ const s=1+Math.random()*5;
-    h+=`<i class="drop" style="left:${Math.random()*100}%;top:${Math.random()*100}%;width:${s}px;height:${s*1.15}px;opacity:${.3+Math.random()*.6}"></i>`; }
-  for(let i=0;i<5;i++){ h+=`<i class="streak" style="left:${8+Math.random()*84}%;top:${Math.random()*40}%;height:${25+Math.random()*35}%"></i>`; }
-  d.innerHTML=h;
-})();
 
 /* ---- product zoom ---- */
 function openProduct(id){
-  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+  const p = PRODUCTS.find(x=>x.id===id); if(!p||p.soon) return;
   current = p; size = +Object.keys(p.sizes)[0];
   const it = document.querySelector(`.item[data-id="${id}"]`);
-  const cr = caseEl.getBoundingClientRect(), br = it.querySelector('.photo').getBoundingClientRect();
-  const W = cr.width, H = cr.height;
-  const cx = br.left-cr.left+br.width/2, cy = br.top-cr.top+br.height/2;
-  const s = Math.min(H*0.34/br.height, W*0.72/br.width, 3.6);
-  const tx = W/2 - cx*s, ty = H*0.33 - cy*s;
+  const app = $('#app').getBoundingClientRect(), cr = caseEl.getBoundingClientRect(), br = it.querySelector('.photo').getBoundingClientRect();
+  const W = app.width, H = app.height;
+  const px = br.left-cr.left+br.width/2, py = br.top-cr.top+br.height/2;       // bottle centre inside the stage
+  const s = Math.min(H*0.34/br.height, W*0.7/br.width, 4);
+  const tx = (W/2) - (cr.left-app.left) - px*s, ty = (H*0.32) - (cr.top-app.top) - py*s;
   document.querySelectorAll('.item').forEach(n=>n.classList.toggle('sel',n===it));
   caseEl.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
-  caseEl.classList.add('zoom'); dim.classList.add('on');
+  caseEl.classList.add('zoom'); dim.classList.add('on'); $('#hint').classList.add('off');
   $('#pNo').textContent = `${p.no} · Eau de parfum`;
   $('#pName').textContent = p.name;
   $('#pNotes').innerHTML = p.notes.map(n=>`<span>${n}</span>`).join('');
   renderSizes(); panel.classList.add('on');
 }
 function closeProduct(){
-  caseEl.style.transform=''; caseEl.classList.remove('zoom'); dim.classList.remove('on'); panel.classList.remove('on'); current=null;
+  caseEl.style.transform=''; caseEl.classList.remove('zoom'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null;
 }
 function renderSizes(){
   const p=current, c=CONFIG.currency;
