@@ -52,7 +52,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hit{position:absolute;pointer-events:auto;cursor:pointer}
 .hint{position:absolute;z-index:6;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 22px);text-align:center;
   font-size:11px;letter-spacing:.32em;color:#b4a99c;font-weight:300;text-transform:uppercase;transition:opacity .5s}
-.stage.zoom .item:not(.sel){opacity:.12;filter:blur(2px)}
+.stage.zoom .item:not(.sel){opacity:.55;filter:blur(1.5px)}
+.night{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1s ease;
+  background:radial-gradient(ellipse var(--rx,24%) var(--ry,26%) at var(--cx,50%) var(--cy,50%),transparent 0 52%,rgba(3,2,5,.93) 100%)}
+.stage.zoom .night{opacity:1;animation:lightsOut 1.1s linear both}
+@keyframes lightsOut{0%{opacity:0}10%{opacity:.35}16%{opacity:.1}30%{opacity:.7}38%{opacity:.4}55%{opacity:.95}62%{opacity:.8}100%{opacity:1}}
+.beam{position:absolute;pointer-events:none;opacity:0;mix-blend-mode:screen;filter:blur(6px);transform:translateX(-50%);
+  background:linear-gradient(180deg,rgba(255,226,170,.38),rgba(255,214,150,.10) 55%,rgba(255,214,150,0));
+  clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);transition:opacity .6s}
+.stage.zoom .beam{opacity:1;animation:beamOn 1.4s ease-out .55s both}
+@keyframes beamOn{0%{opacity:0}20%{opacity:.9}32%{opacity:.3}50%{opacity:1}100%{opacity:1}}
+.lamp{position:absolute;width:11%;height:1.6%;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse,#fffbee,#ffe4b0 50%,transparent 75%);box-shadow:0 0 5cqw 1.4cqw rgba(255,214,150,.75)}
+.stage.zoom .lamp{opacity:1;animation:beamOn 1.4s ease-out .5s both}
 .hint.off{opacity:0}
 .dim{position:absolute;inset:0;z-index:12;pointer-events:none;opacity:0;transition:opacity .6s;
   background:linear-gradient(180deg,rgba(0,0,0,.25) 0,transparent 25%,transparent 45%,rgba(5,3,10,.88) 100%)}
@@ -172,11 +184,11 @@ const CONFIG = {
 };
 // Fixed pedestal positions of the background image (percent of the picture). Slot 0-1 top shelf, 2-4 bottom shelf.
 const SLOTS = [
-  { x:29.6, base:34.5, w:20.8, bottom:45.4, price:40.0 },
-  { x:70.8, base:34.5, w:20.5, bottom:45.4, price:40.0 },
-  { x:22.7, base:78.4, w:22.0, bottom:92.5, price:86.0 },
-  { x:50.1, base:81.0, w:20.5, bottom:92.5, price:87.5 },
-  { x:77.2, base:78.4, w:22.0, bottom:92.5, price:86.0 }
+  { x:29.6, base:34.5, w:20.8, bottom:45.4, price:40.0, lamp:[29.0,6.4] },
+  { x:70.8, base:34.5, w:20.5, bottom:45.4, price:40.0, lamp:[70.5,6.4] },
+  { x:22.7, base:78.4, w:22.0, bottom:92.5, price:86.0, lamp:[23.9,50.0] },
+  { x:50.1, base:81.0, w:20.5, bottom:92.5, price:87.5, lamp:[49.8,50.0] },
+  { x:77.2, base:78.4, w:22.0, bottom:92.5, price:86.0, lamp:[75.4,50.0] }
 ];
 // Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
 const PRODUCTS = [
@@ -205,6 +217,7 @@ PRODUCTS.forEach(p=>{
   if(!p.soon) it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
   caseEl.appendChild(it);
 });
+caseEl.insertAdjacentHTML('beforeend','<div class="night" id="night"></div><div class="beam" id="beam"></div><div class="lamp" id="lamp"></div>');
 
 /* ---- product zoom ---- */
 function openProduct(id){
@@ -216,6 +229,10 @@ function openProduct(id){
   const px = br.left-cr.left+br.width/2, py = br.top-cr.top+br.height/2;       // bottle centre inside the stage
   const s = Math.min(H*0.34/br.height, W*0.7/br.width, 4);
   const tx = (W/2) - (cr.left-app.left) - px*s, ty = (H*0.32) - (cr.top-app.top) - py*s;
+  const S=SLOTS[p.slot], top=S.lamp[1], bot=S.bottom, st=caseEl.style;
+  st.setProperty('--cx',S.x+'%'); st.setProperty('--cy',((top+bot)/2)+'%'); st.setProperty('--rx','25%'); st.setProperty('--ry',((bot-top)/2*1.12)+'%');
+  const beam=$('#beam').style; beam.left=S.lamp[0]+'%'; beam.top=S.lamp[1]+'%'; beam.width="36%"; beam.height=(S.bottom-S.lamp[1])+'%';
+  const lamp=$('#lamp').style; lamp.left=S.lamp[0]+'%'; lamp.top=S.lamp[1]+'%';
   document.querySelectorAll('.item').forEach(n=>n.classList.toggle('sel',n===it));
   caseEl.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
   caseEl.classList.add('zoom'); dim.classList.add('on'); $('#hint').classList.add('off');
