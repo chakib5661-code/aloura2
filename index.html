@@ -202,6 +202,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #vDone pre{white-space:pre-wrap;font:inherit;font-size:12.5px;line-height:1.7;color:#cbbfb3;padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:rgba(255,255,255,.03)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
+<!-- Vercel Web Analytics: turn it on in Vercel → Project → Analytics. Only works on the deployed site. -->
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <main class="app" id="app">
@@ -282,6 +285,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           <label>Wilaya<select id="fWilaya"><option value="">Choose your wilaya</option></select></label>
           <label>Commune &amp; address<input id="fAddr" autocomplete="street-address" placeholder="Commune, street, building"></label>
           <label>Note <em>(optional)</em><input id="fNote" placeholder="Delivery instructions"></label>
+          <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
         </div>
         <div class="sums" id="sums2"></div>
         <div class="cod">Pay on delivery · cash when you receive your order</div>
@@ -317,7 +321,9 @@ const CONFIG = {
   currency: "DA",           // shown after the amount: 12 000 DA
   deliveryFee: null,        // number in DA, or null = "confirmed by phone". Per-wilaya prices: deliveryByWilaya
   deliveryByWilaya: {},     // e.g. { "Alger": 500, "Oran": 700 }
-  orderEndpoint: "",        // optional URL that accepts a POST with the order (Google Apps Script, Formspree…)
+  orderEndpoint: "/api/order", // serverless function (api/order.js) that sends each order to your Telegram
+  metaPixelId: "",          // your Meta Pixel ID (digits). Empty = Pixel off
+  currencyCode: "DZD",      // currency code sent to Meta
   theme: "warm",          // "warm" or "dark" (background image in /img)
   whatsapp: ""            // e.g. "213555123456" (213 + number without the leading 0, no +). Orders open in WhatsApp when set.
 };
@@ -345,6 +351,11 @@ const caseEl = $('#stage'), panel = $('#panel'), dim = $('#dim');
 let bag = [];   // {id,size,qty}
 try { bag = JSON.parse(localStorage.getItem('aloura-bag')||'[]'); } catch(e){}
 function money(n){ return Number(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\s]/g,'\u00a0') + '\u00a0' + CONFIG.currency; }
+function pixel(ev,data){ try{ if(window.fbq) fbq('track',ev,data); }catch(_){} }
+function track(name,data){ try{ if(window.va) window.va('event',{name,data}); }catch(_){} }
+(function(){ const id=CONFIG.metaPixelId; if(!id) return;
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init',id); fbq('track','PageView'); })();
 const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"];
 let current = null, size = 100;
 
@@ -388,6 +399,7 @@ function openProduct(id){
   $('#pName').textContent = p.name;
   $('#pNotes').innerHTML = p.notes.map(n=>`<span>${n}</span>`).join('');
   renderSizes(); panel.classList.add('on');
+  pixel('ViewContent',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[size],currency:CONFIG.currencyCode}); track('view_product',{product:p.name});
 }
 function closeProduct(){
   document.querySelectorAll('.pool').forEach(pl=>pl.classList.remove('off'));
@@ -405,6 +417,7 @@ $('#addBtn').onclick = ()=>{
   const f = bag.find(l=>l.id===current.id && l.size===size);
   f ? f.qty++ : bag.push({id:current.id,size,qty:1});
   saveBag(); toast(`${current.name} added`);
+  pixel('AddToCart',{content_name:current.name,content_ids:[String(current.id)],content_type:'product',value:current.sizes[size],currency:CONFIG.currencyCode}); track('add_to_bag',{product:current.name});
 };
 
 /* ---- bag ---- */
@@ -446,7 +459,7 @@ $('#fWilaya').innerHTML += WILAYAS.map((w,i)=>`<option value="${w}">${String(i+1
 $('#fWilaya').addEventListener('change',()=>{ $('#sums2').innerHTML=sumsHTML($('#fWilaya').value); });
 function view(v){ ['vBag','vForm','vDone'].forEach(id=>$('#'+id).hidden = id!==v);
   $('#bagTitle').textContent = v==='vForm'?'Delivery details':v==='vDone'?'Order':'Your bag'; }
-$('#toCheckout').onclick = ()=>{ try{ const c=JSON.parse(localStorage.getItem('aloura-cust')||'{}');
+$('#toCheckout').onclick = ()=>{ pixel('InitiateCheckout',{value:subtotal(),currency:CONFIG.currencyCode,num_items:bag.reduce((t,l)=>t+l.qty,0)}); track('begin_checkout'); try{ const c=JSON.parse(localStorage.getItem('aloura-cust')||'{}');
     ['Name','Phone','Addr'].forEach(k=>{ if(c[k.toLowerCase()] && !$('#f'+k).value) $('#f'+k).value=c[k.toLowerCase()]; });
     if(c.wilaya) $('#fWilaya').value=c.wilaya; }catch(e){}
   $('#sums2').innerHTML=sumsHTML($('#fWilaya').value); view('vForm'); };
@@ -462,15 +475,19 @@ $('#vForm').addEventListener('submit', async e=>{
   try{ localStorage.setItem('aloura-cust',JSON.stringify(c)); }catch(_){}
   const text=orderText(c), btn=$('#confirmBtn'); btn.disabled=true;
   const items=bag.map(l=>({product:PRODUCTS.find(x=>x.id===l.id).name,size:l.size,qty:l.qty,unitPrice:unit(l)}));
+  let sent=false, id='';
   if(CONFIG.orderEndpoint){
-    try{ const r=await fetch(CONFIG.orderEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer:c,items,subtotal:subtotal(),delivery:feeFor(c.wilaya),payment:'cash_on_delivery',text})});
-      if(!r.ok) throw 0; bag=[]; saveBag(); done('Order received','Thank you. We will call you on '+c.phone+' to confirm delivery. You pay when you receive it.',text); }
-    catch(_){ toast('Could not send the order, please try again'); }
+    try{ const r=await fetch(CONFIG.orderEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer:c,items,subtotal:subtotal(),delivery:feeFor(c.wilaya),payment:'cash_on_delivery',hp:$('#fHp').value})});
+      const j=await r.json().catch(()=>({})); if(!r.ok||!j.ok) throw 0; sent=true; id=j.id||''; }catch(_){}
+  }
+  if(sent){
+    pixel('Purchase',{value:subtotal()+(feeFor(c.wilaya)||0),currency:CONFIG.currencyCode,content_type:'product',content_ids:bag.map(l=>String(l.id)),num_items:bag.reduce((t,l)=>t+l.qty,0)}); track('order_placed',{total:subtotal()});
+    bag=[]; saveBag(); done('Order received','Thank you'+(id?' — order '+id:'')+'. We will call you on '+c.phone+' to confirm delivery. You pay when you receive it.',text);
   } else if(CONFIG.whatsapp){
     const a=document.createElement('a'); a.href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
     done('Almost done','WhatsApp is opening with your order. Press send there to place it. You pay when you receive it.',text);
   } else {
-    done('Order summary ready','Online ordering is not connected yet, so this order has NOT been sent. Copy the summary and send it to us.',text);
+    done('Order not sent','We could not reach our order system, so this order has NOT been sent. Please copy the summary and send it to us.',text);
   }
   btn.disabled=false;
 });
