@@ -45,7 +45,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .stage.zoom{transition-delay:.6s}
 .stage.zoom .bg{filter:blur(.6px)}
 .item{position:absolute;inset:0;pointer-events:none;transition:opacity .8s,filter .8s}
-.photo{position:absolute;display:block;height:25%;width:auto;transform:translate(-50%,-100%);user-select:none;-webkit-user-drag:none;
+.photo{position:absolute;display:block;height:19.5%;width:auto;transform:translate(-50%,-100%);user-select:none;-webkit-user-drag:none;
   filter:brightness(.93) contrast(1.05) drop-shadow(0 .6cqh 1cqh rgba(0,0,0,.6))}
 .shadow{position:absolute;width:15cqw;height:2.2cqw;transform:translate(-50%,-55%);border-radius:50%;
   background:radial-gradient(ellipse,rgba(0,0,0,.65),transparent 70%);filter:blur(2px)}
@@ -334,7 +334,7 @@ PRODUCTS.forEach(p=>{
   it.innerHTML = (p.soon?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo cloth" src="img/velvet.webp" alt="Coming soon" draggable="false" style="left:${S.x}%;top:${S.base+.6}%">`:'')
     + (p.img?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo" src="${p.img}" alt="${p.name}" draggable="false" style="left:${S.x}%;top:${S.base}%">`:'')
     + `<div class="price" style="left:${S.x}%;top:${S.price}%">${p.soon?'SOON':CONFIG.currency+p.sizes[first]}</div>`
-    + (p.soon?'':`<button class="hit" aria-label="${p.name}" style="left:${S.x-S.w/2}%;top:${S.base-25}%;width:${S.w}%;height:${S.bottom-S.base+25}%"></button>`);
+    + (p.soon?'':`<button class="hit" aria-label="${p.name}" style="left:${S.x-S.w/2}%;top:${S.base-19.5}%;width:${S.w}%;height:${S.bottom-S.base+19.5}%"></button>`);
   if(!p.soon) it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
   caseEl.appendChild(it);
 });
@@ -349,8 +349,8 @@ function openProduct(id){
   const app = $('#app').getBoundingClientRect(), cr = caseEl.getBoundingClientRect(), br = it.querySelector('.photo').getBoundingClientRect();
   const W = app.width, H = app.height;
   const px = br.left-cr.left+br.width/2, py = br.top-cr.top+br.height/2;       // bottle centre inside the stage
-  const s = Math.min(H*0.34/br.height, W*0.7/br.width, 4);
-  const tx = (W/2) - (cr.left-app.left) - px*s, ty = (H*0.32) - (cr.top-app.top) - py*s;
+  const s = Math.min(H*0.30/br.height, W*0.7/br.width, 4);
+  const tx = (W/2) - (cr.left-app.left) - px*s, ty = (H*0.36) - (cr.top-app.top) - py*s;
   const S=SLOTS[p.slot], top=S.lamp[1], bot=S.bottom, st=caseEl.style;
   st.setProperty('--cx',S.x+'%'); st.setProperty('--cy',((top+bot)/2)+'%'); st.setProperty('--rx','25%'); st.setProperty('--ry',((bot-top)/2*1.12)+'%');
   const beam=$('#beam').style; beam.left=S.lamp[0]+'%'; beam.top=S.lamp[1]+'%'; beam.width="40%"; beam.height=(S.bottom-S.lamp[1])+'%';
