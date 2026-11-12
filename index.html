@@ -51,6 +51,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   background:radial-gradient(ellipse,rgba(0,0,0,.65),transparent 70%);filter:blur(2px)}
 .price{position:absolute;transform:translate(-50%,-50%);font-size:4.4cqw;letter-spacing:.14em;color:#d3c1aa;
   text-shadow:0 1px 6px rgba(0,0,0,.7);white-space:nowrap}
+.photo.cloth{height:19.5%;filter:drop-shadow(0 .8cqh 1.2cqh rgba(0,0,0,.65)) brightness(.95)}
 .item.soon .price{font-size:3cqw;letter-spacing:.34em;opacity:.38}
 .hit{position:absolute;pointer-events:auto;cursor:pointer}
 .hint{position:absolute;z-index:6;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 22px);text-align:center;
@@ -310,8 +311,9 @@ const SLOTS = [
 ];
 // Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
 const PRODUCTS = [
-  { id:1, slot:0, no:"N° 01", name:"Aloura Noir",  notes:["Oud","Amber","Vanilla"], sizes:{100:210}, img:"img/aloura-noir.png"  },
-  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", notes:["Rose","Saffron","Musk"], sizes:{100:210}, img:"img/aloura-rouge.png" },
+  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", notes:["Oud","Amber","Vanilla"],      sizes:{100:210}, img:"img/aloura-noir.webp" },
+  { id:2, slot:1, no:"N° 02", name:"Aloura Vert", notes:["Fig","Vetiver","Green tea"], sizes:{100:210}, img:"img/aloura-vert.webp" },
+  // Covered bottles = coming soon. To reveal one: replace the line with real product data (name, notes, sizes, img).
   { id:3, slot:2, soon:true },
   { id:4, slot:3, soon:true },
   { id:5, slot:4, soon:true }
@@ -329,7 +331,8 @@ caseEl.insertAdjacentHTML('afterbegin',`<div class="bg" style="background-image:
 PRODUCTS.forEach(p=>{
   const S=SLOTS[p.slot], it=document.createElement('div'); it.className='item'+(p.soon?' soon':''); it.dataset.id=p.id;
   const first=p.sizes?Object.keys(p.sizes)[0]:0;
-  it.innerHTML = (p.img?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo" src="${p.img}" alt="${p.name}" draggable="false" style="left:${S.x}%;top:${S.base}%">`:'')
+  it.innerHTML = (p.soon?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo cloth" src="img/velvet.webp" alt="Coming soon" draggable="false" style="left:${S.x}%;top:${S.base+.6}%">`:'')
+    + (p.img?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo" src="${p.img}" alt="${p.name}" draggable="false" style="left:${S.x}%;top:${S.base}%">`:'')
     + `<div class="price" style="left:${S.x}%;top:${S.price}%">${p.soon?'SOON':CONFIG.currency+p.sizes[first]}</div>`
     + (p.soon?'':`<button class="hit" aria-label="${p.name}" style="left:${S.x-S.w/2}%;top:${S.base-25}%;width:${S.w}%;height:${S.bottom-S.base+25}%"></button>`);
   if(!p.soon) it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
