@@ -49,7 +49,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   filter:brightness(.93) contrast(1.05) drop-shadow(0 .6cqh 1cqh rgba(0,0,0,.6))}
 .shadow{position:absolute;width:15cqw;height:2.2cqw;transform:translate(-50%,-55%);border-radius:50%;
   background:radial-gradient(ellipse,rgba(0,0,0,.65),transparent 70%);filter:blur(2px)}
-.price{position:absolute;transform:translate(-50%,-50%);font-size:4.4cqw;letter-spacing:.14em;color:#d3c1aa;
+.price{position:absolute;transform:translate(-50%,-50%);font-size:3.5cqw;letter-spacing:.05em;color:#d3c1aa;
   text-shadow:0 1px 6px rgba(0,0,0,.7);white-space:nowrap}
 .photo.cloth{height:19.5%;filter:drop-shadow(0 .8cqh 1.2cqh rgba(0,0,0,.65)) brightness(.95)}
 .item.soon .price{font-size:3cqw;letter-spacing:.34em;opacity:.38}
@@ -101,7 +101,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .panel .eyebrow{font-size:10.5px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
 .panel h2{font-size:30px;font-weight:300;margin:8px 0 10px;letter-spacing:.005em}
 .notes{display:flex;gap:16px;color:var(--muted);font-size:13px;padding-bottom:14px;border-bottom:1px solid var(--line)}
-.sizes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
 .size{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-radius:14px;
   border:1px solid var(--line);font-size:13px;color:var(--muted);transition:.25s}
 .size.on{border-color:var(--ink);color:var(--ink);background:rgba(255,255,255,.04)}
@@ -187,6 +187,29 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .copy{font-size:11px;line-height:1.9;color:#6f665e;letter-spacing:.08em}
 .rv{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
 .rv.in{opacity:1;transform:none}
+
+/* ---------- checkout ---------- */
+.view{flex:1;display:flex;flex-direction:column;min-height:0;overflow:auto}
+.view[hidden]{display:none}
+.sums{padding:12px 0 4px;border-top:1px solid var(--line);font-size:14px}
+.sums div{display:flex;justify-content:space-between;padding:4px 0;color:var(--muted)}
+.sums div.t{color:var(--ink);font-size:16px;padding-top:10px}
+.cod{font-size:11px;letter-spacing:.12em;color:var(--gold);text-align:center;margin:12px 0}
+.primary{width:100%;padding:17px;border-radius:14px;background:var(--cream);color:#1c1520;font-size:12px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;margin-top:6px;flex:none}
+.primary:disabled{opacity:.5}
+.back{align-self:flex-start;font-size:12px;letter-spacing:.14em;color:var(--muted);padding:2px 0 14px}
+.fields{display:grid;gap:12px}
+.fields label{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.fields label em{text-transform:none;letter-spacing:0;font-style:normal;opacity:.7}
+.fields input,.fields select{display:block;width:100%;margin-top:7px;padding:14px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:15px;letter-spacing:0;text-transform:none;outline:0;appearance:none;-webkit-appearance:none}
+.fields select option{color:#111}
+.fields input:focus,.fields select:focus{border-color:var(--gold)}
+.fields .bad{border-color:#d0605e}
+.done-ic{width:54px;height:54px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-size:24px;margin:10px 0 16px}
+#vDone h4{font-weight:300;font-size:24px;margin-bottom:10px}
+#vDone p{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:14px}
+#vDone pre{white-space:pre-wrap;font:inherit;font-size:12.5px;line-height:1.7;color:#cbbfb3;padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:rgba(255,255,255,.03)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -265,11 +288,37 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <div class="sheet" id="bagSheet">
     <div class="veil" data-close></div>
     <div class="box">
-      <div class="sh-head"><h3>Your bag</h3><button class="x" style="position:static" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-      <div class="lines" id="lines"></div>
-      <div class="total"><span>Total</span><b id="total">$0</b></div>
-      <a class="ghost" id="waLink" href="#" style="display:none">Order on WhatsApp</a>
-      <button class="ghost" id="copyOrder">Copy order summary</button>
+      <div class="sh-head"><h3 id="bagTitle">Your bag</h3><button class="x" style="position:static" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+
+      <div class="view" id="vBag">
+        <div class="lines" id="lines"></div>
+        <div class="sums" id="sums"></div>
+        <div class="cod">Pay on delivery · cash when you receive your order</div>
+        <button class="primary" id="toCheckout">Checkout</button>
+      </div>
+
+      <form class="view" id="vForm" novalidate hidden>
+        <button type="button" class="back" id="backBag">← Back to bag</button>
+        <div class="fields">
+          <label>Full name<input id="fName" autocomplete="name" placeholder="Your full name"></label>
+          <label>Phone<input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 / 06 / 07 …"></label>
+          <label>Wilaya<select id="fWilaya"><option value="">Choose your wilaya</option></select></label>
+          <label>Commune &amp; address<input id="fAddr" autocomplete="street-address" placeholder="Commune, street, building"></label>
+          <label>Note <em>(optional)</em><input id="fNote" placeholder="Delivery instructions"></label>
+        </div>
+        <div class="sums" id="sums2"></div>
+        <div class="cod">Pay on delivery · cash when you receive your order</div>
+        <button class="primary" type="submit" id="confirmBtn">Confirm order</button>
+      </form>
+
+      <div class="view" id="vDone" hidden>
+        <div class="done-ic">✓</div>
+        <h4 id="doneTitle"></h4>
+        <p id="doneMsg"></p>
+        <pre id="doneText"></pre>
+        <button class="ghost" id="copyOrder">Copy order summary</button>
+        <button class="primary" data-close>Close</button>
+      </div>
     </div>
   </div>
 
@@ -290,11 +339,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <script>
 /* ============ EDIT HERE ============ */
 const CONFIG = {
-  currency: "$",
+  currency: "DA",           // shown after the amount: 12 000 DA
+  deliveryFee: null,        // number in DA, or null = "confirmed by phone". Per-wilaya prices: deliveryByWilaya
+  deliveryByWilaya: {},     // e.g. { "Alger": 500, "Oran": 700 }
+  orderEndpoint: "",        // optional URL that accepts a POST with the order (Google Apps Script, Formspree…)
   theme: "warm",          // "warm" or "dark" (background image in /img)
   email: "",              // shown in Boutiques → Contact
   newsletterEndpoint: "",  // URL that accepts a POST {email}. Empty = newsletter not connected yet.
-  whatsapp: ""            // e.g. "213555123456" (country code + number, no +). Leave empty to hide the button.
+  whatsapp: ""            // e.g. "213555123456" (213 + number without the leading 0, no +). Orders open in WhatsApp when set.
 };
 // Boutiques section. Add or edit freely.
 const STORES = [
@@ -311,8 +363,8 @@ const SLOTS = [
 ];
 // Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
 const PRODUCTS = [
-  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", notes:["Oud","Amber","Vanilla"],      sizes:{100:210}, img:"img/aloura-noir.webp" },
-  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", notes:["Rose","Saffron","Musk"], sizes:{100:210}, img:"img/aloura-rouge.webp" },
+  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", notes:["Oud","Amber","Vanilla"],      sizes:{100:12000}, img:"img/aloura-noir.webp" },
+  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", notes:["Rose","Saffron","Musk"], sizes:{100:12000}, img:"img/aloura-rouge.webp" },
   // Covered bottles = coming soon. To reveal one: replace the line with real product data (name, notes, sizes, img).
   { id:3, slot:2, soon:true },
   { id:4, slot:3, soon:true },
@@ -324,6 +376,8 @@ const $ = s => document.querySelector(s);
 const caseEl = $('#stage'), panel = $('#panel'), dim = $('#dim');
 let bag = [];   // {id,size,qty}
 try { bag = JSON.parse(localStorage.getItem('aloura-bag')||'[]'); } catch(e){}
+function money(n){ return Number(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\s]/g,'\u00a0') + '\u00a0' + CONFIG.currency; }
+const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"];
 let current = null, size = 100;
 
 /* ---- build the scene ---- */
@@ -333,7 +387,7 @@ PRODUCTS.forEach(p=>{
   const first=p.sizes?Object.keys(p.sizes)[0]:0;
   it.innerHTML = (p.soon?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo cloth" src="img/velvet.webp" alt="Coming soon" draggable="false" style="left:${S.x}%;top:${S.base+.6}%">`:'')
     + (p.img?`<div class="shadow" style="left:${S.x}%;top:${S.base}%"></div><img class="photo" src="${p.img}" alt="${p.name}" draggable="false" style="left:${S.x}%;top:${S.base}%">`:'')
-    + `<div class="price" style="left:${S.x}%;top:${S.price}%">${p.soon?'SOON':CONFIG.currency+p.sizes[first]}</div>`
+    + `<div class="price" style="left:${S.x}%;top:${S.price}%">${p.soon?'SOON':money(p.sizes[first])}</div>`
     + (p.soon?'':`<button class="hit" aria-label="${p.name}" style="left:${S.x-S.w/2}%;top:${S.base-19.5}%;width:${S.w}%;height:${S.bottom-S.base+19.5}%"></button>`);
   if(!p.soon) it.querySelector('.hit').addEventListener('click',()=>openProduct(p.id));
   caseEl.appendChild(it);
@@ -372,11 +426,11 @@ function closeProduct(){
   caseEl.style.transform=''; caseEl.classList.remove('zoom'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null;
 }
 function renderSizes(){
-  const p=current, c=CONFIG.currency;
+  const p=current;
   $('#pSizes').innerHTML = Object.keys(p.sizes).map(sz=>
-    `<button class="size ${+sz===size?'on':''}" data-s="${sz}"><span>${sz} ml</span><span>${c}${p.sizes[sz]}</span></button>`).join('');
+    `<button class="size ${+sz===size?'on':''}" data-s="${sz}"><span>${sz} ml</span><span>${money(p.sizes[sz])}</span></button>`).join('');
   $('#pSizes').querySelectorAll('.size').forEach(b=>b.onclick=()=>{size=+b.dataset.s;renderSizes();});
-  $('#addBtn').innerHTML = `Add to bag <span class="dot">·</span> ${c}${p.sizes[size]}`;
+  $('#addBtn').innerHTML = `Add to bag <span class="dot">·</span> ${money(p.sizes[size])}`;
 }
 $('#closeP').onclick = closeProduct;
 $('#addBtn').onclick = ()=>{
@@ -386,37 +440,81 @@ $('#addBtn').onclick = ()=>{
 };
 
 /* ---- bag ---- */
-const money = n => CONFIG.currency + n;
 function saveBag(){ try{localStorage.setItem('aloura-bag',JSON.stringify(bag));}catch(e){} renderBag(); }
-function orderText(){
-  const ls = bag.map(l=>{const p=PRODUCTS.find(x=>x.id===l.id);return `${l.qty} × ${p.name} ${l.size}ml — ${money(p.sizes[l.size]*l.qty)}`;});
-  return `ALOURA order\n${ls.join('\n')}\nTotal: ${money(bag.reduce((t,l)=>t+PRODUCTS.find(x=>x.id===l.id).sizes[l.size]*l.qty,0))}`;
+const unit = l => PRODUCTS.find(x=>x.id===l.id).sizes[l.size];
+const subtotal = () => bag.reduce((t,l)=>t+unit(l)*l.qty,0);
+function feeFor(w){ const f = (w && CONFIG.deliveryByWilaya[w]!=null) ? CONFIG.deliveryByWilaya[w] : CONFIG.deliveryFee; return f; }
+function sumsHTML(w){
+  const sub=subtotal(), f=feeFor(w);
+  return `<div><span>Subtotal</span><span>${money(sub)}</span></div>
+    <div><span>Delivery</span><span>${f==null?'Confirmed by phone':(f===0?'Free':money(f))}</span></div>
+    <div class="t"><span>Total</span><span>${money(sub+(f||0))}${f==null?' + delivery':''}</span></div>`;
+}
+function orderText(c){
+  const ls = bag.map(l=>{const p=PRODUCTS.find(x=>x.id===l.id);return `${l.qty} × ${p.name} ${l.size}ml — ${money(unit(l)*l.qty)}`;});
+  const f=feeFor(c&&c.wilaya), sub=subtotal();
+  return [`ALOURA — new order (pay on delivery)`,
+    c?`Name: ${c.name}\nPhone: ${c.phone}\nWilaya: ${c.wilaya}\nAddress: ${c.addr}`+(c.note?`\nNote: ${c.note}`:''):'',
+    ls.join('\n'),
+    `Subtotal: ${money(sub)}`, `Delivery: ${f==null?'to be confirmed':money(f)}`, `Total: ${money(sub+(f||0))}${f==null?' + delivery':''}`].filter(Boolean).join('\n');
 }
 function renderBag(){
   const count = bag.reduce((t,l)=>t+l.qty,0);
   document.querySelectorAll('.badge').forEach(b=>{b.textContent=count;b.classList.toggle('on',count>0);});
-  const total = bag.reduce((t,l)=>t+PRODUCTS.find(x=>x.id===l.id).sizes[l.size]*l.qty,0);
-  $('#total').textContent = money(total);
   $('#lines').innerHTML = bag.length ? bag.map((l,i)=>{const p=PRODUCTS.find(x=>x.id===l.id);return `
     <div class="line"><div><b>${p.name}</b><br><small>${p.no} · ${l.size} ml</small>
       <div class="qty"><button data-i="${i}" data-d="-1" aria-label="Less">−</button>${l.qty}<button data-i="${i}" data-d="1" aria-label="More">+</button></div></div>
-      <b>${money(p.sizes[l.size]*l.qty)}</b></div>`;}).join('')
+      <b>${money(unit(l)*l.qty)}</b></div>`;}).join('')
     : `<div class="empty">Your bag is empty.<br>Tap a bottle to begin.</div>`;
   $('#lines').querySelectorAll('.qty button').forEach(b=>b.onclick=()=>{
     const l=bag[+b.dataset.i]; l.qty+=+b.dataset.d; if(l.qty<1) bag.splice(+b.dataset.i,1); saveBag(); });
-  const wa=$('#waLink');
-  if(CONFIG.whatsapp && bag.length){ wa.style.display='block'; wa.href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(orderText())}`; }
-  else wa.style.display='none';
-  $('#copyOrder').style.display = bag.length?'block':'none';
+  $('#sums').innerHTML = bag.length ? sumsHTML() : '';
+  $('#toCheckout').style.display = $('#sums').style.display = $('#vBag .cod').style.display = bag.length?'':'none';
+  $('#sums2').innerHTML = sumsHTML($('#fWilaya').value);
 }
+
+/* ---- checkout (cash on delivery) ---- */
+$('#fWilaya').innerHTML += WILAYAS.map((w,i)=>`<option value="${w}">${String(i+1).padStart(2,'0')} · ${w}</option>`).join('');
+$('#fWilaya').addEventListener('change',()=>{ $('#sums2').innerHTML=sumsHTML($('#fWilaya').value); });
+function view(v){ ['vBag','vForm','vDone'].forEach(id=>$('#'+id).hidden = id!==v);
+  $('#bagTitle').textContent = v==='vForm'?'Delivery details':v==='vDone'?'Order':'Your bag'; }
+$('#toCheckout').onclick = ()=>{ try{ const c=JSON.parse(localStorage.getItem('aloura-cust')||'{}');
+    ['Name','Phone','Addr'].forEach(k=>{ if(c[k.toLowerCase()] && !$('#f'+k).value) $('#f'+k).value=c[k.toLowerCase()]; });
+    if(c.wilaya) $('#fWilaya').value=c.wilaya; }catch(e){}
+  $('#sums2').innerHTML=sumsHTML($('#fWilaya').value); view('vForm'); };
+document.querySelectorAll('.fields input,.fields select').forEach(el=>el.addEventListener('input',()=>el.classList.remove('bad')));
+$('#backBag').onclick = ()=>view('vBag');
+const normPhone = v => { v=v.replace(/[\s.\-()]/g,''); if(v.startsWith('+213')) v='0'+v.slice(4); else if(v.startsWith('00213')) v='0'+v.slice(5); else if(/^213\d{9}$/.test(v)) v='0'+v.slice(3); return v; };
+$('#vForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const c={ name:$('#fName').value.trim(), phone:normPhone($('#fPhone').value), wilaya:$('#fWilaya').value, addr:$('#fAddr').value.trim(), note:$('#fNote').value.trim() };
+  ['fName','fPhone','fWilaya','fAddr'].forEach(id=>$('#'+id).classList.remove('bad'));
+  const bad = [ c.name.length<2&&'fName', !/^0[567]\d{8}$/.test(c.phone)&&'fPhone', !c.wilaya&&'fWilaya', c.addr.length<5&&'fAddr' ].filter(Boolean);
+  if(bad.length){ bad.forEach(id=>$('#'+id).classList.add('bad')); $('#'+bad[0]).focus(); return toast(bad[0]==='fPhone'?'Enter a valid phone: 05, 06 or 07 + 8 digits':'Please complete the highlighted field'); }
+  try{ localStorage.setItem('aloura-cust',JSON.stringify(c)); }catch(_){}
+  const text=orderText(c), btn=$('#confirmBtn'); btn.disabled=true;
+  const items=bag.map(l=>({product:PRODUCTS.find(x=>x.id===l.id).name,size:l.size,qty:l.qty,unitPrice:unit(l)}));
+  if(CONFIG.orderEndpoint){
+    try{ const r=await fetch(CONFIG.orderEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer:c,items,subtotal:subtotal(),delivery:feeFor(c.wilaya),payment:'cash_on_delivery',text})});
+      if(!r.ok) throw 0; bag=[]; saveBag(); done('Order received','Thank you. We will call you on '+c.phone+' to confirm delivery. You pay when you receive it.',text); }
+    catch(_){ toast('Could not send the order, please try again'); }
+  } else if(CONFIG.whatsapp){
+    const a=document.createElement('a'); a.href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
+    done('Almost done','WhatsApp is opening with your order. Press send there to place it. You pay when you receive it.',text);
+  } else {
+    done('Order summary ready','Online ordering is not connected yet, so this order has NOT been sent. Copy the summary and send it to us.',text);
+  }
+  btn.disabled=false;
+});
+function done(t,m,text){ $('#doneTitle').textContent=t; $('#doneMsg').textContent=m; $('#doneText').textContent=text; $('#copyOrder').dataset.text=text; view('vDone'); }
 $('#copyOrder').onclick = async()=>{
-  try{ await navigator.clipboard.writeText(orderText()); toast('Order summary copied'); }
+  try{ await navigator.clipboard.writeText($('#copyOrder').dataset.text||''); toast('Order summary copied'); }
   catch(e){ toast('Copy not available here'); }
 };
 
 /* ---- sheets, toast ---- */
 const sheet = (id,on)=>$(id).classList.toggle('on',on);
-document.querySelectorAll('[data-bag]').forEach(b=>b.onclick=()=>sheet('#bagSheet',true));
+document.querySelectorAll('[data-bag]').forEach(b=>b.onclick=()=>{ view('vBag'); sheet('#bagSheet',true); });
 document.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>sheet('#menuSheet',true));
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>{sheet('#bagSheet',false);sheet('#menuSheet',false);}));
 let tt; function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800);}
@@ -426,7 +524,7 @@ renderBag();
 /* ---- sections ---- */
 $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
   <div class="card rv"><img src="${p.img}" alt="${p.name}">
-    <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.join(' · ')} — from ${CONFIG.currency}${Math.min(...Object.values(p.sizes))}</div>
+    <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.join(' · ')} — from ${money(Math.min(...Object.values(p.sizes)))}</div>
     <button data-look="${p.id}">Look closer</button></div></div>`).join('')
   + (PRODUCTS.some(p=>p.soon)?'<div class="card soon rv">More bottles coming soon</div>':'');
 document.querySelectorAll('[data-look]').forEach(b=>b.onclick=()=>{ window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>openProduct(+b.dataset.look),700); });
