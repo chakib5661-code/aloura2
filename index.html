@@ -236,6 +236,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .top.solid{background:linear-gradient(180deg,rgba(10,8,7,.94),rgba(10,8,7,.72));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-color:var(--line)}
 .fields input[type=tel]{direction:ltr;text-align:start}
 .add{white-space:nowrap;letter-spacing:.2em}
+.pnav{position:absolute;top:16px;right:62px;display:flex;gap:8px}
+.pnav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);font-size:22px;line-height:1;display:grid;place-items:center;padding-bottom:3px}
+html[dir=rtl] .pnav{right:auto;left:62px}
+.panel.swap{animation:pswap .55s ease}
+@keyframes pswap{0%{opacity:.15;transform:translateY(14px)}100%{opacity:1;transform:none}}
+.stage.zoom.switching{transition-delay:0s;transition-duration:.9s}
+.beam,.glow,.wash,.lamp{transition:left .9s ease,top .9s ease}
+.zoomed .app{touch-action:none}
 /* Arabic */
 html[dir=rtl] body{font-family:Tajawal,Manrope,system-ui,sans-serif}
 html[dir=rtl] *{letter-spacing:0!important}
@@ -288,6 +296,7 @@ html[dir=rtl] .hero h1,html[dir=rtl] .sec h2,html[dir=rtl] .panel h2,html[dir=rt
 
   <aside class="panel" id="panel" aria-live="polite">
     <button class="x" id="closeP" data-i-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="pnav" id="pNav"><button id="pPrev" type="button" data-i-aria="prev">‹</button><button id="pNext" type="button" data-i-aria="next">›</button></div>
     <div class="eyebrow" id="pNo"></div>
     <h2 id="pName"></h2>
     <div class="notes" id="pNotes"></div>
@@ -440,7 +449,7 @@ const PRODUCTS = [
 /* ---- languages: French (default) + Arabic ---- */
 const I18N = {
   fr: {
-    cur:"DA", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
+    cur:"DA", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
     menu:"Menu", openBag:"Ouvrir le panier", close:"Fermer", collectionAria:"Collection de parfums",
     hint:"Choisissez un flacon pour l'observer de près", soon:"BIENTÔT",
     mCollection:"Collection", mMaison:"La Maison", mHow:"Comment commander", mFaq:"Questions",
@@ -478,7 +487,7 @@ const I18N = {
     failT:"Commande non envoyée", failM:"Nous n'avons pas pu joindre notre système de commande : cette commande n'a PAS été envoyée. Copiez le récapitulatif et envoyez-le-nous."
   },
   ar: {
-    cur:"دج", ml:"مل", edp:"ماء عطر", langBtn:"FR", langName:"Français",
+    cur:"دج", prev:"السابق", next:"التالي", ml:"مل", edp:"ماء عطر", langBtn:"FR", langName:"Français",
     menu:"القائمة", openBag:"فتح السلة", close:"إغلاق", collectionAria:"مجموعة العطور",
     hint:"اختر زجاجة لتراها عن قرب", soon:"قريبًا",
     mCollection:"المجموعة", mMaison:"الدار", mHow:"كيف تطلب", mFaq:"أسئلة شائعة",
@@ -537,7 +546,7 @@ function track(name,data){ try{ if(window.va) window.va('event',{name,data}); }c
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init',id); fbq('track','PageView'); })();
 const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"];
-let current = null, size = 100;
+let current = null, size = 100, openedAt = 0, swT;
 
 /* ---- build the scene ---- */
 caseEl.insertAdjacentHTML('afterbegin',`<div class="bg" style="background-image:url(img/niche-${CONFIG.theme==='dark'?'dark':'warm'}.jpg)"></div>`);
@@ -557,9 +566,17 @@ caseEl.insertAdjacentHTML('beforeend',SLOTS.map((S,i)=>`<div class="pool" data-s
 /* ---- product zoom ---- */
 function openProduct(id){
   const p = PRODUCTS.find(x=>x.id===id); if(!p||p.soon) return;
-  current = p; size = +Object.keys(p.sizes)[0];
+  const switching = !!current && caseEl.classList.contains('zoom');
+  current = p; size = +Object.keys(p.sizes)[0]; openedAt = performance.now();
   const it = document.querySelector(`.item[data-id="${id}"]`);
+  const prevT = caseEl.style.transform;
+  if(switching){ caseEl.style.transition='none'; caseEl.style.transform=''; }   // measure the untransformed scene
   const app = $('#app').getBoundingClientRect(), cr = caseEl.getBoundingClientRect(), br = it.querySelector('.photo').getBoundingClientRect();
+  if(switching){
+    caseEl.style.transform=prevT; void caseEl.offsetWidth; caseEl.style.transition='';
+    caseEl.classList.add('switching'); clearTimeout(swT); swT=setTimeout(()=>caseEl.classList.remove('switching'),1000);
+    panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap');
+  }
   const W = app.width, H = app.height;
   const px = br.left-cr.left+br.width/2, py = br.top-cr.top+br.height/2;       // bottle centre inside the stage
   const s = Math.min(H*0.30/br.height, W*0.7/br.width, 4);
@@ -574,18 +591,18 @@ function openProduct(id){
   const lamp=$('#lamp').style; lamp.left=S.lamp[0]+'%'; lamp.top=S.lamp[1]+'%';
   document.querySelectorAll('.item').forEach(n=>n.classList.toggle('sel',n===it));
   caseEl.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
-  caseEl.classList.add('zoom'); dim.classList.add('on'); $('#hint').classList.add('off');
+  caseEl.classList.add('zoom'); document.body.classList.add('zoomed'); dim.classList.add('on'); $('#hint').classList.add('off');
   fillPanel(); panel.classList.add('on');
   pixel('ViewContent',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[size],currency:CONFIG.currencyCode}); track('view_product',{product:p.name});
 }
 function fillPanel(){
   const p=current; if(!p) return;
   $('#pNo').textContent = `${p.no} · ${t('edp')}`; $('#pName').textContent = p.name;
-  $('#pNotes').innerHTML = p.notes.map(n=>`<span>${noteName(n)}</span>`).join(''); renderSizes();
+  $('#pNotes').innerHTML = p.notes.map(n=>`<span>${noteName(n)}</span>`).join(''); $('#pNav').style.display = liveProducts().length>1 ? '' : 'none'; renderSizes();
 }
 function closeProduct(){
   document.querySelectorAll('.pool').forEach(pl=>pl.classList.remove('off'));
-  caseEl.style.transform=''; caseEl.classList.remove('zoom'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null;
+  caseEl.style.transform=''; caseEl.classList.remove('zoom','switching'); panel.classList.remove('swap'); document.body.classList.remove('zoomed'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null;
 }
 function renderSizes(){
   const p=current;
@@ -691,6 +708,37 @@ document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',
 let tt; function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800);}
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeProduct();sheet('#bagSheet',false);sheet('#menuSheet',false);} });
 
+/* ---- gestures: scroll/swipe up-down closes, left-right jumps between bottles ---- */
+const liveProducts = () => PRODUCTS.filter(p=>!p.soon).sort((a,b)=>a.slot-b.slot);
+function stepProduct(d){
+  const L=liveProducts(); if(!current||L.length<2) return;
+  openProduct(L[(L.indexOf(current)+d+L.length)%L.length].id);
+}
+$('#pPrev').onclick=()=>stepProduct(-1); $('#pNext').onclick=()=>stepProduct(1);
+const sheetOpen = () => document.querySelector('.sheet.on');
+let wheelLock=0;
+addEventListener('wheel',e=>{
+  const now=performance.now();
+  if(sheetOpen()||(e.target.closest&&e.target.closest('.sheet'))) return;
+  if(!current){ if(now<wheelLock) e.preventDefault(); return; }   // swallow the trackpad momentum right after closing
+  e.preventDefault();
+  if(now<wheelLock) return;
+  const ax=Math.abs(e.deltaX), ay=Math.abs(e.deltaY);
+  if(ax>ay){ if(ax>20){ wheelLock=now+800; stepProduct(e.deltaX>0?1:-1); } }
+  else if(ay>12){ wheelLock=now+700; closeProduct(); }
+},{passive:false});
+let tx=0,ty=0,tOn=false;
+addEventListener('touchstart',e=>{ tOn=!!current&&!sheetOpen()&&e.touches.length===1&&!(e.target.closest&&e.target.closest('.sheet'));
+  if(tOn){ tx=e.touches[0].clientX; ty=e.touches[0].clientY; } },{passive:true});
+addEventListener('touchend',e=>{ if(!tOn) return; tOn=false;
+  const t=e.changedTouches[0], dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.2) stepProduct(dx<0?1:-1);
+  else if(Math.abs(dy)>40&&Math.abs(dy)>Math.abs(dx)) closeProduct(); },{passive:true});
+addEventListener('scroll',()=>{ if(current&&scrollY>30&&performance.now()-openedAt>1200) closeProduct(); },{passive:true});
+document.addEventListener('keydown',e=>{ if(!current||sheetOpen()) return;
+  if(e.key==='ArrowRight') stepProduct(document.documentElement.dir==='rtl'?-1:1);
+  if(e.key==='ArrowLeft') stepProduct(document.documentElement.dir==='rtl'?1:-1); });
+
 /* ---- sections ---- */
 const isDesk = () => matchMedia('(min-width:900px)').matches;
 const io = 'IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} }),{threshold:.12}) : null;
@@ -708,7 +756,8 @@ function renderCards(){
   document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{ const p=PRODUCTS.find(x=>x.id===+b.dataset.buy); addToBag(p,+Object.keys(p.sizes)[0]); });
   document.querySelectorAll('[data-look]').forEach(b=>b.onclick=()=>{
     if(isDesk()) return openProduct(+b.dataset.look);   // shelf is already on screen
-    window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>openProduct(+b.dataset.look),700); });
+    const pid=+b.dataset.look; window.scrollTo({top:0,behavior:'smooth'}); const t0=performance.now();
+    (function w(){ if(scrollY<4||performance.now()-t0>2500) setTimeout(()=>openProduct(pid),150); else requestAnimationFrame(w); })(); });
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
   sheet('#bagSheet',false); sheet('#menuSheet',false);
