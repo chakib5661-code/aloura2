@@ -617,7 +617,7 @@ function openProduct(id){
 }
 function fillPanel(){
   const p=current; if(!p) return;
-  $('#pNo').textContent = `${p.no} · ${t(p.gender==='f'?'gf':'gm')}`; $('#pName').textContent = p.name;
+  $('#pNo').textContent = p.no; $('#pName').textContent = p.name;
   panel.classList.toggle('g-m',p.gender==='m'); panel.classList.toggle('g-f',p.gender==='f');
   $('#pNotes').innerHTML = p.notes.map(n=>`<span>${noteName(n)}</span>`).join(''); $('#pNav').style.display = liveProducts().length>1 ? '' : 'none'; renderSizes();
 }
@@ -769,7 +769,7 @@ function renderCards(){
   const cls = cardsDone ? ' in' : '';
   $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
     <div class="card rv${cls}"><img src="${p.img}" alt="${p.name}">
-      <div><div class="tag ${p.gender}">${t(p.gender==='f'?'gf':'gm')}</div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
+      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
       <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
       <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div></div></div>`).join('')
     + (PRODUCTS.some(p=>p.soon)?`<div class="card soon rv${cls}">${t('soonCard')}</div>`:'');
@@ -796,7 +796,7 @@ function applyLang(l){
   $('#langBtn').textContent=t('langBtn'); $('#langBtn').setAttribute('aria-label',t('langName'));
   document.querySelectorAll('.item').forEach(it=>{ const p=PRODUCTS.find(x=>x.id==it.dataset.id);
     it.dataset.g = p.gender||''; const pr=it.querySelector('.price');
-    pr.innerHTML = p.soon ? t('soon') : money(p.sizes[Object.keys(p.sizes)[0]])+`<small>${t(p.gender==='f'?'gf':'gm')}</small>`; });
+    pr.innerHTML = p.soon ? t('soon') : money(p.sizes[Object.keys(p.sizes)[0]]); });
   fillPanel(); renderBag(); renderCards(); view(curView);
 }
 $('#langBtn').onclick = ()=>applyLang(LANG==='fr'?'ar':'fr');
