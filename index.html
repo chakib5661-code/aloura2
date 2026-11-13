@@ -249,7 +249,7 @@ html[dir=rtl] .pnav{right:auto;left:62px}
 .rd{position:absolute;top:0;width:1.6px;border-radius:2px;opacity:.5;
   background:linear-gradient(180deg,transparent,rgba(255,226,196,.22) 70%,rgba(255,240,222,.85));
   animation:rdrun var(--t,12s) linear var(--d,0s) infinite}
-.rd::after{content:"";position:absolute;left:50%;bottom:-2px;width:3px;height:4px;margin-left:-1.5px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(255,226,196,.7) 55%,transparent 70%)}
+.rd::after{content:"";position:absolute;left:50%;bottom:-2px;width:4px;height:5px;margin-left:-2px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(255,226,196,.7) 55%,transparent 70%)}
 @keyframes rdrun{from{transform:translateY(-30cqh)}to{transform:translateY(100cqh)}}
 /* Arabic */
 html[dir=rtl] body{font-family:Tajawal,Manrope,system-ui,sans-serif}
@@ -561,31 +561,31 @@ caseEl.insertAdjacentHTML('afterbegin',`<div class="bg" style="background-image:
 /* ---- rain on the marble: droplets + stuck trails painted once, a few drops keep running ---- */
 function paintRain(){
   const W=1080,H=1620, c=document.createElement('canvas'); c.className='rain'; c.width=W; c.height=H; c.setAttribute('aria-hidden','true');
-  const g=c.getContext('2d'); let seed=11; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;  // fixed seed: same rain every visit
-  const X=()=>W*(.07+rnd()*.86), Y=()=>H*(.05+rnd()*.88);
-  g.lineCap='round'; g.lineJoin='round';
-  for(let i=0;i<9;i++){                       // long thin streaks of water, slightly wavy
-    const x0=X(), y0=H*(.06+rnd()*.35), len=H*(.3+rnd()*.35), w=1.3+rnd()*1.1, ph=rnd()*6, amp=.8+rnd()*1.8;
-    const pt=t=>[x0+Math.sin(t*5+ph)*amp+Math.sin(t*13+ph*2)*amp*.4, y0+len*t];
-    g.strokeStyle='rgba(0,0,0,.30)'; g.lineWidth=w*1.4; g.beginPath(); for(let k=0;k<=40;k++){const [x,y]=pt(k/40); k?g.lineTo(x+w*1.3,y):g.moveTo(x+w*1.3,y);} g.stroke();
-    const gr=g.createLinearGradient(0,y0,0,y0+len); gr.addColorStop(0,'rgba(255,225,200,0)'); gr.addColorStop(.15,'rgba(255,225,200,.28)'); gr.addColorStop(.8,'rgba(255,228,205,.34)'); gr.addColorStop(1,'rgba(255,240,222,.55)');
-    g.strokeStyle=gr; g.lineWidth=w; g.beginPath(); for(let k=0;k<=40;k++){const [x,y]=pt(k/40); k?g.lineTo(x,y):g.moveTo(x,y);} g.stroke();
-    for(let k=0;k<5;k++){ const t=rnd(), [x,y]=pt(t); g.fillStyle='rgba(255,240,225,.55)'; g.beginPath(); g.ellipse(x,y,w*.7,w*1.9,0,0,6.283); g.fill(); }
+  const g=c.getContext('2d'); let seed=7; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;  // fixed seed: same rain every visit
+  const X=()=>W*(.075+rnd()*.85), Y=()=>H*(.06+rnd()*.87);
+  g.lineCap='round';
+  for(let i=0;i<18;i++){                      // trails left behind by drops
+    let x=X(), y=Y(), len=H*(.08+rnd()*.26), w=1.6+rnd()*2;
+    const gr=g.createLinearGradient(0,y,0,y+len); gr.addColorStop(0,'rgba(255,230,205,0)'); gr.addColorStop(.7,'rgba(255,228,200,.32)'); gr.addColorStop(1,'rgba(255,240,222,.6)');
+    g.strokeStyle=gr; g.lineWidth=w; g.beginPath(); g.moveTo(x,y);
+    for(let k=1;k<=12;k++) g.lineTo(x+Math.sin(k*1.3+i)*w*1.2, y+len*k/12);
+    g.stroke();
+    g.strokeStyle='rgba(0,0,0,.22)'; g.lineWidth=w*.8; g.beginPath(); g.moveTo(x+w*1.4,y+len*.2); g.lineTo(x+w*1.4,y+len); g.stroke();
   }
-  for(let i=0;i<950;i++){                     // fine droplets, mostly tiny
-    const r=.9+Math.pow(rnd(),4.2)*3.6, x=X(), y=Y(), ry=r*(1+rnd()*.5);
-    g.fillStyle='rgba(0,0,0,.40)'; g.beginPath(); g.ellipse(x+r*.2,y+ry*.4,r*1.1,ry*1.1,0,0,6.283); g.fill();
+  for(let i=0;i<720;i++){                     // droplets: many tiny, a few fat
+    const r=1.3+Math.pow(rnd(),2.6)*8, x=X(), y=Y(), ry=r*(1+rnd()*.45);
+    g.fillStyle='rgba(0,0,0,.42)'; g.beginPath(); g.ellipse(x+r*.25,y+ry*.45,r*1.12,ry*1.12,0,0,6.283); g.fill();
     const b=g.createRadialGradient(x-r*.3,y-ry*.3,r*.1,x,y,ry*1.05);
-    b.addColorStop(0,'rgba(255,220,200,.70)'); b.addColorStop(.55,'rgba(190,130,115,.38)'); b.addColorStop(1,'rgba(95,65,60,.25)');
+    b.addColorStop(0,'rgba(255,232,205,.75)'); b.addColorStop(.5,'rgba(205,160,125,.38)'); b.addColorStop(1,'rgba(110,80,62,.22)');
     g.fillStyle=b; g.beginPath(); g.ellipse(x,y,r,ry,0,0,6.283); g.fill();
-    g.fillStyle='rgba(255,250,240,.9)'; g.beginPath(); g.arc(x-r*.32,y-ry*.36,Math.max(.4,r*.2),0,6.283); g.fill();
+    g.fillStyle='rgba(255,255,255,.85)'; g.beginPath(); g.arc(x-r*.35,y-ry*.38,Math.max(.5,r*.22),0,6.283); g.fill();
   }
   return c;
 }
 if(CONFIG.rain){
   const rain=paintRain(); caseEl.querySelector('.bg').after(rain);
-  rain.insertAdjacentHTML('afterend','<div class="rainrun" aria-hidden="true">'+Array.from({length:5},(_,i)=>
-    `<i class="rd" style="left:${(10+Math.random()*80).toFixed(1)}%;height:${(16+Math.random()*16).toFixed(1)}%;--t:${(9+Math.random()*9).toFixed(1)}s;--d:-${(Math.random()*14).toFixed(1)}s;opacity:${(.3+Math.random()*.3).toFixed(2)}"></i>`).join('')+'</div>');
+  rain.insertAdjacentHTML('afterend','<div class="rainrun" aria-hidden="true">'+Array.from({length:10},(_,i)=>
+    `<i class="rd" style="left:${(10+Math.random()*80).toFixed(1)}%;height:${(9+Math.random()*13).toFixed(1)}%;--t:${(9+Math.random()*9).toFixed(1)}s;--d:-${(Math.random()*14).toFixed(1)}s;opacity:${(.35+Math.random()*.4).toFixed(2)}"></i>`).join('')+'</div>');
 }
 PRODUCTS.forEach(p=>{
   const S=SLOTS[p.slot], it=document.createElement('div'); it.className='item'+(p.soon?' soon':''); it.dataset.id=p.id;
