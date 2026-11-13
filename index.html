@@ -67,22 +67,22 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @keyframes lampDie{0%{opacity:0}14%{opacity:.25}22%{opacity:.05}38%{opacity:.6}46%{opacity:.3}64%{opacity:.85}72%{opacity:.7}100%{opacity:1}}
 /* chosen lamp: slow warm-up, soft falloff, no hard edges */
 .beam{position:absolute;pointer-events:none;opacity:0;mix-blend-mode:screen;filter:blur(14px);transform:translateX(-50%);
-  background:linear-gradient(180deg,rgba(255,226,175,.34),rgba(255,210,150,.12) 60%,rgba(255,210,150,0));
+  background:linear-gradient(180deg,var(--b1,rgba(255,226,175,.34)),var(--b2,rgba(255,210,150,.12)) 60%,var(--b3,rgba(255,210,150,0)));
   clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
   -webkit-mask-image:radial-gradient(ellipse 60% 100% at 50% 0,#000 35%,transparent 80%);mask-image:radial-gradient(ellipse 60% 100% at 50% 0,#000 35%,transparent 80%)}
 .stage.zoom .beam{animation:warmUp 2s ease-out .7s both}
 .glow{position:absolute;pointer-events:none;opacity:0;mix-blend-mode:screen;transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse,rgba(255,200,130,.34),rgba(255,190,120,.1) 55%,transparent 72%)}
+  background:radial-gradient(ellipse,var(--g1,rgba(255,200,130,.34)),var(--g2,rgba(255,190,120,.1)) 55%,transparent 72%)}
 .wash{position:absolute;pointer-events:none;opacity:0;mix-blend-mode:soft-light;transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse,rgba(255,205,140,.9),transparent 68%)}
+  background:radial-gradient(ellipse,var(--w1,rgba(255,205,140,.9)),transparent 68%)}
 .stage.zoom .glow,.stage.zoom .wash{animation:warmUp 2.2s ease-out .8s both}
 @keyframes warmUp{0%{opacity:0}12%{opacity:.5}20%{opacity:.15}34%{opacity:.7}44%{opacity:.45}100%{opacity:1}}
 .stage.zoom .item.sel .photo{filter:brightness(1.08) contrast(1.06) drop-shadow(0 .6cqh 1cqh rgba(0,0,0,.6));transition:filter 1.6s ease .8s}
-.mote{position:absolute;width:.55cqw;height:.55cqw;border-radius:50%;background:rgba(255,236,200,.9);opacity:0;pointer-events:none;filter:blur(.3px)}
+.mote{position:absolute;width:.55cqw;height:.55cqw;border-radius:50%;background:var(--m,rgba(255,236,200,.9));opacity:0;pointer-events:none;filter:blur(.3px)}
 .stage.zoom .mote{animation:drift var(--t,9s) ease-in-out var(--d,0s) infinite}
 @keyframes drift{0%{opacity:0;transform:translate(0,0)}15%{opacity:var(--o,.7)}50%{transform:translate(var(--dx,2cqw),4cqw)}85%{opacity:var(--o,.7)}100%{opacity:0;transform:translate(calc(var(--dx,2cqw)*-1),9cqw)}}
 .lamp{position:absolute;width:11%;height:1.6%;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:0;mix-blend-mode:screen;
-  background:radial-gradient(ellipse,#fffbee,#ffe4b0 50%,transparent 75%);box-shadow:0 0 5cqw 1.4cqw rgba(255,214,150,.6)}
+  background:radial-gradient(ellipse,var(--l1,#fffbee),var(--l2,#ffe4b0) 50%,transparent 75%);box-shadow:0 0 5cqw 1.4cqw var(--ls,rgba(255,214,150,.6))}
 .stage.zoom .lamp{animation:warmUp 1.6s ease-out .25s both}
 .stage.zoom .lamp{opacity:1;animation:beamOn 1.4s ease-out .5s both}
 .hint.off{opacity:0}
@@ -246,6 +246,22 @@ html[dir=rtl] .pnav{right:auto;left:62px}
 .stage.switching .pool.off{opacity:1}
 .stage.switching .pool:not(.off){opacity:0}
 .zoomed .app{touch-action:none}
+/* men / women: each fragrance gets its own light */
+.stage.g-m{--b1:rgba(185,212,255,.32);--b2:rgba(150,185,235,.12);--b3:rgba(150,185,235,0);--g1:rgba(150,190,255,.32);--g2:rgba(130,170,230,.10);--w1:rgba(165,195,250,.85);--l1:#f4f8ff;--l2:#bcd4ff;--ls:rgba(165,195,255,.6);--m:rgba(215,230,255,.9)}
+.stage.g-f{--b1:rgba(255,205,218,.36);--b2:rgba(255,175,200,.14);--b3:rgba(255,175,200,0);--g1:rgba(255,170,195,.36);--g2:rgba(255,150,180,.12);--w1:rgba(255,185,205,.9);--l1:#fff5f7;--l2:#ffc9d6;--ls:rgba(255,185,205,.65);--m:rgba(255,215,225,.95)}
+.stage.g-m .mote{width:.4cqw;height:.4cqw}
+.stage.g-f .mote{width:.85cqw;height:.85cqw;box-shadow:0 0 1cqw rgba(255,185,205,.9);animation:drift var(--t,9s) ease-in-out var(--d,0s) infinite,twk 2.4s ease-in-out var(--d,0s) infinite}
+@keyframes twk{0%,100%{filter:brightness(1) blur(.3px)}50%{filter:brightness(2.2) blur(0)}}
+.price small{display:block;margin-top:.5em;font-size:.5em;letter-spacing:.24em;text-transform:uppercase}
+.item[data-g=m] .price small{color:#a9c4f0}
+.item[data-g=f] .price small{color:#f2a9bf}
+.panel.g-m{border-color:rgba(160,192,240,.45)}
+.panel.g-m .eyebrow{color:#a9c4f0}
+.panel.g-f{border-color:rgba(242,169,191,.5)}
+.panel.g-f .eyebrow{color:#f2a9bf}
+.tag{display:inline-block;margin-bottom:8px;padding:4px 10px;border-radius:20px;border:1px solid;font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+.tag.m{color:#a9c4f0;border-color:rgba(160,192,240,.5)}
+.tag.f{color:#f2a9bf;border-color:rgba(242,169,191,.55)}
 /* Arabic */
 html[dir=rtl] body{font-family:Tajawal,Manrope,system-ui,sans-serif}
 html[dir=rtl] *{letter-spacing:0!important}
@@ -439,8 +455,8 @@ const SLOTS = [
 ];
 // Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
 const PRODUCTS = [
-  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", notes:["bergamot","timur","akigala"],      sizes:{100:12000}, img:"img/aloura-noir.webp" },
-  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", notes:["clementine","magnolia","vanilla"], sizes:{100:12000}, img:"img/aloura-rouge.webp" },
+  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", gender:"m", notes:["bergamot","timur","akigala"],      sizes:{100:12000}, img:"img/aloura-noir.webp" },
+  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", gender:"f", notes:["clementine","magnolia","vanilla"], sizes:{100:12000}, img:"img/aloura-rouge.webp" },
   // Covered bottles = coming soon. To reveal one: replace the line with real product data (name, notes, sizes, img).
   { id:3, slot:2, soon:true },
   { id:4, slot:3, soon:true },
@@ -451,7 +467,7 @@ const PRODUCTS = [
 /* ---- languages: French (default) + Arabic ---- */
 const I18N = {
   fr: {
-    cur:"DA", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
+    cur:"DA", gm:"Pour homme", gf:"Pour femme", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
     menu:"Menu", openBag:"Ouvrir le panier", close:"Fermer", collectionAria:"Collection de parfums",
     hint:"Choisissez un flacon pour l'observer de près", soon:"BIENTÔT",
     mCollection:"Collection", mMaison:"La Maison", mHow:"Comment commander", mFaq:"Questions",
@@ -489,7 +505,7 @@ const I18N = {
     failT:"Commande non envoyée", failM:"Nous n'avons pas pu joindre notre système de commande : cette commande n'a PAS été envoyée. Copiez le récapitulatif et envoyez-le-nous."
   },
   ar: {
-    cur:"دج", prev:"السابق", next:"التالي", ml:"مل", edp:"ماء عطر", langBtn:"FR", langName:"Français",
+    cur:"دج", gm:"للرجال", gf:"للنساء", prev:"السابق", next:"التالي", ml:"مل", edp:"ماء عطر", langBtn:"FR", langName:"Français",
     menu:"القائمة", openBag:"فتح السلة", close:"إغلاق", collectionAria:"مجموعة العطور",
     hint:"اختر زجاجة لتراها عن قرب", soon:"قريبًا",
     mCollection:"المجموعة", mMaison:"الدار", mHow:"كيف تطلب", mFaq:"أسئلة شائعة",
@@ -591,17 +607,18 @@ function openProduct(id){
   document.querySelectorAll('.pool').forEach(pl=>pl.classList.toggle('off',+pl.dataset.slot!==p.slot));
   const g=$('#glow').style; g.left=S.x+'%'; g.top=(S.base-.6)+'%'; g.width='34%'; g.height='7%';
   const w=$('#wash').style; w.left=S.x+'%'; w.top=(S.lamp[1]+(S.bottom-S.lamp[1])*.5)+'%'; w.width='56%'; w.height=((S.bottom-S.lamp[1])*1.05)+'%';
-  $('#motes').innerHTML=Array.from({length:16},()=>`<i class="mote" style="left:${S.lamp[0]-9+Math.random()*18}%;top:${S.lamp[1]+3+Math.random()*(S.bottom-S.lamp[1]-14)}%;--d:${(Math.random()*6).toFixed(1)}s;--t:${(7+Math.random()*6).toFixed(1)}s;--o:${(.35+Math.random()*.5).toFixed(2)};--dx:${(Math.random()*3-1.5).toFixed(1)}cqw"></i>`).join('');
+  $('#motes').innerHTML=Array.from({length:p.gender==='f'?28:10},()=>`<i class="mote" style="left:${S.lamp[0]-9+Math.random()*18}%;top:${S.lamp[1]+3+Math.random()*(S.bottom-S.lamp[1]-14)}%;--d:${(Math.random()*6).toFixed(1)}s;--t:${(7+Math.random()*6).toFixed(1)}s;--o:${(.35+Math.random()*.5).toFixed(2)};--dx:${(Math.random()*3-1.5).toFixed(1)}cqw"></i>`).join('');
   const lamp=$('#lamp').style; lamp.left=S.lamp[0]+'%'; lamp.top=S.lamp[1]+'%';
   document.querySelectorAll('.item').forEach(n=>n.classList.toggle('sel',n===it));
   caseEl.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
-  caseEl.classList.add('zoom'); document.body.classList.add('zoomed'); dim.classList.add('on'); $('#hint').classList.add('off');
+  caseEl.classList.toggle('g-m',p.gender==='m'); caseEl.classList.toggle('g-f',p.gender==='f'); caseEl.classList.add('zoom'); document.body.classList.add('zoomed'); dim.classList.add('on'); $('#hint').classList.add('off');
   fillPanel(); panel.classList.add('on');
   pixel('ViewContent',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[size],currency:CONFIG.currencyCode}); track('view_product',{product:p.name});
 }
 function fillPanel(){
   const p=current; if(!p) return;
-  $('#pNo').textContent = `${p.no} · ${t('edp')}`; $('#pName').textContent = p.name;
+  $('#pNo').textContent = `${p.no} · ${t(p.gender==='f'?'gf':'gm')}`; $('#pName').textContent = p.name;
+  panel.classList.toggle('g-m',p.gender==='m'); panel.classList.toggle('g-f',p.gender==='f');
   $('#pNotes').innerHTML = p.notes.map(n=>`<span>${noteName(n)}</span>`).join(''); $('#pNav').style.display = liveProducts().length>1 ? '' : 'none'; renderSizes();
 }
 function closeProduct(){
@@ -752,7 +769,7 @@ function renderCards(){
   const cls = cardsDone ? ' in' : '';
   $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
     <div class="card rv${cls}"><img src="${p.img}" alt="${p.name}">
-      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
+      <div><div class="tag ${p.gender}">${t(p.gender==='f'?'gf':'gm')}</div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
       <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
       <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div></div></div>`).join('')
     + (PRODUCTS.some(p=>p.soon)?`<div class="card soon rv${cls}">${t('soonCard')}</div>`:'');
@@ -778,7 +795,8 @@ function applyLang(l){
   $('#wPh').textContent=t('wChoose');
   $('#langBtn').textContent=t('langBtn'); $('#langBtn').setAttribute('aria-label',t('langName'));
   document.querySelectorAll('.item').forEach(it=>{ const p=PRODUCTS.find(x=>x.id==it.dataset.id);
-    it.querySelector('.price').textContent = p.soon ? t('soon') : money(p.sizes[Object.keys(p.sizes)[0]]); });
+    it.dataset.g = p.gender||''; const pr=it.querySelector('.price');
+    pr.innerHTML = p.soon ? t('soon') : money(p.sizes[Object.keys(p.sizes)[0]])+`<small>${t(p.gender==='f'?'gf':'gm')}</small>`; });
   fillPanel(); renderBag(); renderCards(); view(curView);
 }
 $('#langBtn').onclick = ()=>applyLang(LANG==='fr'?'ar':'fr');
