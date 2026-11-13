@@ -242,7 +242,9 @@ html[dir=rtl] .pnav{right:auto;left:62px}
 .panel.swap{animation:pswap .55s ease}
 @keyframes pswap{0%{opacity:.15;transform:translateY(14px)}100%{opacity:1;transform:none}}
 .stage.zoom.switching{transition-delay:0s;transition-duration:.9s}
-.beam,.glow,.wash,.lamp{transition:left .9s ease,top .9s ease}
+.stage.switching .pool{animation:none!important}
+.stage.switching .pool.off{opacity:1}
+.stage.switching .pool:not(.off){opacity:0}
 .zoomed .app{touch-action:none}
 /* Arabic */
 html[dir=rtl] body{font-family:Tajawal,Manrope,system-ui,sans-serif}
