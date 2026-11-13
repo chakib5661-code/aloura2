@@ -2,7 +2,7 @@
 
 One-page perfume storefront (cash on delivery, prices in DA).
 
-- `index.html` — the whole site. Edit `CONFIG` and `PRODUCTS` at the top of the script.
+- `index.html` — the whole site. Edit `CONFIG` and `PRODUCTS` at the top of the script. All text is in the `I18N` table (French by default, Arabic via the header switch).
 - `api/order.js` — Vercel function: sends each order to Telegram.
 - `img/` — bottles, velvet covers, background.
 

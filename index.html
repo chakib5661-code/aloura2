@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ALOURA — Eau de Parfum</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500&display=swap" rel="stylesheet">
+<meta name="description" content="ALOURA — eau de parfum. Paiement à la livraison en Algérie.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@200;300;400;500&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#07050d;
@@ -22,8 +23,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .app{position:relative;width:100%;max-width:480px;height:100vh;height:100dvh;margin:0 auto;overflow:hidden;background:var(--bg)}
 
 /* ---------- header ---------- */
-.top{position:absolute;z-index:30;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;
-  padding:calc(env(safe-area-inset-top) + 16px) 18px 0}
 .logo{letter-spacing:.55em;font-size:15px;font-weight:400;padding-left:2px}
 .tools{display:flex;gap:10px}
 .round{position:relative;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);
@@ -68,22 +67,22 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @keyframes lampDie{0%{opacity:0}14%{opacity:.25}22%{opacity:.05}38%{opacity:.6}46%{opacity:.3}64%{opacity:.85}72%{opacity:.7}100%{opacity:1}}
 /* chosen lamp: slow warm-up, soft falloff, no hard edges */
 .beam{position:absolute;pointer-events:none;opacity:0;mix-blend-mode:screen;filter:blur(14px);transform:translateX(-50%);
-  background:linear-gradient(180deg,rgba(255,226,175,.34),rgba(255,210,150,.12) 60%,rgba(255,210,150,0));
+  background:linear-gradient(180deg,var(--b1,rgba(255,226,175,.34)),var(--b2,rgba(255,210,150,.12)) 60%,var(--b3,rgba(255,210,150,0)));
   clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
   -webkit-mask-image:radial-gradient(ellipse 60% 100% at 50% 0,#000 35%,transparent 80%);mask-image:radial-gradient(ellipse 60% 100% at 50% 0,#000 35%,transparent 80%)}
 .stage.zoom .beam{animation:warmUp 2s ease-out .7s both}
 .glow{position:absolute;pointer-events:none;opacity:0;mix-blend-mode:screen;transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse,rgba(255,200,130,.34),rgba(255,190,120,.1) 55%,transparent 72%)}
+  background:radial-gradient(ellipse,var(--g1,rgba(255,200,130,.34)),var(--g2,rgba(255,190,120,.1)) 55%,transparent 72%)}
 .wash{position:absolute;pointer-events:none;opacity:0;mix-blend-mode:soft-light;transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse,rgba(255,205,140,.9),transparent 68%)}
+  background:radial-gradient(ellipse,var(--w1,rgba(255,205,140,.9)),transparent 68%)}
 .stage.zoom .glow,.stage.zoom .wash{animation:warmUp 2.2s ease-out .8s both}
 @keyframes warmUp{0%{opacity:0}12%{opacity:.5}20%{opacity:.15}34%{opacity:.7}44%{opacity:.45}100%{opacity:1}}
 .stage.zoom .item.sel .photo{filter:brightness(1.08) contrast(1.06) drop-shadow(0 .6cqh 1cqh rgba(0,0,0,.6));transition:filter 1.6s ease .8s}
-.mote{position:absolute;width:.55cqw;height:.55cqw;border-radius:50%;background:rgba(255,236,200,.9);opacity:0;pointer-events:none;filter:blur(.3px)}
+.mote{position:absolute;width:.55cqw;height:.55cqw;border-radius:50%;background:var(--m,rgba(255,236,200,.9));opacity:0;pointer-events:none;filter:blur(.3px)}
 .stage.zoom .mote{animation:drift var(--t,9s) ease-in-out var(--d,0s) infinite}
 @keyframes drift{0%{opacity:0;transform:translate(0,0)}15%{opacity:var(--o,.7)}50%{transform:translate(var(--dx,2cqw),4cqw)}85%{opacity:var(--o,.7)}100%{opacity:0;transform:translate(calc(var(--dx,2cqw)*-1),9cqw)}}
 .lamp{position:absolute;width:11%;height:1.6%;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:0;mix-blend-mode:screen;
-  background:radial-gradient(ellipse,#fffbee,#ffe4b0 50%,transparent 75%);box-shadow:0 0 5cqw 1.4cqw rgba(255,214,150,.6)}
+  background:radial-gradient(ellipse,var(--l1,#fffbee),var(--l2,#ffe4b0) 50%,transparent 75%);box-shadow:0 0 5cqw 1.4cqw var(--ls,rgba(255,214,150,.6))}
 .stage.zoom .lamp{animation:warmUp 1.6s ease-out .25s both}
 .stage.zoom .lamp{opacity:1;animation:beamOn 1.4s ease-out .5s both}
 .hint.off{opacity:0}
@@ -114,7 +113,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .x svg{width:16px;height:16px;stroke:var(--ink);stroke-width:1.5;fill:none;stroke-linecap:round}
 
 /* ---------- drawers ---------- */
-.sheet{position:fixed;z-index:40;inset:0;max-width:480px;margin:0 auto;pointer-events:none}
+.sheet{position:fixed;z-index:40;inset:0;max-width:480px;margin:0 auto;pointer-events:none;overflow:hidden}
 .sheet .veil{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .4s}
 .sheet .box{position:absolute;top:0;bottom:0;right:0;width:min(88%,380px);padding:calc(env(safe-area-inset-top) + 20px) 22px 22px;
   background:linear-gradient(180deg,#171120,#0c0813);border-left:1px solid var(--line);
@@ -146,10 +145,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ---------- scrolling sections ---------- */
 .cue{position:absolute;z-index:6;left:50%;bottom:6px;width:1px;height:16px;background:linear-gradient(180deg,transparent,#c9b8a3);animation:cue 2s ease-in-out infinite}
 @keyframes cue{0%,100%{opacity:.2;transform:translateY(-3px)}50%{opacity:.9;transform:none}}
-.dock{position:fixed;z-index:35;top:0;left:0;right:0;max-width:480px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
-  padding:calc(env(safe-area-inset-top) + 10px) 18px 10px;background:linear-gradient(180deg,rgba(10,8,7,.94),rgba(10,8,7,.7));
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transform:translateY(-110%);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.dock.on{transform:none}
 .more{max-width:480px;margin:0 auto;background:#0a0807;overflow:hidden}
 .sec{padding:84px 24px 20px}
 .eyebrow{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
@@ -200,6 +195,97 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #vDone h4{font-weight:300;font-size:24px;margin-bottom:10px}
 #vDone p{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:14px}
 #vDone pre{white-space:pre-wrap;font:inherit;font-size:12.5px;line-height:1.7;color:#cbbfb3;padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:rgba(255,255,255,.03)}
+
+/* ---------- redesign: layout, type, new sections ---------- */
+:root{--serif:"Cormorant Garamond","Tajawal",Georgia,serif}
+.shell{display:block}
+.panel{max-width:460px;margin:0 auto}
+.sec h2,.panel h2,.card h3,#vDone h4,.menu button.m{font-family:var(--serif)}
+.sec h2{font-size:40px;line-height:1.08;font-weight:300}
+.panel h2{font-size:36px;font-weight:400}
+.card h3{font-size:28px;font-weight:400}
+.menu button.m{font-size:28px;font-weight:300}
+.lang{font-size:13px;font-weight:500;letter-spacing:.04em}
+.empty,.copy{white-space:pre-line}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:48px;line-height:1.02;margin:14px 0 22px}
+.hero{padding-top:70px}
+.cta{display:inline-block;margin:6px 0 4px;padding:16px 26px;border-radius:14px;background:var(--cream);color:#1c1520;font-size:12px;font-weight:500;letter-spacing:.26em;text-transform:uppercase}
+.trust{display:grid;gap:10px;margin-top:32px}
+.trust div{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02)}
+.trust b{display:block;font-weight:400;font-size:15px;color:var(--ink);margin-bottom:4px}
+.trust span{font-size:12.5px;color:var(--muted);line-height:1.5}
+.cards{grid-template-columns:1fr}
+.card{grid-template-columns:112px 1fr}
+.card .pr{font-size:15px;color:var(--cream);margin-bottom:14px}
+.card .acts{display:flex;gap:8px;flex-wrap:wrap}
+.card .acts button{padding:11px 14px}
+.card .acts .buy{background:var(--cream);color:#1c1520;border-color:var(--cream);font-weight:500}
+.steps{list-style:none;display:grid;gap:12px}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02)}
+.steps i{font-style:normal;width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-family:var(--serif);font-size:22px}
+.steps b{display:block;font-weight:400;font-size:16px;margin-bottom:4px}
+.steps span{font-size:13.5px;line-height:1.6;color:var(--muted)}
+.faq details{border-bottom:1px solid var(--line);padding:6px 0}
+.faq summary{cursor:pointer;list-style:none;padding:16px 0;font-size:16px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--gold);font-size:22px;font-weight:200;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:0 0 16px}
+.top{position:fixed;z-index:30;left:0;right:0;top:0;max-width:480px;margin:0 auto;direction:ltr;display:flex;align-items:center;justify-content:space-between;
+  padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
+.top.solid{background:linear-gradient(180deg,rgba(10,8,7,.94),rgba(10,8,7,.72));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-color:var(--line)}
+.fields input[type=tel]{direction:ltr;text-align:start}
+.add{white-space:nowrap;letter-spacing:.2em}
+.pnav{position:absolute;top:16px;right:62px;display:flex;gap:8px}
+.pnav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);font-size:22px;line-height:1;display:grid;place-items:center;padding-bottom:3px}
+html[dir=rtl] .pnav{right:auto;left:62px}
+.panel.swap{animation:pswap .55s ease}
+@keyframes pswap{0%{opacity:.15;transform:translateY(14px)}100%{opacity:1;transform:none}}
+.stage.zoom.switching{transition-delay:0s;transition-duration:.9s}
+.stage.switching .pool{animation:none!important}
+.stage.switching .pool.off{opacity:1}
+.stage.switching .pool:not(.off){opacity:0}
+.zoomed .app{touch-action:none}
+/* men / women: each fragrance gets its own light */
+.stage.g-m{--b1:rgba(185,212,255,.32);--b2:rgba(150,185,235,.12);--b3:rgba(150,185,235,0);--g1:rgba(150,190,255,.32);--g2:rgba(130,170,230,.10);--w1:rgba(165,195,250,.85);--l1:#f4f8ff;--l2:#bcd4ff;--ls:rgba(165,195,255,.6);--m:rgba(215,230,255,.9)}
+.stage.g-f{--b1:rgba(255,205,218,.36);--b2:rgba(255,175,200,.14);--b3:rgba(255,175,200,0);--g1:rgba(255,170,195,.36);--g2:rgba(255,150,180,.12);--w1:rgba(255,185,205,.9);--l1:#fff5f7;--l2:#ffc9d6;--ls:rgba(255,185,205,.65);--m:rgba(255,215,225,.95)}
+.stage.g-m .mote{width:.4cqw;height:.4cqw}
+.stage.g-f .mote{width:.85cqw;height:.85cqw;box-shadow:0 0 1cqw rgba(255,185,205,.9);animation:drift var(--t,9s) ease-in-out var(--d,0s) infinite,twk 2.4s ease-in-out var(--d,0s) infinite}
+@keyframes twk{0%,100%{filter:brightness(1) blur(.3px)}50%{filter:brightness(2.2) blur(0)}}
+.price small{display:block;margin-top:.5em;font-size:.5em;letter-spacing:.24em;text-transform:uppercase}
+.item[data-g=m] .price small{color:#a9c4f0}
+.item[data-g=f] .price small{color:#f2a9bf}
+.panel.g-m{border-color:rgba(160,192,240,.45)}
+.panel.g-m .eyebrow{color:#a9c4f0}
+.panel.g-f{border-color:rgba(242,169,191,.5)}
+.panel.g-f .eyebrow{color:#f2a9bf}
+.tag{display:inline-block;margin-bottom:8px;padding:4px 10px;border-radius:20px;border:1px solid;font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+.tag.m{color:#a9c4f0;border-color:rgba(160,192,240,.5)}
+.tag.f{color:#f2a9bf;border-color:rgba(242,169,191,.55)}
+/* Arabic */
+html[dir=rtl] body{font-family:Tajawal,Manrope,system-ui,sans-serif}
+html[dir=rtl] *{letter-spacing:0!important}
+html[dir=rtl] .panel .x{right:auto;left:16px}
+html[dir=rtl] .hero h1,html[dir=rtl] .sec h2,html[dir=rtl] .panel h2,html[dir=rtl] .card h3{font-family:Tajawal,var(--serif);font-weight:400;line-height:1.3}
+/* desktop: shelf stays pinned on the left, story scrolls on the right */
+@media (min-width:900px){
+  .shell{display:grid;grid-template-columns:minmax(440px,46%) 1fr;align-items:start}
+  .app{position:sticky;top:0;max-width:none;margin:0}
+  .top{max-width:none;padding-left:clamp(24px,3vw,48px);padding-right:clamp(24px,3vw,48px)}
+  .more{max-width:none;margin:0}
+  .sec{padding:100px clamp(40px,6vw,110px) 20px;max-width:900px}
+  .hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding-top:120px}
+  .hero h1{font-size:68px}
+  html[dir=rtl] .hero h1{font-size:56px}
+  .trust{grid-template-columns:repeat(3,1fr);width:100%;margin-top:48px}
+  .sec h2{font-size:48px}
+  .cards{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+  .card{grid-template-columns:130px 1fr}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .steps li{grid-template-columns:1fr}
+  .sheet{max-width:none}
+  .foot{margin-top:100px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
 <!-- Vercel Web Analytics: turn it on in Vercel → Project → Analytics. Only works on the deployed site. -->
@@ -207,89 +293,120 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+
+<header class="top" id="siteTop">
+  <div class="logo">ALOURA</div>
+  <div class="tools">
+    <button class="round lang" id="langBtn" type="button"></button>
+    <button class="round" data-menu data-i-aria="menu"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></button>
+    <button class="round" data-bag data-i-aria="openBag"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8zM9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="badge">0</span></button>
+  </div>
+</header>
+
+<div class="shell">
 <main class="app" id="app">
-
-  <header class="top">
-    <div class="logo">ALOURA</div>
-    <div class="tools">
-      <button class="round" data-menu aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></button>
-      <button class="round" data-bag aria-label="Open bag"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8zM9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="badge">0</span></button>
-    </div>
-  </header>
-
-  <section class="case" id="case" aria-label="Fragrance collection">
+  <section class="case" id="case" data-i-aria="collectionAria">
     <div class="stage" id="stage"></div>
   </section>
-  <div class="hint" id="hint">Tap a bottle to look closer</div>
+  <div class="hint" id="hint" data-i="hint"></div>
   <div class="cue" id="cue"></div>
   <div class="dim" id="dim"></div>
 
   <aside class="panel" id="panel" aria-live="polite">
-    <button class="x" id="closeP" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="x" id="closeP" data-i-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="pnav" id="pNav"><button id="pPrev" type="button" data-i-aria="prev">‹</button><button id="pNext" type="button" data-i-aria="next">›</button></div>
     <div class="eyebrow" id="pNo"></div>
     <h2 id="pName"></h2>
     <div class="notes" id="pNotes"></div>
     <div class="sizes" id="pSizes"></div>
     <button class="add" id="addBtn"></button>
   </aside>
-
 </main>
 
-<div class="dock" id="dock">
-  <div class="logo">ALOURA</div>
-  <div class="tools">
-    <button class="round" data-menu aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></button>
-    <button class="round" data-bag aria-label="Open bag"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8zM9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="badge">0</span></button>
-  </div>
-</div>
-
 <div class="more">
+  <section class="sec hero" id="intro">
+    <div class="eyebrow rv" data-i="heroEyebrow"></div>
+    <h1 class="rv" data-i="heroTitle"></h1>
+    <p class="lead rv" data-i="heroLead"></p>
+    <button class="cta rv" data-go="collection" data-i="heroCta"></button>
+    <div class="trust rv">
+      <div><b data-i="tr1t"></b><span data-i="tr1d"></span></div>
+      <div><b data-i="tr2t"></b><span data-i="tr2d"></span></div>
+      <div><b data-i="tr3t"></b><span data-i="tr3d"></span></div>
+    </div>
+  </section>
+
   <section class="sec" id="collection">
-    <div class="eyebrow rv">The collection</div>
-    <h2 class="rv">Every bottle, one light.</h2>
+    <div class="eyebrow rv" data-i="colEyebrow"></div>
+    <h2 class="rv" data-i="colTitle"></h2>
     <div class="cards" id="cards"></div>
   </section>
 
   <section class="sec" id="maison">
-    <div class="eyebrow rv">La Maison</div>
-    <h2 class="rv">Scent, slowed down.</h2>
+    <div class="eyebrow rv" data-i="mEyebrow"></div>
+    <h2 class="rv" data-i="mTitle"></h2>
     <div class="orn rv"></div>
-    <p class="lead rv">ALOURA is a house of eau de parfum made for the evening: warm woods, soft florals and a trail that stays after you leave the room.</p>
-    <p class="rv">Each fragrance is shown the way it should be met — alone, in the light, close enough to feel its character before you ever spray it.</p>
-    <div class="trio rv"><div><b>Light</b><span>Opens bright</span></div><div><b>Amber</b><span>Settles warm</span></div><div><b>Night</b><span>Lingers on</span></div></div>
+    <p class="lead rv" data-i="mLead"></p>
+    <p class="rv" data-i="mP2"></p>
+    <div class="trio rv">
+      <div><b data-i="trioA"></b><span data-i="trioAd"></span></div>
+      <div><b data-i="trioB"></b><span data-i="trioBd"></span></div>
+      <div><b data-i="trioC"></b><span data-i="trioCd"></span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <div class="eyebrow rv" data-i="howEyebrow"></div>
+    <h2 class="rv" data-i="howTitle"></h2>
+    <ol class="steps">
+      <li class="rv"><i>1</i><div><b data-i="s1t"></b><span data-i="s1d"></span></div></li>
+      <li class="rv"><i>2</i><div><b data-i="s2t"></b><span data-i="s2d"></span></div></li>
+      <li class="rv"><i>3</i><div><b data-i="s3t"></b><span data-i="s3d"></span></div></li>
+    </ol>
+  </section>
+
+  <section class="sec" id="faq">
+    <div class="eyebrow rv" data-i="faqEyebrow"></div>
+    <h2 class="rv" data-i="faqTitle"></h2>
+    <div class="faq">
+      <details class="rv"><summary data-i="q1"></summary><p data-i="a1"></p></details>
+      <details class="rv"><summary data-i="q2"></summary><p data-i="a2"></p></details>
+      <details class="rv"><summary data-i="q3"></summary><p data-i="a3"></p></details>
+    </div>
   </section>
 
   <footer class="sec foot" id="pie">
-    <div class="fl rv"><button data-go="top">Collection</button><button data-go="maison">La Maison</button></div>
-    <div class="copy">ALOURA · Eau de Parfum<br>© 2026 ALOURA. All rights reserved.</div>
+    <div class="fl rv"><button data-go="collection" data-i="mCollection"></button><button data-go="maison" data-i="mMaison"></button><button data-go="how" data-i="mHow"></button><button data-go="faq" data-i="mFaq"></button></div>
+    <div class="copy" data-i="copy"></div>
   </footer>
+</div>
 </div>
 
   <div class="sheet" id="bagSheet">
     <div class="veil" data-close></div>
     <div class="box">
-      <div class="sh-head"><h3 id="bagTitle">Your bag</h3><button class="x" style="position:static" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <div class="sh-head"><h3 id="bagTitle"></h3><button class="x" style="position:static" data-close data-i-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 
       <div class="view" id="vBag">
         <div class="lines" id="lines"></div>
         <div class="sums" id="sums"></div>
-        <div class="cod">Pay on delivery · cash when you receive your order</div>
-        <button class="primary" id="toCheckout">Checkout</button>
+        <div class="cod" data-i="cod"></div>
+        <button class="primary" id="toCheckout" data-i="checkout"></button>
       </div>
 
       <form class="view" id="vForm" novalidate hidden>
-        <button type="button" class="back" id="backBag">← Back to bag</button>
+        <button type="button" class="back" id="backBag" data-i="back"></button>
         <div class="fields">
-          <label>Full name<input id="fName" autocomplete="name" placeholder="Your full name"></label>
-          <label>Phone<input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 / 06 / 07 …"></label>
-          <label>Wilaya<select id="fWilaya"><option value="">Choose your wilaya</option></select></label>
-          <label>Commune &amp; address<input id="fAddr" autocomplete="street-address" placeholder="Commune, street, building"></label>
-          <label>Note <em>(optional)</em><input id="fNote" placeholder="Delivery instructions"></label>
+          <label><span data-i="fName"></span><input id="fName" autocomplete="name" data-i-ph="phName"></label>
+          <label><span data-i="fPhone"></span><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 / 06 / 07 …"></label>
+          <label><span data-i="fWilaya"></span><select id="fWilaya"><option value="" id="wPh"></option></select></label>
+          <label><span data-i="fAddr"></span><input id="fAddr" autocomplete="street-address" data-i-ph="phAddr"></label>
+          <label><span><span data-i="fNote"></span> <em data-i="optional"></em></span><input id="fNote" data-i-ph="phNote"></label>
           <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
         </div>
         <div class="sums" id="sums2"></div>
-        <div class="cod">Pay on delivery · cash when you receive your order</div>
-        <button class="primary" type="submit" id="confirmBtn">Confirm order</button>
+        <div class="cod" data-i="cod"></div>
+        <button class="primary" type="submit" id="confirmBtn" data-i="confirm"></button>
       </form>
 
       <div class="view" id="vDone" hidden>
@@ -297,8 +414,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <h4 id="doneTitle"></h4>
         <p id="doneMsg"></p>
         <pre id="doneText"></pre>
-        <button class="ghost" id="copyOrder">Copy order summary</button>
-        <button class="primary" data-close>Close</button>
+        <button class="ghost" id="copyOrder" data-i="copyOrder"></button>
+        <button class="primary" data-close data-i="close"></button>
       </div>
     </div>
   </div>
@@ -306,9 +423,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <div class="sheet left" id="menuSheet">
     <div class="veil" data-close></div>
     <div class="box menu">
-      <div class="sh-head"><h3>Menu</h3><button class="x" style="position:static" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-      <button class="m" data-go="top">Collection</button>
-      <button class="m" data-go="maison">La Maison</button>
+      <div class="sh-head"><h3 data-i="menu"></h3><button class="x" style="position:static" data-close data-i-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <button class="m" data-go="collection" data-i="mCollection"></button>
+      <button class="m" data-go="maison" data-i="mMaison"></button>
+      <button class="m" data-go="how" data-i="mHow"></button>
+      <button class="m" data-go="faq" data-i="mFaq"></button>
       <p>ALOURA · Eau de Parfum</p>
     </div>
   </div>
@@ -318,7 +437,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <script>
 /* ============ EDIT HERE ============ */
 const CONFIG = {
-  currency: "DA",           // shown after the amount: 12 000 DA
   deliveryFee: null,        // number in DA, or null = "confirmed by phone". Per-wilaya prices: deliveryByWilaya
   deliveryByWilaya: {},     // e.g. { "Alger": 500, "Oran": 700 }
   orderEndpoint: "/api/order", // serverless function (api/order.js) that sends each order to your Telegram
@@ -337,8 +455,8 @@ const SLOTS = [
 ];
 // Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
 const PRODUCTS = [
-  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", notes:["Oud","Amber","Vanilla"],      sizes:{100:12000}, img:"img/aloura-noir.webp" },
-  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", notes:["Rose","Saffron","Musk"], sizes:{100:12000}, img:"img/aloura-rouge.webp" },
+  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", gender:"m", notes:["bergamot","timur","akigala"],      sizes:{100:12000}, img:"img/aloura-noir.webp" },
+  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", gender:"f", notes:["clementine","magnolia","vanilla"], sizes:{100:12000}, img:"img/aloura-rouge.webp" },
   // Covered bottles = coming soon. To reveal one: replace the line with real product data (name, notes, sizes, img).
   { id:3, slot:2, soon:true },
   { id:4, slot:3, soon:true },
@@ -346,18 +464,109 @@ const PRODUCTS = [
 ];
 /* =================================== */
 
+/* ---- languages: French (default) + Arabic ---- */
+const I18N = {
+  fr: {
+    cur:"DA", gm:"Pour homme", gf:"Pour femme", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
+    menu:"Menu", openBag:"Ouvrir le panier", close:"Fermer", collectionAria:"Collection de parfums",
+    hint:"Choisissez un flacon pour l'observer de près", soon:"BIENTÔT",
+    mCollection:"Collection", mMaison:"La Maison", mHow:"Comment commander", mFaq:"Questions",
+    heroEyebrow:"Eau de parfum", heroTitle:"Le parfum du soir, mis en lumière.",
+    heroLead:"ALOURA est une maison d'eau de parfum pensée pour le soir : bois chauds, fleurs douces et un sillage qui reste après votre départ.",
+    heroCta:"Découvrir la collection",
+    tr1t:"Paiement à la livraison", tr1d:"En espèces, à la réception de votre commande",
+    tr2t:"Livraison en Algérie", tr2d:"58 wilayas au choix",
+    tr3t:"Confirmation par téléphone", tr3d:"Nous vous appelons pour valider",
+    colEyebrow:"La collection", colTitle:"Chaque flacon, sa lumière.",
+    from:"dès", look:"Voir de près", addBag:"Ajouter au panier", added:"{n} ajouté", soonCard:"D'autres flacons arrivent bientôt",
+    mEyebrow:"La Maison", mTitle:"Le parfum, au ralenti.",
+    mLead:"Chaque parfum ALOURA se découvre comme il se doit : seul, dans la lumière, assez près pour sentir son caractère avant même de le vaporiser.",
+    mP2:"Des notes chaudes, des fleurs douces et un sillage qui s'attarde longtemps après votre passage.",
+    trioA:"Lumière", trioAd:"S'ouvre éclatant", trioB:"Ambre", trioBd:"Se pose chaleureux", trioC:"Nuit", trioCd:"Persiste",
+    howEyebrow:"Comment commander", howTitle:"Simple comme un appel.",
+    s1t:"Choisissez", s1d:"Touchez un flacon, puis ajoutez-le au panier.",
+    s2t:"Renseignez", s2d:"Nom, téléphone, wilaya et adresse. Rien d'autre.",
+    s3t:"Payez à la réception", s3d:"Nous vous appelons pour confirmer, puis vous payez en espèces à la livraison.",
+    faqEyebrow:"Questions", faqTitle:"Bon à savoir.",
+    q1:"Comment payer ?", a1:"Uniquement à la livraison, en espèces. Il n'y a aucun paiement en ligne.",
+    q2:"Combien coûte la livraison ?", a2:"Les frais de livraison vous sont confirmés par téléphone, selon votre wilaya.",
+    q3:"Comment ma commande est-elle confirmée ?", a3:"Nous vous appelons au numéro indiqué pour confirmer la livraison. Vérifiez bien votre numéro avant de valider.",
+    copy:"ALOURA · Eau de Parfum\n© 2026 ALOURA. Tous droits réservés.",
+    bagTitle:"Votre panier", formTitle:"Informations de livraison", orderTitle:"Commande",
+    empty:"Votre panier est vide.\nChoisissez un flacon pour commencer.",
+    subtotal:"Sous-total", delivery:"Livraison", total:"Total", free:"Gratuite", byPhone:"Confirmée par téléphone", plusDelivery:" + livraison",
+    cod:"Paiement à la livraison · en espèces à la réception", checkout:"Commander", back:"← Retour au panier",
+    fName:"Nom complet", phName:"Votre nom complet", fPhone:"Téléphone", fWilaya:"Wilaya", wChoose:"Choisissez votre wilaya",
+    fAddr:"Commune et adresse", phAddr:"Commune, rue, bâtiment", fNote:"Note", optional:"(facultatif)", phNote:"Instructions de livraison",
+    confirm:"Confirmer la commande", copyOrder:"Copier le récapitulatif", copied:"Récapitulatif copié", copyNA:"Copie indisponible",
+    badPhone:"Numéro invalide : 05, 06 ou 07 + 8 chiffres", badField:"Veuillez compléter le champ en rouge",
+    okT:"Commande reçue", okId:" — commande {id}", okM:"Merci{id}. Nous vous appellerons au {phone} pour confirmer la livraison. Vous payez à la réception.",
+    waT:"Presque terminé", waM:"WhatsApp s'ouvre avec votre commande. Appuyez sur envoyer pour la valider. Vous payez à la réception.",
+    failT:"Commande non envoyée", failM:"Nous n'avons pas pu joindre notre système de commande : cette commande n'a PAS été envoyée. Copiez le récapitulatif et envoyez-le-nous."
+  },
+  ar: {
+    cur:"دج", gm:"للرجال", gf:"للنساء", prev:"السابق", next:"التالي", ml:"مل", edp:"ماء عطر", langBtn:"FR", langName:"Français",
+    menu:"القائمة", openBag:"فتح السلة", close:"إغلاق", collectionAria:"مجموعة العطور",
+    hint:"اختر زجاجة لتراها عن قرب", soon:"قريبًا",
+    mCollection:"المجموعة", mMaison:"الدار", mHow:"كيف تطلب", mFaq:"أسئلة شائعة",
+    heroEyebrow:"ماء عطر", heroTitle:"عطر المساء تحت الضوء.",
+    heroLead:"ألورا دار عطور صُمّمت للمساء: أخشاب دافئة وأزهار ناعمة وأثر يبقى بعد رحيلك.",
+    heroCta:"اكتشف المجموعة",
+    tr1t:"الدفع عند الاستلام", tr1d:"نقدًا عند وصول طلبك",
+    tr2t:"التوصيل داخل الجزائر", tr2d:"اختر من 58 ولاية",
+    tr3t:"تأكيد عبر الهاتف", tr3d:"نتصل بك لتأكيد الطلب",
+    colEyebrow:"المجموعة", colTitle:"لكل زجاجة ضوؤها.",
+    from:"ابتداءً من", look:"عرض عن قرب", addBag:"أضف إلى السلة", added:"تمت إضافة {n}", soonCard:"المزيد من العطور قريبًا",
+    mEyebrow:"الدار", mTitle:"العطر على مهل.",
+    mLead:"يُكتشف كل عطر من ألورا كما يليق به: وحيدًا تحت الضوء، قريبًا بما يكفي لتشعر بطابعه قبل أن ترشّه.",
+    mP2:"نوتات دافئة وأزهار ناعمة وأثر يدوم طويلًا بعد مرورك.",
+    trioA:"ضوء", trioAd:"يبدأ ساطعًا", trioB:"عنبر", trioBd:"يستقر دافئًا", trioC:"ليل", trioCd:"يدوم",
+    howEyebrow:"كيف تطلب", howTitle:"بسيط كمكالمة.",
+    s1t:"اختر", s1d:"المس زجاجة ثم أضفها إلى السلة.",
+    s2t:"أدخل بياناتك", s2d:"الاسم والهاتف والولاية والعنوان. لا شيء آخر.",
+    s3t:"ادفع عند الاستلام", s3d:"نتصل بك للتأكيد، ثم تدفع نقدًا عند التسليم.",
+    faqEyebrow:"أسئلة شائعة", faqTitle:"معلومات مفيدة.",
+    q1:"كيف أدفع؟", a1:"الدفع عند الاستلام نقدًا فقط. لا يوجد دفع عبر الإنترنت.",
+    q2:"كم تبلغ تكلفة التوصيل؟", a2:"نؤكد لك تكلفة التوصيل عبر الهاتف حسب ولايتك.",
+    q3:"كيف يُؤكَّد طلبي؟", a3:"نتصل بك على الرقم الذي أدخلته لتأكيد التوصيل. تأكد من صحة رقمك قبل إرسال الطلب.",
+    copy:"ALOURA · Eau de Parfum\n© 2026 ألورا. جميع الحقوق محفوظة.",
+    bagTitle:"سلتك", formTitle:"معلومات التوصيل", orderTitle:"الطلب",
+    empty:"سلتك فارغة.\nاختر زجاجة للبدء.",
+    subtotal:"المجموع الفرعي", delivery:"التوصيل", total:"المجموع", free:"مجاني", byPhone:"يُؤكَّد عبر الهاتف", plusDelivery:" + التوصيل",
+    cod:"الدفع عند الاستلام · نقدًا عند وصول طلبك", checkout:"إتمام الطلب", back:"→ العودة إلى السلة",
+    fName:"الاسم الكامل", phName:"اسمك الكامل", fPhone:"الهاتف", fWilaya:"الولاية", wChoose:"اختر ولايتك",
+    fAddr:"البلدية والعنوان", phAddr:"البلدية، الشارع، العمارة", fNote:"ملاحظة", optional:"(اختياري)", phNote:"تعليمات التوصيل",
+    confirm:"تأكيد الطلب", copyOrder:"نسخ ملخص الطلب", copied:"تم نسخ الملخص", copyNA:"النسخ غير متاح",
+    badPhone:"رقم غير صالح: 05 أو 06 أو 07 متبوعًا بـ 8 أرقام", badField:"يرجى إكمال الحقل المحدد",
+    okT:"تم استلام طلبك", okId:" — رقم الطلب {id}", okM:"شكرًا{id}. سنتصل بك على {phone} لتأكيد التوصيل. تدفع عند الاستلام.",
+    waT:"شبه انتهينا", waM:"سيُفتح واتساب مع طلبك. اضغط إرسال لإتمامه. تدفع عند الاستلام.",
+    failT:"لم يُرسل الطلب", failM:"تعذّر الاتصال بنظام الطلبات، لذلك لم يُرسل طلبك. انسخ الملخص وأرسله إلينا."
+  }
+};
+const NOTES = {
+  oud:{fr:"Oud",ar:"عود"}, amber:{fr:"Ambre",ar:"عنبر"}, vanilla:{fr:"Vanilla",ar:"فانيلا"},
+  rose:{fr:"Rose",ar:"ورد"}, saffron:{fr:"Safran",ar:"زعفران"}, musk:{fr:"Musc",ar:"مسك"},
+  bergamot:{fr:"Bergamot",ar:"برغموت"}, timur:{fr:"Timur",ar:"تيمور"}, akigala:{fr:"Bois d'Akigala",ar:"خشب أكيغالا"},
+  clementine:{fr:"Clementine",ar:"كليمنتين"}, magnolia:{fr:"Magnolia",ar:"ماغنوليا"}
+};
+let LANG; try{ LANG = localStorage.getItem('aloura-lang'); }catch(_){}
+if(!I18N[LANG]) LANG = /^ar/i.test(navigator.language||'') ? 'ar' : 'fr';
+const t = k => (I18N[LANG][k] ?? I18N.fr[k] ?? k);
+const noteName = n => (NOTES[n] ? NOTES[n][LANG] : n);
+
 const $ = s => document.querySelector(s);
 const caseEl = $('#stage'), panel = $('#panel'), dim = $('#dim');
 let bag = [];   // {id,size,qty}
 try { bag = JSON.parse(localStorage.getItem('aloura-bag')||'[]'); } catch(e){}
-function money(n){ return Number(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\s]/g,'\u00a0') + '\u00a0' + CONFIG.currency; }
+function moneyL(n,l){ return Number(n).toLocaleString('fr-FR').replace(/[\u202f\u00a0\s]/g,'\u00a0') + '\u00a0' + I18N[l].cur; }
+const money = n => moneyL(n,LANG);
 function pixel(ev,data){ try{ if(window.fbq) fbq('track',ev,data); }catch(_){} }
 function track(name,data){ try{ if(window.va) window.va('event',{name,data}); }catch(_){} }
 (function(){ const id=CONFIG.metaPixelId; if(!id) return;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init',id); fbq('track','PageView'); })();
 const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"];
-let current = null, size = 100;
+let current = null, size = 100, openedAt = 0, swT;
 
 /* ---- build the scene ---- */
 caseEl.insertAdjacentHTML('afterbegin',`<div class="bg" style="background-image:url(img/niche-${CONFIG.theme==='dark'?'dark':'warm'}.jpg)"></div>`);
@@ -377,9 +586,17 @@ caseEl.insertAdjacentHTML('beforeend',SLOTS.map((S,i)=>`<div class="pool" data-s
 /* ---- product zoom ---- */
 function openProduct(id){
   const p = PRODUCTS.find(x=>x.id===id); if(!p||p.soon) return;
-  current = p; size = +Object.keys(p.sizes)[0];
+  const switching = !!current && caseEl.classList.contains('zoom');
+  current = p; size = +Object.keys(p.sizes)[0]; openedAt = performance.now();
   const it = document.querySelector(`.item[data-id="${id}"]`);
+  const prevT = caseEl.style.transform;
+  if(switching){ caseEl.style.transition='none'; caseEl.style.transform=''; }   // measure the untransformed scene
   const app = $('#app').getBoundingClientRect(), cr = caseEl.getBoundingClientRect(), br = it.querySelector('.photo').getBoundingClientRect();
+  if(switching){
+    caseEl.style.transform=prevT; void caseEl.offsetWidth; caseEl.style.transition='';
+    caseEl.classList.add('switching'); clearTimeout(swT); swT=setTimeout(()=>caseEl.classList.remove('switching'),1000);
+    panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap');
+  }
   const W = app.width, H = app.height;
   const px = br.left-cr.left+br.width/2, py = br.top-cr.top+br.height/2;       // bottle centre inside the stage
   const s = Math.min(H*0.30/br.height, W*0.7/br.width, 4);
@@ -390,63 +607,69 @@ function openProduct(id){
   document.querySelectorAll('.pool').forEach(pl=>pl.classList.toggle('off',+pl.dataset.slot!==p.slot));
   const g=$('#glow').style; g.left=S.x+'%'; g.top=(S.base-.6)+'%'; g.width='34%'; g.height='7%';
   const w=$('#wash').style; w.left=S.x+'%'; w.top=(S.lamp[1]+(S.bottom-S.lamp[1])*.5)+'%'; w.width='56%'; w.height=((S.bottom-S.lamp[1])*1.05)+'%';
-  $('#motes').innerHTML=Array.from({length:16},()=>`<i class="mote" style="left:${S.lamp[0]-9+Math.random()*18}%;top:${S.lamp[1]+3+Math.random()*(S.bottom-S.lamp[1]-14)}%;--d:${(Math.random()*6).toFixed(1)}s;--t:${(7+Math.random()*6).toFixed(1)}s;--o:${(.35+Math.random()*.5).toFixed(2)};--dx:${(Math.random()*3-1.5).toFixed(1)}cqw"></i>`).join('');
+  $('#motes').innerHTML=Array.from({length:p.gender==='f'?28:10},()=>`<i class="mote" style="left:${S.lamp[0]-9+Math.random()*18}%;top:${S.lamp[1]+3+Math.random()*(S.bottom-S.lamp[1]-14)}%;--d:${(Math.random()*6).toFixed(1)}s;--t:${(7+Math.random()*6).toFixed(1)}s;--o:${(.35+Math.random()*.5).toFixed(2)};--dx:${(Math.random()*3-1.5).toFixed(1)}cqw"></i>`).join('');
   const lamp=$('#lamp').style; lamp.left=S.lamp[0]+'%'; lamp.top=S.lamp[1]+'%';
   document.querySelectorAll('.item').forEach(n=>n.classList.toggle('sel',n===it));
   caseEl.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
-  caseEl.classList.add('zoom'); dim.classList.add('on'); $('#hint').classList.add('off');
-  $('#pNo').textContent = `${p.no} · Eau de parfum`;
-  $('#pName').textContent = p.name;
-  $('#pNotes').innerHTML = p.notes.map(n=>`<span>${n}</span>`).join('');
-  renderSizes(); panel.classList.add('on');
+  caseEl.classList.toggle('g-m',p.gender==='m'); caseEl.classList.toggle('g-f',p.gender==='f'); caseEl.classList.add('zoom'); document.body.classList.add('zoomed'); dim.classList.add('on'); $('#hint').classList.add('off');
+  fillPanel(); panel.classList.add('on');
   pixel('ViewContent',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[size],currency:CONFIG.currencyCode}); track('view_product',{product:p.name});
+}
+function fillPanel(){
+  const p=current; if(!p) return;
+  $('#pNo').textContent = p.no; $('#pName').textContent = p.name;
+  panel.classList.toggle('g-m',p.gender==='m'); panel.classList.toggle('g-f',p.gender==='f');
+  $('#pNotes').innerHTML = p.notes.map(n=>`<span>${noteName(n)}</span>`).join(''); $('#pNav').style.display = liveProducts().length>1 ? '' : 'none'; renderSizes();
 }
 function closeProduct(){
   document.querySelectorAll('.pool').forEach(pl=>pl.classList.remove('off'));
-  caseEl.style.transform=''; caseEl.classList.remove('zoom'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null;
+  caseEl.style.transform=''; caseEl.classList.remove('zoom','switching'); panel.classList.remove('swap'); document.body.classList.remove('zoomed'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null;
 }
 function renderSizes(){
   const p=current;
   $('#pSizes').innerHTML = Object.keys(p.sizes).map(sz=>
-    `<button class="size ${+sz===size?'on':''}" data-s="${sz}"><span>${sz} ml</span><span>${money(p.sizes[sz])}</span></button>`).join('');
+    `<button class="size ${+sz===size?'on':''}" data-s="${sz}"><span>${sz} ${t('ml')}</span><span>${money(p.sizes[sz])}</span></button>`).join('');
   $('#pSizes').querySelectorAll('.size').forEach(b=>b.onclick=()=>{size=+b.dataset.s;renderSizes();});
-  $('#addBtn').innerHTML = `Add to bag <span class="dot">·</span> ${money(p.sizes[size])}`;
+  $('#addBtn').innerHTML = `${t('addBag')} <span class="dot">·</span> ${money(p.sizes[size])}`;
 }
 $('#closeP').onclick = closeProduct;
-$('#addBtn').onclick = ()=>{
-  const f = bag.find(l=>l.id===current.id && l.size===size);
-  f ? f.qty++ : bag.push({id:current.id,size,qty:1});
-  saveBag(); toast(`${current.name} added`);
-  pixel('AddToCart',{content_name:current.name,content_ids:[String(current.id)],content_type:'product',value:current.sizes[size],currency:CONFIG.currencyCode}); track('add_to_bag',{product:current.name});
-};
+$('#addBtn').onclick = ()=>addToBag(current,size);
 
 /* ---- bag ---- */
 function saveBag(){ try{localStorage.setItem('aloura-bag',JSON.stringify(bag));}catch(e){} renderBag(); }
 const unit = l => PRODUCTS.find(x=>x.id===l.id).sizes[l.size];
 const subtotal = () => bag.reduce((t,l)=>t+unit(l)*l.qty,0);
 function feeFor(w){ const f = (w && CONFIG.deliveryByWilaya[w]!=null) ? CONFIG.deliveryByWilaya[w] : CONFIG.deliveryFee; return f; }
+function addToBag(p,sz){
+  const f = bag.find(l=>l.id===p.id && l.size===sz);
+  f ? f.qty++ : bag.push({id:p.id,size:sz,qty:1});
+  saveBag(); toast(t('added').replace('{n}',p.name));
+  pixel('AddToCart',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[sz],currency:CONFIG.currencyCode}); track('add_to_bag',{product:p.name});
+}
 function sumsHTML(w){
   const sub=subtotal(), f=feeFor(w);
-  return `<div><span>Subtotal</span><span>${money(sub)}</span></div>
-    <div><span>Delivery</span><span>${f==null?'Confirmed by phone':(f===0?'Free':money(f))}</span></div>
-    <div class="t"><span>Total</span><span>${money(sub+(f||0))}${f==null?' + delivery':''}</span></div>`;
+  return `<div><span>${t('subtotal')}</span><span>${money(sub)}</span></div>
+    <div><span>${t('delivery')}</span><span>${f==null?t('byPhone'):(f===0?t('free'):money(f))}</span></div>
+    <div class="t"><span>${t('total')}</span><span>${money(sub+(f||0))}${f==null?t('plusDelivery'):''}</span></div>`;
 }
+/* the summary goes to the shop (WhatsApp / copy), so it is always in French */
 function orderText(c){
-  const ls = bag.map(l=>{const p=PRODUCTS.find(x=>x.id===l.id);return `${l.qty} × ${p.name} ${l.size}ml — ${money(unit(l)*l.qty)}`;});
+  const m = n => moneyL(n,'fr');
+  const ls = bag.map(l=>{const p=PRODUCTS.find(x=>x.id===l.id);return `${l.qty} × ${p.name} ${l.size}ml — ${m(unit(l)*l.qty)}`;});
   const f=feeFor(c&&c.wilaya), sub=subtotal();
-  return [`ALOURA — new order (pay on delivery)`,
-    c?`Name: ${c.name}\nPhone: ${c.phone}\nWilaya: ${c.wilaya}\nAddress: ${c.addr}`+(c.note?`\nNote: ${c.note}`:''):'',
+  return [`ALOURA — nouvelle commande (paiement à la livraison)`,
+    c?`Nom : ${c.name}\nTéléphone : ${c.phone}\nWilaya : ${c.wilaya}\nAdresse : ${c.addr}`+(c.note?`\nNote : ${c.note}`:''):'',
     ls.join('\n'),
-    `Subtotal: ${money(sub)}`, `Delivery: ${f==null?'to be confirmed':money(f)}`, `Total: ${money(sub+(f||0))}${f==null?' + delivery':''}`].filter(Boolean).join('\n');
+    `Sous-total : ${m(sub)}`, `Livraison : ${f==null?'à confirmer':m(f)}`, `Total : ${m(sub+(f||0))}${f==null?' + livraison':''}`].filter(Boolean).join('\n');
 }
 function renderBag(){
   const count = bag.reduce((t,l)=>t+l.qty,0);
   document.querySelectorAll('.badge').forEach(b=>{b.textContent=count;b.classList.toggle('on',count>0);});
   $('#lines').innerHTML = bag.length ? bag.map((l,i)=>{const p=PRODUCTS.find(x=>x.id===l.id);return `
-    <div class="line"><div><b>${p.name}</b><br><small>${p.no} · ${l.size} ml</small>
-      <div class="qty"><button data-i="${i}" data-d="-1" aria-label="Less">−</button>${l.qty}<button data-i="${i}" data-d="1" aria-label="More">+</button></div></div>
+    <div class="line"><div><b>${p.name}</b><br><small>${p.no} · ${l.size} ${t('ml')}</small>
+      <div class="qty"><button data-i="${i}" data-d="-1" aria-label="−">−</button>${l.qty}<button data-i="${i}" data-d="1" aria-label="+">+</button></div></div>
       <b>${money(unit(l)*l.qty)}</b></div>`;}).join('')
-    : `<div class="empty">Your bag is empty.<br>Tap a bottle to begin.</div>`;
+    : `<div class="empty">${t('empty')}</div>`;
   $('#lines').querySelectorAll('.qty button').forEach(b=>b.onclick=()=>{
     const l=bag[+b.dataset.i]; l.qty+=+b.dataset.d; if(l.qty<1) bag.splice(+b.dataset.i,1); saveBag(); });
   $('#sums').innerHTML = bag.length ? sumsHTML() : '';
@@ -457,8 +680,9 @@ function renderBag(){
 /* ---- checkout (cash on delivery) ---- */
 $('#fWilaya').innerHTML += WILAYAS.map((w,i)=>`<option value="${w}">${String(i+1).padStart(2,'0')} · ${w}</option>`).join('');
 $('#fWilaya').addEventListener('change',()=>{ $('#sums2').innerHTML=sumsHTML($('#fWilaya').value); });
-function view(v){ ['vBag','vForm','vDone'].forEach(id=>$('#'+id).hidden = id!==v);
-  $('#bagTitle').textContent = v==='vForm'?'Delivery details':v==='vDone'?'Order':'Your bag'; }
+let curView='vBag';
+function view(v){ curView=v; ['vBag','vForm','vDone'].forEach(id=>$('#'+id).hidden = id!==v);
+  $('#bagTitle').textContent = t(v==='vForm'?'formTitle':v==='vDone'?'orderTitle':'bagTitle'); }
 $('#toCheckout').onclick = ()=>{ pixel('InitiateCheckout',{value:subtotal(),currency:CONFIG.currencyCode,num_items:bag.reduce((t,l)=>t+l.qty,0)}); track('begin_checkout'); try{ const c=JSON.parse(localStorage.getItem('aloura-cust')||'{}');
     ['Name','Phone','Addr'].forEach(k=>{ if(c[k.toLowerCase()] && !$('#f'+k).value) $('#f'+k).value=c[k.toLowerCase()]; });
     if(c.wilaya) $('#fWilaya').value=c.wilaya; }catch(e){}
@@ -471,7 +695,7 @@ $('#vForm').addEventListener('submit', async e=>{
   const c={ name:$('#fName').value.trim(), phone:normPhone($('#fPhone').value), wilaya:$('#fWilaya').value, addr:$('#fAddr').value.trim(), note:$('#fNote').value.trim() };
   ['fName','fPhone','fWilaya','fAddr'].forEach(id=>$('#'+id).classList.remove('bad'));
   const bad = [ c.name.length<2&&'fName', !/^0[567]\d{8}$/.test(c.phone)&&'fPhone', !c.wilaya&&'fWilaya', c.addr.length<5&&'fAddr' ].filter(Boolean);
-  if(bad.length){ bad.forEach(id=>$('#'+id).classList.add('bad')); $('#'+bad[0]).focus(); return toast(bad[0]==='fPhone'?'Enter a valid phone: 05, 06 or 07 + 8 digits':'Please complete the highlighted field'); }
+  if(bad.length){ bad.forEach(id=>$('#'+id).classList.add('bad')); $('#'+bad[0]).focus(); return toast(bad[0]==='fPhone'?t('badPhone'):t('badField')); }
   try{ localStorage.setItem('aloura-cust',JSON.stringify(c)); }catch(_){}
   const text=orderText(c), btn=$('#confirmBtn'); btn.disabled=true;
   const items=bag.map(l=>({product:PRODUCTS.find(x=>x.id===l.id).name,size:l.size,qty:l.qty,unitPrice:unit(l)}));
@@ -482,19 +706,19 @@ $('#vForm').addEventListener('submit', async e=>{
   }
   if(sent){
     pixel('Purchase',{value:subtotal()+(feeFor(c.wilaya)||0),currency:CONFIG.currencyCode,content_type:'product',content_ids:bag.map(l=>String(l.id)),num_items:bag.reduce((t,l)=>t+l.qty,0)}); track('order_placed',{total:subtotal()});
-    bag=[]; saveBag(); done('Order received','Thank you'+(id?' — order '+id:'')+'. We will call you on '+c.phone+' to confirm delivery. You pay when you receive it.',text);
+    bag=[]; saveBag(); done(t('okT'),t('okM').replace('{id}',id?t('okId').replace('{id}',id):'').replace('{phone}',c.phone),text);
   } else if(CONFIG.whatsapp){
     const a=document.createElement('a'); a.href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
-    done('Almost done','WhatsApp is opening with your order. Press send there to place it. You pay when you receive it.',text);
+    done(t('waT'),t('waM'),text);
   } else {
-    done('Order not sent','We could not reach our order system, so this order has NOT been sent. Please copy the summary and send it to us.',text);
+    done(t('failT'),t('failM'),text);
   }
   btn.disabled=false;
 });
 function done(t,m,text){ $('#doneTitle').textContent=t; $('#doneMsg').textContent=m; $('#doneText').textContent=text; $('#copyOrder').dataset.text=text; view('vDone'); }
 $('#copyOrder').onclick = async()=>{
-  try{ await navigator.clipboard.writeText($('#copyOrder').dataset.text||''); toast('Order summary copied'); }
-  catch(e){ toast('Copy not available here'); }
+  try{ await navigator.clipboard.writeText($('#copyOrder').dataset.text||''); toast(t('copied')); }
+  catch(e){ toast(t('copyNA')); }
 };
 
 /* ---- sheets, toast ---- */
@@ -504,26 +728,82 @@ document.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>sheet('#menuSh
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>{sheet('#bagSheet',false);sheet('#menuSheet',false);}));
 let tt; function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800);}
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeProduct();sheet('#bagSheet',false);sheet('#menuSheet',false);} });
-renderBag();
+
+/* ---- gestures: scroll/swipe up-down closes, left-right jumps between bottles ---- */
+const liveProducts = () => PRODUCTS.filter(p=>!p.soon).sort((a,b)=>a.slot-b.slot);
+function stepProduct(d){
+  const L=liveProducts(); if(!current||L.length<2) return;
+  openProduct(L[(L.indexOf(current)+d+L.length)%L.length].id);
+}
+$('#pPrev').onclick=()=>stepProduct(-1); $('#pNext').onclick=()=>stepProduct(1);
+const sheetOpen = () => document.querySelector('.sheet.on');
+let wheelLock=0;
+addEventListener('wheel',e=>{
+  const now=performance.now();
+  if(sheetOpen()||(e.target.closest&&e.target.closest('.sheet'))) return;
+  if(!current){ if(now<wheelLock) e.preventDefault(); return; }   // swallow the trackpad momentum right after closing
+  e.preventDefault();
+  if(now<wheelLock) return;
+  const ax=Math.abs(e.deltaX), ay=Math.abs(e.deltaY);
+  if(ax>ay){ if(ax>20){ wheelLock=now+800; stepProduct(e.deltaX>0?1:-1); } }
+  else if(ay>12){ wheelLock=now+700; closeProduct(); }
+},{passive:false});
+let tx=0,ty=0,tOn=false;
+addEventListener('touchstart',e=>{ tOn=!!current&&!sheetOpen()&&e.touches.length===1&&!(e.target.closest&&e.target.closest('.sheet'));
+  if(tOn){ tx=e.touches[0].clientX; ty=e.touches[0].clientY; } },{passive:true});
+addEventListener('touchend',e=>{ if(!tOn) return; tOn=false;
+  const t=e.changedTouches[0], dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.2) stepProduct(dx<0?1:-1);
+  else if(Math.abs(dy)>40&&Math.abs(dy)>Math.abs(dx)) closeProduct(); },{passive:true});
+addEventListener('scroll',()=>{ if(current&&scrollY>30&&performance.now()-openedAt>1200) closeProduct(); },{passive:true});
+document.addEventListener('keydown',e=>{ if(!current||sheetOpen()) return;
+  if(e.key==='ArrowRight') stepProduct(document.documentElement.dir==='rtl'?-1:1);
+  if(e.key==='ArrowLeft') stepProduct(document.documentElement.dir==='rtl'?1:-1); });
 
 /* ---- sections ---- */
-$('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
-  <div class="card rv"><img src="${p.img}" alt="${p.name}">
-    <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.join(' · ')} — from ${money(Math.min(...Object.values(p.sizes)))}</div>
-    <button data-look="${p.id}">Look closer</button></div></div>`).join('')
-  + (PRODUCTS.some(p=>p.soon)?'<div class="card soon rv">More bottles coming soon</div>':'');
-document.querySelectorAll('[data-look]').forEach(b=>b.onclick=()=>{ window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>openProduct(+b.dataset.look),700); });
+const isDesk = () => matchMedia('(min-width:900px)').matches;
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} }),{threshold:.12}) : null;
+function reveal(root){ (root||document).querySelectorAll('.rv:not(.in)').forEach(el=> io ? io.observe(el) : el.classList.add('in')); }
+let cardsDone = false;
+function renderCards(){
+  const cls = cardsDone ? ' in' : '';
+  $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
+    <div class="card rv${cls}"><img src="${p.img}" alt="${p.name}">
+      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
+      <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
+      <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div></div></div>`).join('')
+    + (PRODUCTS.some(p=>p.soon)?`<div class="card soon rv${cls}">${t('soonCard')}</div>`:'');
+  cardsDone = true; reveal($('#cards'));
+  document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{ const p=PRODUCTS.find(x=>x.id===+b.dataset.buy); addToBag(p,+Object.keys(p.sizes)[0]); });
+  document.querySelectorAll('[data-look]').forEach(b=>b.onclick=()=>{
+    if(isDesk()) return openProduct(+b.dataset.look);   // shelf is already on screen
+    const pid=+b.dataset.look; window.scrollTo({top:0,behavior:'smooth'}); const t0=performance.now();
+    (function w(){ if(scrollY<4||performance.now()-t0>2500) setTimeout(()=>openProduct(pid),150); else requestAnimationFrame(w); })(); });
+}
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
   sheet('#bagSheet',false); sheet('#menuSheet',false);
-  const t=b.dataset.go; closeProduct();
-  setTimeout(()=>{ t==='top' ? window.scrollTo({top:0,behavior:'smooth'}) : document.getElementById(t).scrollIntoView({behavior:'smooth'}); },200);
+  const target=b.dataset.go; closeProduct();
+  setTimeout(()=>{ document.getElementById(target).scrollIntoView({behavior:'smooth'}); },200);
 }));
-/* reveal on scroll + floating header */
-const rvs=document.querySelectorAll('.rv');
-if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} }),{threshold:.12});
-  rvs.forEach(el=>io.observe(el)); } else rvs.forEach(el=>el.classList.add('in'));
-const dock=$('#dock'), cue=$('#cue');
-addEventListener('scroll',()=>{ const y=scrollY; dock.classList.toggle('on',y>innerHeight*.7); cue.style.opacity=y>40?0:''; },{passive:true});
+/* language */
+function applyLang(l){
+  LANG=l; try{localStorage.setItem('aloura-lang',l);}catch(_){}
+  const h=document.documentElement; h.lang=l; h.dir=l==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-i]').forEach(e=>{ e.textContent=t(e.dataset.i); });
+  document.querySelectorAll('[data-i-ph]').forEach(e=>{ e.placeholder=t(e.dataset.iPh); });
+  document.querySelectorAll('[data-i-aria]').forEach(e=>{ e.setAttribute('aria-label',t(e.dataset.iAria)); });
+  $('#wPh').textContent=t('wChoose');
+  $('#langBtn').textContent=t('langBtn'); $('#langBtn').setAttribute('aria-label',t('langName'));
+  document.querySelectorAll('.item').forEach(it=>{ const p=PRODUCTS.find(x=>x.id==it.dataset.id);
+    it.dataset.g = p.gender||''; const pr=it.querySelector('.price');
+    pr.innerHTML = p.soon ? t('soon') : money(p.sizes[Object.keys(p.sizes)[0]]); });
+  fillPanel(); renderBag(); renderCards(); view(curView);
+}
+$('#langBtn').onclick = ()=>applyLang(LANG==='fr'?'ar':'fr');
+/* floating header */
+const siteTop=$('#siteTop'), cue=$('#cue');
+addEventListener('scroll',()=>{ const y=scrollY; siteTop.classList.toggle('solid',y>(isDesk()?10:innerHeight*.7)); cue.style.opacity=y>40?0:''; },{passive:true});
+applyLang(LANG); reveal();
 </script>
 </body>
 </html>
