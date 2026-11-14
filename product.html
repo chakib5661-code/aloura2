@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ALOURA — Eau de Parfum</title>
+<meta name="description" content="ALOURA — eau de parfum. Paiement à la livraison en Algérie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@200;300;400;500&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0807;--ink:#efe6dc;--muted:#a89d93;--gold:#d9bf8c;--cream:#e9dcc3;--line:rgba(255,255,255,.14)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:radial-gradient(120% 80% at 50% 0%,#1d1420 0%,var(--bg) 60%);color:var(--ink);font-family:Manrope,system-ui,sans-serif;font-weight:300}
+html[dir=rtl] body{font-family:Tajawal,Manrope,sans-serif}
+button,a{font:inherit;color:inherit;cursor:pointer}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 16px) 20px 0;max-width:1000px;margin:0 auto}
+.back{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(30,22,36,.55);text-decoration:none;font-size:13px;letter-spacing:.06em}
+.back:hover{border-color:var(--gold)}
+.lang{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(30,22,36,.55);display:grid;place-items:center}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 60px;display:grid;gap:28px;align-items:center}
+@media(min-width:800px){.wrap{grid-template-columns:1fr 1fr;gap:56px;padding-top:40px}}
+.pic{display:grid;place-items:center;padding:20px}
+.pic img{width:min(300px,70%);height:auto;filter:drop-shadow(0 24px 30px rgba(0,0,0,.7))}
+.eyebrow{font-size:11px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(40px,7vw,64px);margin:8px 0 6px;letter-spacing:.04em}
+.sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+.notes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.notes span{padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px}
+.sizes{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.size{display:flex;gap:14px;padding:14px 18px;border:1px solid var(--line);border-radius:16px;background:rgba(30,22,36,.4)}
+.size.on{border-color:var(--gold);color:var(--gold)}
+.add{width:100%;padding:18px;border-radius:16px;background:var(--cream);color:#1a1320;font-weight:500;letter-spacing:.06em}
+.go{display:none;margin-top:12px;width:100%;padding:16px;border-radius:16px;border:1px solid var(--gold);background:none;color:var(--gold);text-align:center;text-decoration:none}
+.go.on{display:block}
+.pay{margin-top:18px;color:var(--muted);font-size:13px}
+.missing{max-width:520px;margin:18vh auto;text-align:center;padding:0 20px;display:grid;gap:22px;justify-items:center}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a class="back" href="/" id="back"></a>
+  <button class="lang" id="langBtn" type="button"></button>
+</div>
+<main id="main"></main>
+<script src="/products.js"></script>
+<script>
+const I18N={
+  fr:{cur:"DA",ml:"ml",edp:"Eau de parfum",gm:"Pour homme",gf:"Pour femme",back:"← Retour à la boutique",add:"Ajouter au panier",viewBag:"Voir mon panier et commander",added:"Ajouté au panier",cod:"Paiement à la livraison · en espèces à la réception",langBtn:"ع",nf:"Ce parfum n'existe pas (ou pas encore).",soonT:"Bientôt"},
+  ar:{cur:"دج",ml:"مل",edp:"ماء عطر",gm:"للرجال",gf:"للنساء",back:"→ العودة إلى المتجر",add:"أضف إلى السلة",viewBag:"عرض السلة وإتمام الطلب",added:"تمت الإضافة إلى السلة",cod:"الدفع عند الاستلام · نقدًا عند وصول طلبك",langBtn:"FR",nf:"هذا العطر غير موجود (أو لم يصدر بعد).",soonT:"قريبًا"}
+};
+let LANG; try{LANG=localStorage.getItem('aloura-lang');}catch(_){}
+if(!I18N[LANG]) LANG=/^ar/i.test(navigator.language||'')?'ar':'fr';
+const t=k=>I18N[LANG][k];
+const slugOf=p=>p.name.toLowerCase().replace(/[^a-z0-9]+/g,'');
+const numSlug=p=>'aloura'+String(p.id).padStart(2,'0');   // old alias: aloura01
+const money=n=>Number(n).toLocaleString('fr-FR').replace(/[  \s]/g,' ')+' '+t('cur');
+const m=location.pathname.match(/^\/product\/([^\/]+)\/?$/i), key=m&&m[1].toLowerCase();
+const p=PRODUCTS.find(x=>!x.soon&&[slugOf(x),numSlug(x)].includes(key));
+let size=p?+Object.keys(p.sizes)[0]:0, added=false;
+const $=s=>document.querySelector(s);
+function addToBag(){
+  let bag=[]; try{bag=JSON.parse(localStorage.getItem('aloura-bag')||'[]');}catch(_){}
+  const f=bag.find(l=>l.id===p.id&&l.size===size); f?f.qty++:bag.push({id:p.id,size,qty:1});
+  try{localStorage.setItem('aloura-bag',JSON.stringify(bag));}catch(_){}
+  try{if(window.fbq)fbq('track','AddToCart',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[size],currency:'DZD'});}catch(_){}
+  added=true; render();
+}
+function render(){
+  const h=document.documentElement; h.lang=LANG; h.dir=LANG==='ar'?'rtl':'ltr';
+  $('#back').textContent=t('back'); $('#langBtn').textContent=t('langBtn');
+  if(!p){ document.title='ALOURA'; $('#main').innerHTML=`<div class="missing"><p>${t('nf')}</p></div>`; return; }
+  document.title=p.name+' — ALOURA';
+  const nn=n=>NOTES[n]?NOTES[n][LANG]:n;
+  $('#main').innerHTML=`<div class="wrap">
+    <div class="pic"><img src="${p.img}" alt="${p.name}"></div>
+    <div>
+      <div class="eyebrow">${p.no}</div><h1>${p.name}</h1>
+      <div class="sub">${t('edp')} · ${t(p.gender==='f'?'gf':'gm')}</div>
+      <div class="notes">${p.notes.map(n=>`<span>${nn(n)}</span>`).join('')}</div>
+      <div class="sizes">${Object.keys(p.sizes).map(sz=>`<button class="size ${+sz===size?'on':''}" data-s="${sz}"><span>${sz} ${t('ml')}</span><span>${money(p.sizes[sz])}</span></button>`).join('')}</div>
+      <button class="add" id="add">${added?t('added')+' ✓':t('add')} · ${money(p.sizes[size])}</button>
+      <a class="go ${added?'on':''}" href="/?bag=1">${t('viewBag')}</a>
+      <div class="pay">${t('cod')}</div>
+    </div></div>`;
+  document.querySelectorAll('.size').forEach(b=>b.onclick=()=>{size=+b.dataset.s;added=false;render();});
+  $('#add').onclick=addToBag;
+}
+$('#langBtn').onclick=()=>{LANG=LANG==='fr'?'ar':'fr'; try{localStorage.setItem('aloura-lang',LANG);}catch(_){} render();};
+render();
+try{if(p&&window.fbq)fbq('track','ViewContent',{content_name:p.name,content_ids:[String(p.id)],content_type:'product'});}catch(_){}
+</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

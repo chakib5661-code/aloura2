@@ -2,8 +2,8 @@
 
 One-page perfume storefront (cash on delivery, prices in DA).
 
-- `index.html` — the whole site. Edit `CONFIG` and `PRODUCTS` at the top of the script. All text is in the `I18N` table (French by default, Arabic via the header switch).
-- `vercel.json` — makes `/product/alouranoir`, `/product/alourarouge`… open the page with that bottle zoomed (canonical slug = product name without spaces, e.g. `/product/alouranoir`; `aloura` + 2-digit id also works as an alias; a new product in `PRODUCTS` gets its page automatically).
+- `index.html` — the whole site. Edit `CONFIG` at the top of the script; the product list (`PRODUCTS`) now lives in `products.js`. All text is in the `I18N` table (French by default, Arabic via the header switch).
+- `product.html` + `vercel.json` — one page per product at `/product/alouranoir`, `/product/alourarouge`… (slug = product name without spaces; `/product/aloura01` style also works). Each page has a button back to the shop. New products added to `products.js` get their page automatically.
 - `api/order.js` — Vercel function: sends each order to Telegram.
 - `img/` — bottles, velvet covers, background.
 
