@@ -84,20 +84,14 @@ const numSlug=p=>'aloura'+String(p.id).padStart(2,'0');   // old alias: aloura01
 const money=n=>Number(n).toLocaleString('fr-FR').replace(/[  \s]/g,' ')+' '+t('cur');
 const m=location.pathname.match(/^\/product\/([^\/]+)\/?$/i), key=m&&m[1].toLowerCase();
 const p=PRODUCTS.find(x=>!x.soon&&[slugOf(x),numSlug(x)].includes(key));
-let size=p?+Object.keys(p.sizes)[0]:0, added=false, qty=1, shot=0, showForm=false, cust={}, result=null;
+let size=p?+Object.keys(p.sizes)[0]:0, added=false, qty=1, shot=0, showForm=true, cust={}, result=null;
 try{cust=JSON.parse(localStorage.getItem('aloura-cust')||'{}');}catch(_){}
 const feeFor=w=>(w&&DELIVERY.byWilaya[w]!=null)?DELIVERY.byWilaya[w]:DELIVERY.fee;
 function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2000);}
 const normPhone=v=>{v=v.replace(/[\s.\-()]/g,'');if(v.startsWith('+213'))v='0'+v.slice(4);else if(v.startsWith('00213'))v='0'+v.slice(5);else if(/^213\d{9}$/.test(v))v='0'+v.slice(3);return v;};
 const $=s=>document.querySelector(s);
-function addToBag(){
-  let bag=[]; try{bag=JSON.parse(localStorage.getItem('aloura-bag')||'[]');}catch(_){}
-  const f=bag.find(l=>l.id===p.id&&l.size===size); f?f.qty+=qty:bag.push({id:p.id,size,qty});
-  try{localStorage.setItem('aloura-bag',JSON.stringify(bag));}catch(_){}
-  try{if(window.fbq)fbq('track','AddToCart',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[size],currency:'DZD'});}catch(_){}
-  added=true; render();
-}
 function render(){
+  if(document.getElementById('co')) cust=Object.assign(cust,{name:$('#fName').value,phone:$('#fPhone').value,wilaya:$('#fWilaya').value,addr:$('#fAddr').value,note:$('#fNote').value});   // keep what was typed
   const h=document.documentElement; h.lang=LANG; h.dir=LANG==='ar'?'rtl':'ltr';
   $('#back').textContent=t('back'); $('#langBtn').textContent=t('langBtn');
   if(!p){ document.title='ALOURA'; $('#main').innerHTML=`<div class="missing"><p>${t('nf')}</p></div>`; return; }
@@ -114,7 +108,7 @@ function render(){
         <label>${t('fPhone')}<input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 / 06 / 07 …" value="${cust.phone||''}"></label>
         <label>${t('fWilaya')}<select id="fWilaya"><option value="">${t('wChoose')}</option>${WILAYAS.map((x,i)=>`<option value="${x}" ${x===w?'selected':''}>${String(i+1).padStart(2,'0')} · ${x}</option>`).join('')}</select></label>
         <label>${t('fAddr')}<input id="fAddr" autocomplete="street-address" placeholder="${t('phAddr')}" value="${cust.addr||''}"></label>
-        <label>${t('fNote')}<input id="fNote" placeholder="${t('phNote')}"></label>
+        <label>${t('fNote')}<input id="fNote" placeholder="${t('phNote')}" value="${cust.note||''}"></label>
         <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
       </div>
       <div class="sums" id="sums">${sums}</div>
@@ -132,16 +126,14 @@ function render(){
       <div class="sizes">${Object.keys(p.sizes).map(sz=>`<button class="size ${+sz===size?'on':''}" data-s="${sz}"><span>${sz} ${t('ml')}</span><span>${money(p.sizes[sz])}</span></button>`).join('')}</div>
       <div class="qty"><span>${t('qty')}</span><button id="qm" type="button">−</button><b>${qty}</b><button id="qp" type="button">+</button></div>
       <button class="buy2" id="order" style="margin-top:12px">${t('order')} · ${money(sub)}</button>
-      <button class="alt" id="add">${added?t('added')+' ✓':t('add')}</button>
-      <a class="alt go ${added?'on':''}" href="/?bag=1" style="display:${added?'block':'none'};text-align:center;text-decoration:none">${t('viewBag')}</a>
       <div class="pay">${t('cod')}</div>
       ${form}${doneBox}
     </div></div>`;
   document.querySelectorAll('.size').forEach(b=>b.onclick=()=>{size=+b.dataset.s;added=false;render();});
   document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{shot=+b.dataset.g;render();});
   $('#qm').onclick=()=>{qty=Math.max(1,qty-1);render();}; $('#qp').onclick=()=>{qty=Math.min(20,qty+1);render();};
-  $('#add').onclick=addToBag;
-  $('#order').onclick=()=>{ showForm=true; result=null; render(); try{if(window.fbq)fbq('track','InitiateCheckout',{value:sub,currency:'DZD'});}catch(_){} $('#co').scrollIntoView({behavior:'smooth',block:'start'}); };
+  $('#order').onclick=()=>{ const f=$('#co')||document.querySelector('.done'); if(f) f.scrollIntoView({behavior:'smooth',block:'start'}); };
+  if($('#co')&&!window._ic){ window._ic=1; try{if(window.fbq)fbq('track','InitiateCheckout',{value:sub,currency:'DZD'});}catch(_){} }
   if($('#co')){
     $('#fWilaya').onchange=e=>{cust.wilaya=e.target.value; $('#sums').innerHTML=sumsFor();};
     function sumsFor(){const f=feeFor($('#fWilaya').value);return `<div><span>${t('subtotal')}</span><span>${money(sub)}</span></div><div><span>${t('delivery')}</span><span>${f==null?t('byPhone'):f===0?t('free'):money(f)}</span></div><div class="tot"><span>${t('total')}</span><span>${money(sub+(f||0))}${f==null?t('plusDelivery'):''}</span></div>`;}
