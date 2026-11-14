@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ALOURA — Eau de Parfum</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -583,6 +584,17 @@ PRODUCTS.forEach(p=>{
 caseEl.insertAdjacentHTML('beforeend',SLOTS.map((S,i)=>`<div class="pool" data-slot="${i}" style="left:${S.lamp[0]}%;top:${S.lamp[1]-2}%;width:48%;height:${S.bottom-S.lamp[1]+10}%;--d:${[.05,.2,0,.28,.12][i]}s"></div>`).join('')
   +'<div class="night" id="night"></div><div class="wash" id="wash"></div><div class="beam" id="beam"></div><div class="glow" id="glow"></div><div class="lamp" id="lamp"></div><div id="motes"></div>');
 
+/* ---- product pages: /product/aloura01, /product/aloura02 ... (Vercel rewrites them to this file) ---- */
+const slugOf = p => 'aloura' + String(p.id).padStart(2,'0');
+const productFromPath = () => { const m = location.pathname.match(/^\/product\/([^\/]+)\/?$/i); return m && PRODUCTS.find(p=>!p.soon && slugOf(p)===m[1].toLowerCase()); };
+const BASE_TITLE = document.title;
+function syncUrl(p, replace){
+  const path = p ? '/product/'+slugOf(p) : '/';
+  document.title = p ? p.name+' — ALOURA' : BASE_TITLE;
+  if(location.pathname===path) return;
+  try{ history[replace?'replaceState':'pushState'](null,'',path); }catch(_){}
+}
+
 /* ---- product zoom ---- */
 function openProduct(id){
   const p = PRODUCTS.find(x=>x.id===id); if(!p||p.soon) return;
@@ -612,7 +624,7 @@ function openProduct(id){
   document.querySelectorAll('.item').forEach(n=>n.classList.toggle('sel',n===it));
   caseEl.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
   caseEl.classList.toggle('g-m',p.gender==='m'); caseEl.classList.toggle('g-f',p.gender==='f'); caseEl.classList.add('zoom'); document.body.classList.add('zoomed'); dim.classList.add('on'); $('#hint').classList.add('off');
-  fillPanel(); panel.classList.add('on');
+  fillPanel(); panel.classList.add('on'); syncUrl(p, switching);
   pixel('ViewContent',{content_name:p.name,content_ids:[String(p.id)],content_type:'product',value:p.sizes[size],currency:CONFIG.currencyCode}); track('view_product',{product:p.name});
 }
 function fillPanel(){
@@ -623,7 +635,7 @@ function fillPanel(){
 }
 function closeProduct(){
   document.querySelectorAll('.pool').forEach(pl=>pl.classList.remove('off'));
-  caseEl.style.transform=''; caseEl.classList.remove('zoom','switching'); panel.classList.remove('swap'); document.body.classList.remove('zoomed'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null;
+  caseEl.style.transform=''; caseEl.classList.remove('zoom','switching'); panel.classList.remove('swap'); document.body.classList.remove('zoomed'); dim.classList.remove('on'); panel.classList.remove('on'); $('#hint').classList.remove('off'); current=null; syncUrl(null,true);
 }
 function renderSizes(){
   const p=current;
@@ -804,6 +816,10 @@ $('#langBtn').onclick = ()=>applyLang(LANG==='fr'?'ar':'fr');
 const siteTop=$('#siteTop'), cue=$('#cue');
 addEventListener('scroll',()=>{ const y=scrollY; siteTop.classList.toggle('solid',y>(isDesk()?10:innerHeight*.7)); cue.style.opacity=y>40?0:''; },{passive:true});
 applyLang(LANG); reveal();
+/* deep link / back-forward */
+function openFromUrl(){ const p=productFromPath(); if(p){ if(current!==p) openProduct(p.id); } else if(current) closeProduct(); }
+addEventListener('popstate',openFromUrl);
+if(productFromPath()){ const go=()=>setTimeout(openFromUrl,200); document.readyState==='complete'?go():addEventListener('load',go); }
 </script>
 </body>
 </html>
