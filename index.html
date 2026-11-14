@@ -585,8 +585,9 @@ caseEl.insertAdjacentHTML('beforeend',SLOTS.map((S,i)=>`<div class="pool" data-s
   +'<div class="night" id="night"></div><div class="wash" id="wash"></div><div class="beam" id="beam"></div><div class="glow" id="glow"></div><div class="lamp" id="lamp"></div><div id="motes"></div>');
 
 /* ---- product pages: /product/aloura01, /product/aloura02 ... (Vercel rewrites them to this file) ---- */
-const slugOf = p => 'aloura' + String(p.id).padStart(2,'0');
-const productFromPath = () => { const m = location.pathname.match(/^\/product\/([^\/]+)\/?$/i); return m && PRODUCTS.find(p=>!p.soon && slugOf(p)===m[1].toLowerCase()); };
+const numSlug = p => 'aloura' + String(p.id).padStart(2,'0');                       // alias: aloura01
+const slugOf = p => p.name.toLowerCase().replace(/[^a-z0-9]+/g,'');                  // canonical: alouranoir
+const productFromPath = () => { const m = location.pathname.match(/^\/product\/([^\/]+)\/?$/i); return m && PRODUCTS.find(p=>!p.soon && [slugOf(p),numSlug(p)].includes(m[1].toLowerCase())); };
 const BASE_TITLE = document.title;
 function syncUrl(p, replace){
   const path = p ? '/product/'+slugOf(p) : '/';
