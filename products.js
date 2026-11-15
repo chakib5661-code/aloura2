@@ -9,7 +9,7 @@ const PRODUCTS = [
     gallery:["img/aloura-noir.webp"],   // add more photos here: ["img/aloura-noir.webp","img/aloura-noir-2.jpg",…]
     desc:{ fr:"Un parfum boisé et frais pour le soir. Bergamote lumineuse en tête, bois de Timur épicé au cœur, puis un fond sombre et profond de bois d'Akigala.", ar:"عطر خشبي منعش للمساء. برغموت مضيء في المقدمة، وخشب التيمور المتبّل في القلب، ثم قاعدة داكنة عميقة من خشب أكيغالا." } },
   { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", gender:"f", notes:["clementine","magnolia","vanilla"], sizes:{100:12000}, img:"img/aloura-rouge.webp",
-    gallery:["img/aloura-rouge.webp"],
+    gallery:["img/aloura-rouge.webp","img/aloura-rouge-1.webp","img/aloura-rouge-2.webp"],
     desc:{ fr:"Un parfum fruité et floral, doux et enveloppant. Clémentine pétillante, magnolia crémeux, et un fond vanillé chaleureux qui reste sur la peau.", ar:"عطر فاكهي وزهري ناعم ودافئ. كليمنتين منعش، وماغنوليا كريمي، وقاعدة فانيلا دافئة تدوم على البشرة." } },
   // Covered bottles = coming soon. To reveal one: replace the line with real product data (name, notes, sizes, img).
   { id:3, slot:2, soon:true },

@@ -38,6 +38,7 @@ h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(40px,7
 .missing{max-width:520px;margin:18vh auto;text-align:center;padding:0 20px;display:grid;gap:22px;justify-items:center}
 
 .gal{display:grid;gap:14px;justify-items:center}
+.pic img.photo{width:min(440px,100%);border-radius:18px;filter:none;box-shadow:0 20px 40px rgba(0,0,0,.5)}
 .thumbs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .thumbs button{width:64px;height:64px;border:1px solid var(--line);border-radius:12px;background:rgba(30,22,36,.4);padding:4px;opacity:.7}
 .thumbs button.on{border-color:var(--gold);opacity:1}
@@ -116,7 +117,7 @@ function render(){
     </form>`:'';
   const doneBox=result?`<div class="sec2 done"><h2>${result.ok?t('okT'):t('failT')}</h2><p>${result.msg}</p><pre>${result.text}</pre><button class="alt" id="cp">${t('copy')}</button></div>`:'';
   $('#main').innerHTML=`<div class="wrap">
-    <div class="gal"><div class="pic"><img src="${pics[shot]}" alt="${p.name}"></div>
+    <div class="gal"><div class="pic"><img class="${shot>0?'photo':''}" src="${pics[shot]}" alt="${p.name}"></div>
       ${pics.length>1?`<div class="thumbs">${pics.map((u,i)=>`<button data-g="${i}" class="${i===shot?'on':''}" aria-label="${p.name} ${i+1}"><img src="${u}" alt=""></button>`).join('')}</div>`:''}</div>
     <div>
       <div class="eyebrow">${p.no}</div><h1>${p.name}</h1>
