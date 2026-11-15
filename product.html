@@ -28,6 +28,17 @@ button{background:none;border:0}
 .rev .shots img{width:100%;height:auto}
 .more{max-width:640px;margin:0 auto;padding:0 20px 60px;display:grid;gap:18px}
 .more img{width:100%;height:auto;border-radius:18px;display:block}
+.pitch{max-width:640px;margin:0 auto;padding:10px 20px 40px;display:grid;gap:18px}
+.pitch article{padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:rgba(30,22,36,.4)}
+.pitch h3{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:22px;color:var(--gold);margin-bottom:6px}
+.pitch p{color:#d8cdc2;line-height:1.7;font-size:15px}
+.faq{max-width:640px;margin:0 auto;padding:10px 20px 70px}
+.faq h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:28px;margin-bottom:14px}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{cursor:pointer;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";color:var(--gold)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin-top:10px;color:#d8cdc2;line-height:1.7;font-size:15px}
 .lb{position:fixed;inset:0;background:rgba(0,0,0,.88);display:grid;place-items:center;padding:20px;z-index:10}
 .lb img{max-width:100%;max-height:100%;border-radius:12px}
 .pic{display:grid;place-items:center;padding:20px}
@@ -83,8 +94,8 @@ h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(40px,7
 <script src="/products.js"></script>
 <script>
 const I18N={
-  fr:{cur:"DA",ml:"ml",edp:"Eau de parfum",gm:"Pour homme",gf:"Pour femme",back:"← Retour à la boutique",add:"Ajouter au panier",viewBag:"Voir mon panier et commander",added:"Ajouté au panier",cod:"Paiement à la livraison · en espèces à la réception",langBtn:"ع",nf:"Ce parfum n'existe pas (ou pas encore).",soonT:"Bientôt",reviews:"Avis de nos clients",order:"Commander maintenant",qty:"Quantité",coTitle:"Informations de livraison",fName:"Nom complet",phName:"Votre nom complet",fPhone:"Téléphone",fWilaya:"Wilaya",wChoose:"Choisissez votre wilaya",fAddr:"Commune et adresse",phAddr:"Commune, rue, bâtiment",fNote:"Note (facultatif)",phNote:"Instructions de livraison",subtotal:"Sous-total",delivery:"Livraison",total:"Total",byPhone:"Confirmée par téléphone",plusDelivery:" + livraison",confirm:"Confirmer la commande",badPhone:"Numéro invalide : 05, 06 ou 07 + 8 chiffres",badField:"Veuillez compléter le champ en rouge",okT:"Commande reçue",okM:"Merci{id}. Nous vous appellerons au {phone} pour confirmer la livraison. Vous payez à la réception.",okId:" — commande {id}",failT:"Commande non envoyée",failM:"Nous n'avons pas pu joindre notre système de commande : cette commande n'a PAS été envoyée. Copiez le récapitulatif et envoyez-le-nous.",copy:"Copier le récapitulatif",copied:"Récapitulatif copié",free:"Gratuite"},
-  ar:{cur:"دج",ml:"مل",edp:"ماء عطر",gm:"للرجال",gf:"للنساء",back:"→ العودة إلى المتجر",add:"أضف إلى السلة",viewBag:"عرض السلة وإتمام الطلب",added:"تمت الإضافة إلى السلة",cod:"الدفع عند الاستلام · نقدًا عند وصول طلبك",langBtn:"FR",nf:"هذا العطر غير موجود (أو لم يصدر بعد).",soonT:"قريبًا",reviews:"آراء زبائننا",order:"اطلب الآن",qty:"الكمية",coTitle:"معلومات التوصيل",fName:"الاسم الكامل",phName:"اسمك الكامل",fPhone:"الهاتف",fWilaya:"الولاية",wChoose:"اختر ولايتك",fAddr:"البلدية والعنوان",phAddr:"البلدية، الشارع، العمارة",fNote:"ملاحظة (اختياري)",phNote:"تعليمات التوصيل",subtotal:"المجموع الفرعي",delivery:"التوصيل",total:"المجموع",byPhone:"يُؤكَّد عبر الهاتف",plusDelivery:" + التوصيل",confirm:"تأكيد الطلب",badPhone:"رقم غير صالح: 05 أو 06 أو 07 متبوعًا بـ 8 أرقام",badField:"يرجى إكمال الحقل المحدد",okT:"تم استلام طلبك",okM:"شكرًا{id}. سنتصل بك على {phone} لتأكيد التوصيل. تدفع عند الاستلام.",okId:" — رقم الطلب {id}",failT:"لم يُرسل الطلب",failM:"تعذّر الاتصال بنظام الطلبات، لذلك لم يُرسل طلبك. انسخ الملخص وأرسله إلينا.",copy:"نسخ ملخص الطلب",copied:"تم نسخ الملخص",free:"مجاني"}
+  fr:{cur:"DA",ml:"ml",edp:"Eau de parfum",gm:"Pour homme",gf:"Pour femme",back:"← Retour à la boutique",add:"Ajouter au panier",viewBag:"Voir mon panier et commander",added:"Ajouté au panier",cod:"Paiement à la livraison · en espèces à la réception",langBtn:"ع",nf:"Ce parfum n'existe pas (ou pas encore).",soonT:"Bientôt",reviews:"Avis de nos clients",faqT:"Questions fréquentes",order:"Commander maintenant",qty:"Quantité",coTitle:"Informations de livraison",fName:"Nom complet",phName:"Votre nom complet",fPhone:"Téléphone",fWilaya:"Wilaya",wChoose:"Choisissez votre wilaya",fAddr:"Commune et adresse",phAddr:"Commune, rue, bâtiment",fNote:"Note (facultatif)",phNote:"Instructions de livraison",subtotal:"Sous-total",delivery:"Livraison",total:"Total",byPhone:"Confirmée par téléphone",plusDelivery:" + livraison",confirm:"Confirmer la commande",badPhone:"Numéro invalide : 05, 06 ou 07 + 8 chiffres",badField:"Veuillez compléter le champ en rouge",okT:"Commande reçue",okM:"Merci{id}. Nous vous appellerons au {phone} pour confirmer la livraison. Vous payez à la réception.",okId:" — commande {id}",failT:"Commande non envoyée",failM:"Nous n'avons pas pu joindre notre système de commande : cette commande n'a PAS été envoyée. Copiez le récapitulatif et envoyez-le-nous.",copy:"Copier le récapitulatif",copied:"Récapitulatif copié",free:"Gratuite"},
+  ar:{cur:"دج",ml:"مل",edp:"ماء عطر",gm:"للرجال",gf:"للنساء",back:"→ العودة إلى المتجر",add:"أضف إلى السلة",viewBag:"عرض السلة وإتمام الطلب",added:"تمت الإضافة إلى السلة",cod:"الدفع عند الاستلام · نقدًا عند وصول طلبك",langBtn:"FR",nf:"هذا العطر غير موجود (أو لم يصدر بعد).",soonT:"قريبًا",reviews:"آراء زبائننا",faqT:"الأسئلة الأكثر شيوعًا",order:"اطلب الآن",qty:"الكمية",coTitle:"معلومات التوصيل",fName:"الاسم الكامل",phName:"اسمك الكامل",fPhone:"الهاتف",fWilaya:"الولاية",wChoose:"اختر ولايتك",fAddr:"البلدية والعنوان",phAddr:"البلدية، الشارع، العمارة",fNote:"ملاحظة (اختياري)",phNote:"تعليمات التوصيل",subtotal:"المجموع الفرعي",delivery:"التوصيل",total:"المجموع",byPhone:"يُؤكَّد عبر الهاتف",plusDelivery:" + التوصيل",confirm:"تأكيد الطلب",badPhone:"رقم غير صالح: 05 أو 06 أو 07 متبوعًا بـ 8 أرقام",badField:"يرجى إكمال الحقل المحدد",okT:"تم استلام طلبك",okM:"شكرًا{id}. سنتصل بك على {phone} لتأكيد التوصيل. تدفع عند الاستلام.",okId:" — رقم الطلب {id}",failT:"لم يُرسل الطلب",failM:"تعذّر الاتصال بنظام الطلبات، لذلك لم يُرسل طلبك. انسخ الملخص وأرسله إلينا.",copy:"نسخ ملخص الطلب",copied:"تم نسخ الملخص",free:"مجاني"}
 };
 let LANG; try{LANG=localStorage.getItem('aloura-lang');}catch(_){}
 if(!I18N[LANG]) LANG=/^ar/i.test(navigator.language||'')?'ar':'fr';
@@ -109,6 +120,7 @@ function render(){
   const nn=n=>NOTES[n]?NOTES[n][LANG]:n;
   const pics=(p.gallery&&p.gallery.length?p.gallery:[p.img]); if(shot>=pics.length) shot=0;
   const shots=[...(typeof REVIEWS!=='undefined'?REVIEWS:[]),...(p.reviews||[])];   // customer review screenshots
+  const pitch=(p.pitch&&(p.pitch[LANG]||p.pitch.fr))||[];
   const desc=(p.desc&&(p.desc[LANG]||p.desc.fr))||'';
   const w=cust.wilaya||'', fee=feeFor(w), sub=p.sizes[size]*qty;
   const sums=`<div><span>${t('subtotal')}</span><span>${money(sub)}</span></div><div><span>${t('delivery')}</span><span>${fee==null?t('byPhone'):fee===0?t('free'):money(fee)}</span></div><div class="tot"><span>${t('total')}</span><span>${money(sub+(fee||0))}${fee==null?t('plusDelivery'):''}</span></div>`;
@@ -141,7 +153,9 @@ function render(){
       ${form}${doneBox}
     </div>
     ${shots.length?`<section class="rev"><h2>${t('reviews')}</h2><div class="shots">${shots.map((u,i)=>`<button data-r="${i}" aria-label="${t('reviews')} ${i+1}"><img src="${u}" alt="" loading="lazy"></button>`).join('')}</div></section>`:''}</div>
-    ${(p.more&&p.more.length)?`<section class="more">${p.more.map(u=>`<img src="${u}" alt="${p.name}" loading="lazy">`).join('')}</section>`:''}`;
+    ${(p.more&&p.more.length)?`<section class="more">${p.more.map(u=>`<img src="${u}" alt="${p.name}" loading="lazy">`).join('')}</section>`:''}
+    ${pitch.length?`<section class="pitch">${pitch.map(x=>`<article><h3>${x.t}</h3><p>${x.d}</p></article>`).join('')}</section>`:''}
+    <section class="faq"><h2>${t('faqT')}</h2>${(typeof FAQ!=='undefined'?FAQ[LANG]||FAQ.fr:[]).map(x=>`<details><summary>${x.q}</summary><p>${x.a}</p></details>`).join('')}</section>`;
   document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const o=document.createElement('div');o.className='lb';o.innerHTML=`<img src="${shots[+b.dataset.r]}" alt="">`;o.onclick=()=>o.remove();document.body.appendChild(o);});
   document.querySelectorAll('.size').forEach(b=>b.onclick=()=>{size=+b.dataset.s;added=false;render();});
   document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{shot=+b.dataset.g;render();});
