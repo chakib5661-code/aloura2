@@ -6,7 +6,7 @@ const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa",
 // Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
 const PRODUCTS = [
   { id:1, slot:0, no:"N° 01", name:"Aloura Noir", gender:"m", notes:["bergamot","timur","akigala"],      sizes:{100:12000}, img:"img/aloura-noir.webp",
-    gallery:["img/aloura-noir.webp"],   // add more photos here: ["img/aloura-noir.webp","img/aloura-noir-2.jpg",…]
+    gallery:["img/aloura-noir.webp","img/aloura-noir-1.webp","img/aloura-noir-2.webp"],   // add more photos by listing them here
     desc:{ fr:"Un parfum boisé et frais pour le soir. Bergamote lumineuse en tête, bois de Timur épicé au cœur, puis un fond sombre et profond de bois d'Akigala.", ar:"عطر خشبي منعش للمساء. برغموت مضيء في المقدمة، وخشب التيمور المتبّل في القلب، ثم قاعدة داكنة عميقة من خشب أكيغالا." } },
   { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", gender:"f", notes:["clementine","magnolia","vanilla"], sizes:{100:12000}, img:"img/aloura-rouge.webp",
     gallery:["img/aloura-rouge.webp","img/aloura-rouge-1.webp","img/aloura-rouge-2.webp"],
