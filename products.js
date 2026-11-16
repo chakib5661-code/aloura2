@@ -46,8 +46,8 @@ const PRODUCTS = [
     ] },
     desc:{ fr:"Un parfum boisé et frais pour le soir. Bergamote lumineuse en tête, bois de Timur épicé au cœur, puis un fond sombre et profond de bois d'Akigala.", ar:"عطر خشبي منعش للمساء. برغموت مضيء في المقدمة، وخشب التيمور المتبّل في القلب، ثم قاعدة داكنة عميقة من خشب أكيغالا." } },
   { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", gender:"f", notes:["clementine","magnolia","vanilla"], sizes:{100:12000}, img:"img/aloura-rouge.webp",
-    gallery:["img/aloura-rouge.webp","img/aloura-rouge-1.webp","img/aloura-rouge-2.webp","img/aloura-rouge-3.webp","img/aloura-rouge-4.webp"],
-    more:["img/aloura-rouge-3.webp","img/aloura-rouge-4.webp"],   // full-width images at the bottom of the page, under the delivery form
+    gallery:["img/aloura-rouge.webp","img/aloura-rouge-1.webp","img/aloura-rouge-2.webp"],
+    more:["img/aloura-rouge-4.webp","img/aloura-rouge-3.webp"],   // full-width images at the bottom of the page, under the delivery form
     pitch:{ fr:[
       { t:"Douce, fruitée, irrésistible", d:"Clémentine pétillante, magnolia crémeux et fond de vanille : un parfum qui enveloppe et laisse un souvenir doux." },
       { t:"Un flacon qui a du caractère", d:"Verre transparent, étiquette bordeaux bordée d'or et bouchon noir : un flacon élégant, beau à offrir comme à garder." },
