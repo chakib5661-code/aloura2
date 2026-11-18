@@ -10,9 +10,12 @@ const money = n => Number(n).toLocaleString('fr-FR').replace(/[  ]/g, ' ') + 
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
+  // Health check: open /api/order in a browser to see whether the Telegram env vars are set (never reveals values).
+  if (req.method === 'GET') return res.status(200).json({ ok: true, configured: !!(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID), hasToken: !!process.env.TELEGRAM_BOT_TOKEN, hasChatId: !!process.env.TELEGRAM_CHAT_ID });
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'method_not_allowed' });
 
   const token = process.env.TELEGRAM_BOT_TOKEN, chat = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chat) console.error('order: TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID missing in Vercel env vars (redeploy after adding)');
   if (!token || !chat) return res.status(500).json({ ok: false, error: 'not_configured' });
 
   let b = req.body;
@@ -57,8 +60,8 @@ module.exports = async (req, res) => {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: chat, text, disable_web_page_preview: true })
     });
-    if (!r.ok) return res.status(502).json({ ok: false, error: 'telegram_failed' });
-  } catch (_) { return res.status(502).json({ ok: false, error: 'telegram_unreachable' }); }
+    if (!r.ok) { console.error('order: Telegram rejected the message', r.status, await r.text().catch(() => '')); return res.status(502).json({ ok: false, error: 'telegram_failed' }); }
+  } catch (e) { console.error('order: Telegram unreachable', e && e.message); return res.status(502).json({ ok: false, error: 'telegram_unreachable' }); }
 
   return res.status(200).json({ ok: true, id });
 };
