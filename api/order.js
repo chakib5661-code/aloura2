@@ -55,13 +55,23 @@ module.exports = async (req, res) => {
     `Total: ${money(sub + (fee && !isNaN(fee) ? fee : 0))}${fee == null ? ' + delivery' : ''}`
   ].join('\n');
 
-  try {
-    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chat, text, disable_web_page_preview: true })
-    });
-    if (!r.ok) { console.error('order: Telegram rejected the message', r.status, await r.text().catch(() => '')); return res.status(502).json({ ok: false, error: 'telegram_failed' }); }
-  } catch (e) { console.error('order: Telegram unreachable', e && e.message); return res.status(502).json({ ok: false, error: 'telegram_unreachable' }); }
+  // Telegram sometimes answers 5xx/429 or drops the connection: retry a few times before giving up.
+  let sent = false, lastErr = '';
+  for (let attempt = 0; attempt < 4 && !sent; attempt++) {
+    if (attempt) await new Promise(r => setTimeout(r, 400 * attempt));
+    try {
+      const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chat, text, disable_web_page_preview: true }),
+        signal: AbortSignal.timeout(4000)
+      });
+      if (r.ok) { sent = true; break; }
+      lastErr = r.status + ' ' + await r.text().catch(() => '');
+      console.error('order: Telegram rejected the message (attempt ' + (attempt + 1) + ')', lastErr);
+      if (r.status >= 400 && r.status < 500 && r.status !== 429) break; // config error: retrying won't help
+    } catch (e) { lastErr = e && e.message; console.error('order: Telegram unreachable (attempt ' + (attempt + 1) + ')', lastErr); }
+  }
+  if (!sent) return res.status(502).json({ ok: false, error: 'telegram_failed' });
 
   return res.status(200).json({ ok: true, id });
 };
