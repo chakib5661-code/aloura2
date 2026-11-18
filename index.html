@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ALOURA — Eau de Parfum</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -287,6 +288,8 @@ html[dir=rtl] .hero h1,html[dir=rtl] .sec h2,html[dir=rtl] .panel h2,html[dir=rt
   .foot{margin-top:100px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+.card .lnk{display:inline-block;margin-top:14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid transparent}
+.card .lnk:hover{border-color:var(--gold)}
 </style>
 <!-- Vercel Web Analytics: turn it on in Vercel → Project → Analytics. Only works on the deployed site. -->
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
@@ -434,11 +437,12 @@ html[dir=rtl] .hero h1,html[dir=rtl] .sec h2,html[dir=rtl] .panel h2,html[dir=rt
 
   <div class="toast" id="toast"></div>
 
+<script src="/products.js"></script>
 <script>
 /* ============ EDIT HERE ============ */
 const CONFIG = {
-  deliveryFee: null,        // number in DA, or null = "confirmed by phone". Per-wilaya prices: deliveryByWilaya
-  deliveryByWilaya: {},     // e.g. { "Alger": 500, "Oran": 700 }
+  deliveryFee: DELIVERY.fee,            // delivery price: edit DELIVERY in products.js (shared with the product pages)
+  deliveryByWilaya: DELIVERY.byWilaya,
   orderEndpoint: "/api/order", // serverless function (api/order.js) that sends each order to your Telegram
   metaPixelId: "",          // your Meta Pixel ID (digits). Empty = Pixel off
   currencyCode: "DZD",      // currency code sent to Meta
@@ -452,15 +456,6 @@ const SLOTS = [
   { x:22.7, base:78.4, w:22.0, bottom:92.5, price:86.0, lamp:[23.9,50.0] },
   { x:50.1, base:81.0, w:20.5, bottom:92.5, price:87.5, lamp:[49.8,50.0] },
   { x:77.2, base:78.4, w:22.0, bottom:92.5, price:86.0, lamp:[75.4,50.0] }
-];
-// Each product takes one slot. Empty slots show "SOON". Add the photo in /img and fill in the details.
-const PRODUCTS = [
-  { id:1, slot:0, no:"N° 01", name:"Aloura Noir", gender:"m", notes:["bergamot","timur","akigala"],      sizes:{100:12000}, img:"img/aloura-noir.webp" },
-  { id:2, slot:1, no:"N° 02", name:"Aloura Rouge", gender:"f", notes:["clementine","magnolia","vanilla"], sizes:{100:12000}, img:"img/aloura-rouge.webp" },
-  // Covered bottles = coming soon. To reveal one: replace the line with real product data (name, notes, sizes, img).
-  { id:3, slot:2, soon:true },
-  { id:4, slot:3, soon:true },
-  { id:5, slot:4, soon:true }
 ];
 /* =================================== */
 
@@ -478,7 +473,7 @@ const I18N = {
     tr2t:"Livraison en Algérie", tr2d:"58 wilayas au choix",
     tr3t:"Confirmation par téléphone", tr3d:"Nous vous appelons pour valider",
     colEyebrow:"La collection", colTitle:"Chaque flacon, sa lumière.",
-    from:"dès", look:"Voir de près", addBag:"Ajouter au panier", added:"{n} ajouté", soonCard:"D'autres flacons arrivent bientôt",
+    from:"dès", look:"Voir de près", details:"Voir la fiche", addBag:"Ajouter au panier", added:"{n} ajouté", soonCard:"D'autres flacons arrivent bientôt",
     mEyebrow:"La Maison", mTitle:"Le parfum, au ralenti.",
     mLead:"Chaque parfum ALOURA se découvre comme il se doit : seul, dans la lumière, assez près pour sentir son caractère avant même de le vaporiser.",
     mP2:"Des notes chaudes, des fleurs douces et un sillage qui s'attarde longtemps après votre passage.",
@@ -516,7 +511,7 @@ const I18N = {
     tr2t:"التوصيل داخل الجزائر", tr2d:"اختر من 58 ولاية",
     tr3t:"تأكيد عبر الهاتف", tr3d:"نتصل بك لتأكيد الطلب",
     colEyebrow:"المجموعة", colTitle:"لكل زجاجة ضوؤها.",
-    from:"ابتداءً من", look:"عرض عن قرب", addBag:"أضف إلى السلة", added:"تمت إضافة {n}", soonCard:"المزيد من العطور قريبًا",
+    from:"ابتداءً من", look:"عرض عن قرب", details:"صفحة العطر", addBag:"أضف إلى السلة", added:"تمت إضافة {n}", soonCard:"المزيد من العطور قريبًا",
     mEyebrow:"الدار", mTitle:"العطر على مهل.",
     mLead:"يُكتشف كل عطر من ألورا كما يليق به: وحيدًا تحت الضوء، قريبًا بما يكفي لتشعر بطابعه قبل أن ترشّه.",
     mP2:"نوتات دافئة وأزهار ناعمة وأثر يدوم طويلًا بعد مرورك.",
@@ -543,12 +538,6 @@ const I18N = {
     failT:"لم يُرسل الطلب", failM:"تعذّر الاتصال بنظام الطلبات، لذلك لم يُرسل طلبك. انسخ الملخص وأرسله إلينا."
   }
 };
-const NOTES = {
-  oud:{fr:"Oud",ar:"عود"}, amber:{fr:"Ambre",ar:"عنبر"}, vanilla:{fr:"Vanilla",ar:"فانيلا"},
-  rose:{fr:"Rose",ar:"ورد"}, saffron:{fr:"Safran",ar:"زعفران"}, musk:{fr:"Musc",ar:"مسك"},
-  bergamot:{fr:"Bergamot",ar:"برغموت"}, timur:{fr:"Timur",ar:"تيمور"}, akigala:{fr:"Bois d'Akigala",ar:"خشب أكيغالا"},
-  clementine:{fr:"Clementine",ar:"كليمنتين"}, magnolia:{fr:"Magnolia",ar:"ماغنوليا"}
-};
 let LANG; try{ LANG = localStorage.getItem('aloura-lang'); }catch(_){}
 if(!I18N[LANG]) LANG = /^ar/i.test(navigator.language||'') ? 'ar' : 'fr';
 const t = k => (I18N[LANG][k] ?? I18N.fr[k] ?? k);
@@ -565,7 +554,6 @@ function track(name,data){ try{ if(window.va) window.va('event',{name,data}); }c
 (function(){ const id=CONFIG.metaPixelId; if(!id) return;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init',id); fbq('track','PageView'); })();
-const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"];
 let current = null, size = 100, openedAt = 0, swT;
 
 /* ---- build the scene ---- */
@@ -764,6 +752,7 @@ document.addEventListener('keydown',e=>{ if(!current||sheetOpen()) return;
 const isDesk = () => matchMedia('(min-width:900px)').matches;
 const io = 'IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} }),{threshold:.12}) : null;
 function reveal(root){ (root||document).querySelectorAll('.rv:not(.in)').forEach(el=> io ? io.observe(el) : el.classList.add('in')); }
+const slugOf = p => p.name.toLowerCase().replace(/[^a-z0-9]+/g,'');   // alouranoir, alourarouge …
 let cardsDone = false;
 function renderCards(){
   const cls = cardsDone ? ' in' : '';
@@ -771,7 +760,8 @@ function renderCards(){
     <div class="card rv${cls}"><img src="${p.img}" alt="${p.name}">
       <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
       <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
-      <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div></div></div>`).join('')
+      <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div>
+      <a class="lnk" href="/product/${slugOf(p)}">${t('details')} →</a></div></div>`).join('')
     + (PRODUCTS.some(p=>p.soon)?`<div class="card soon rv${cls}">${t('soonCard')}</div>`:'');
   cardsDone = true; reveal($('#cards'));
   document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{ const p=PRODUCTS.find(x=>x.id===+b.dataset.buy); addToBag(p,+Object.keys(p.sizes)[0]); });
@@ -804,6 +794,8 @@ $('#langBtn').onclick = ()=>applyLang(LANG==='fr'?'ar':'fr');
 const siteTop=$('#siteTop'), cue=$('#cue');
 addEventListener('scroll',()=>{ const y=scrollY; siteTop.classList.toggle('solid',y>(isDesk()?10:innerHeight*.7)); cue.style.opacity=y>40?0:''; },{passive:true});
 applyLang(LANG); reveal();
+/* coming back from a product page with "view bag" */
+if(/[?&]bag=1/.test(location.search)){ try{history.replaceState(null,'','/');}catch(_){} view('vBag'); sheet('#bagSheet',true); }
 </script>
 </body>
 </html>
