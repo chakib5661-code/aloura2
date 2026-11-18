@@ -294,6 +294,14 @@ html[dir=rtl] .hero h1,html[dir=rtl] .sec h2,html[dir=rtl] .panel h2,html[dir=rt
 <!-- Vercel Web Analytics: turn it on in Vercel → Project → Analytics. Only works on the deployed site. -->
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1547768344039157');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1547768344039157&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 
@@ -444,7 +452,7 @@ const CONFIG = {
   deliveryFee: DELIVERY.fee,            // delivery price: edit DELIVERY in products.js (shared with the product pages)
   deliveryByWilaya: DELIVERY.byWilaya,
   orderEndpoint: "/api/order", // serverless function (api/order.js) that sends each order to your Telegram
-  metaPixelId: "",          // your Meta Pixel ID (digits). Empty = Pixel off
+  metaPixelId: "1547768344039157", // Meta Pixel ID (loaded in <head>)
   currencyCode: "DZD",      // currency code sent to Meta
   theme: "warm",          // "warm" or "dark" (background image in /img)
   whatsapp: ""            // e.g. "213555123456" (213 + number without the leading 0, no +). Orders open in WhatsApp when set.
@@ -551,9 +559,6 @@ function moneyL(n,l){ return Number(n).toLocaleString('fr-FR').replace(/[\u202f\
 const money = n => moneyL(n,LANG);
 function pixel(ev,data){ try{ if(window.fbq) fbq('track',ev,data); }catch(_){} }
 function track(name,data){ try{ if(window.va) window.va('event',{name,data}); }catch(_){} }
-(function(){ const id=CONFIG.metaPixelId; if(!id) return;
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init',id); fbq('track','PageView'); })();
 let current = null, size = 100, openedAt = 0, swT;
 
 /* ---- build the scene ---- */
