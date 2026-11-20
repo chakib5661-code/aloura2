@@ -1,6 +1,6 @@
 /* Shared product data: used by index.html (shelf) and product.html (/product/<slug> pages). */
-// Delivery price in DA, or null = "confirmed by phone". Per-wilaya prices: byWilaya, e.g. { "Alger": 500, "Oran": 700 }
-const DELIVERY = { fee: null, byWilaya: {} };
+// Delivery price in DA (400 for all wilayas), or null = "confirmed by phone". Per-wilaya prices: byWilaya, e.g. { "Alger": 500, "Oran": 700 }
+const DELIVERY = { fee: 400, byWilaya: {} };
 const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"];
 
 // Customer review screenshots (from social media), shown under the photo gallery of every product page.
@@ -12,7 +12,7 @@ const REVIEWS = [];
 const FAQ = {
   fr: [
     { q:"Comment payer ?", a:"Uniquement à la livraison, en espèces, à la réception de votre commande. Il n'y a aucun paiement en ligne." },
-    { q:"Combien coûte la livraison ?", a:"Les frais de livraison vous sont confirmés par téléphone, selon votre wilaya." },
+    { q:"Combien coûte la livraison ?", a:"La livraison coûte 400 DA, quelle que soit votre wilaya." },
     { q:"Livrez-vous dans toute l'Algérie ?", a:"Oui, vous pouvez choisir votre wilaya parmi les 58 wilayas dans le formulaire de commande." },
     { q:"Comment ma commande est-elle confirmée ?", a:"Nous vous appelons au numéro indiqué pour confirmer la commande et la livraison. Vérifiez bien votre numéro avant de valider." },
     { q:"Quelle est la contenance du flacon ?", a:"Le flacon contient 100 ml d'eau de parfum." },
@@ -20,7 +20,7 @@ const FAQ = {
   ],
   ar: [
     { q:"كيف أدفع؟", a:"الدفع عند الاستلام نقدًا فقط، عند وصول طلبك. لا يوجد دفع عبر الإنترنت." },
-    { q:"كم تبلغ تكلفة التوصيل؟", a:"نؤكد لك تكلفة التوصيل عبر الهاتف حسب ولايتك." },
+    { q:"كم تبلغ تكلفة التوصيل؟", a:"تكلفة التوصيل 400 دج لجميع الولايات." },
     { q:"هل تقومون بالتوصيل إلى كامل الجزائر؟", a:"نعم، يمكنك اختيار ولايتك من بين 58 ولاية في نموذج الطلب." },
     { q:"كيف يُؤكَّد طلبي؟", a:"نتصل بك على الرقم الذي أدخلته لتأكيد الطلب والتوصيل. تأكد من صحة رقمك قبل إرسال الطلب." },
     { q:"ما هي سعة الزجاجة؟", a:"تحتوي الزجاجة على 100 مل من ماء العطر." },
