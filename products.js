@@ -1,8 +1,8 @@
 /* Shared product data: used by index.html (shelf) and product.html (/product/<slug> pages). */
 // Delivery price in DA (400 for all wilayas), or null = "confirmed by phone". Per-wilaya prices: byWilaya, e.g. { "Alger": 500, "Oran": 700 }
 // WhatsApp contact number for the floating button: country code + number without the leading 0, no "+" (e.g. "213555123456").
-// TODO: PLACEHOLDER — replace with the shop's real number before going live.
-const WHATSAPP = "213000000000";
+// Shop number (+213 672 510 972).
+const WHATSAPP = "213672510972";
 const DELIVERY = { fee: 400, byWilaya: {} };
 const WILAYAS = ["Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar","Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Alger","Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma","Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh","Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued","Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa","Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah","In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"];
 
