@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
   hits.set(ip, [...recent, now]);
 
   const c = b.customer || {};
-  const name = clip(c.name, 80), phone = clip(c.phone, 20), wilaya = clip(c.wilaya, 40), addr = clip(c.addr, 200), note = clip(c.note, 200);
+  const name = clip(c.name, 80), phone = clip(c.phone, 20), wilaya = clip(c.wilaya, 40), addr = clip(c.addr, 200);
   if (name.length < 2 || !/^0[567]\d{8}$/.test(phone) || !wilaya)
     return res.status(400).json({ ok: false, error: 'invalid_customer' });
 
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
   const fee = b.delivery == null ? null : Number(b.delivery);
   const id = 'AL-' + Date.now().toString(36).toUpperCase().slice(-6);
 
-  const head = [`🛍 New order ${id} — cash on delivery`, `👤 ${name}`, `📞 ${phone}`, `📍 ${wilaya}${addr ? ' — ' + addr : ''}`, note ? `📝 ${note}` : null].filter(Boolean);
+  const head = [`🛍 New order ${id} — cash on delivery`, `👤 ${name}`, `📞 ${phone}`, `📍 ${wilaya}${addr ? ' — ' + addr : ''}`].filter(Boolean);
   const text = [
     ...head, '', ...lines, '',
     `Subtotal: ${money(sub)}`,
