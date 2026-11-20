@@ -412,7 +412,6 @@ fbq('track','PageView');
           <label><span data-i="fPhone"></span><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 / 06 / 07 …"></label>
           <label><span data-i="fWilaya"></span><select id="fWilaya"><option value="" id="wPh"></option></select></label>
           <label><span data-i="fAddr"></span><input id="fAddr" autocomplete="street-address" data-i-ph="phAddr"></label>
-          <label><span><span data-i="fNote"></span> <em data-i="optional"></em></span><input id="fNote" data-i-ph="phNote"></label>
           <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
         </div>
         <div class="sums" id="sums2"></div>
@@ -500,7 +499,7 @@ const I18N = {
     subtotal:"Sous-total", delivery:"Livraison", total:"Total", free:"Gratuite", byPhone:"Confirmée par téléphone", plusDelivery:" + livraison",
     cod:"Paiement à la livraison · en espèces à la réception", checkout:"Commander", back:"← Retour au panier",
     fName:"Nom complet", phName:"Votre nom complet", fPhone:"Téléphone", fWilaya:"Wilaya", wChoose:"Choisissez votre wilaya",
-    fAddr:"Commune et adresse", phAddr:"Commune, rue, bâtiment", fNote:"Note", optional:"(facultatif)", phNote:"Instructions de livraison",
+    fAddr:"Commune et adresse", phAddr:"Commune, rue, bâtiment",
     confirm:"Confirmer la commande", copyOrder:"Copier le récapitulatif", copied:"Récapitulatif copié", copyNA:"Copie indisponible",
     badPhone:"Numéro invalide : 05, 06 ou 07 + 8 chiffres", badField:"Veuillez compléter le champ en rouge",
     okT:"Commande reçue", okId:" — commande {id}", okM:"Merci{id}. Nous vous appellerons au {phone} pour confirmer la livraison. Vous payez à la réception.",
@@ -538,7 +537,7 @@ const I18N = {
     subtotal:"المجموع الفرعي", delivery:"التوصيل", total:"المجموع", free:"مجاني", byPhone:"يُؤكَّد عبر الهاتف", plusDelivery:" + التوصيل",
     cod:"الدفع عند الاستلام · نقدًا عند وصول طلبك", checkout:"إتمام الطلب", back:"→ العودة إلى السلة",
     fName:"الاسم الكامل", phName:"اسمك الكامل", fPhone:"الهاتف", fWilaya:"الولاية", wChoose:"اختر ولايتك",
-    fAddr:"البلدية والعنوان", phAddr:"البلدية، الشارع، العمارة", fNote:"ملاحظة", optional:"(اختياري)", phNote:"تعليمات التوصيل",
+    fAddr:"البلدية والعنوان", phAddr:"البلدية، الشارع، العمارة",
     confirm:"تأكيد الطلب", copyOrder:"نسخ ملخص الطلب", copied:"تم نسخ الملخص", copyNA:"النسخ غير متاح",
     badPhone:"رقم غير صالح: 05 أو 06 أو 07 متبوعًا بـ 8 أرقام", badField:"يرجى إكمال الحقل المحدد",
     okT:"تم استلام طلبك", okId:" — رقم الطلب {id}", okM:"شكرًا{id}. سنتصل بك على {phone} لتأكيد التوصيل. تدفع عند الاستلام.",
@@ -651,7 +650,7 @@ function orderText(c){
   const ls = bag.map(l=>{const p=PRODUCTS.find(x=>x.id===l.id);return `${l.qty} × ${p.name} ${l.size}ml — ${m(unit(l)*l.qty)}`;});
   const f=feeFor(c&&c.wilaya), sub=subtotal();
   return [`ALOURA — nouvelle commande (paiement à la livraison)`,
-    c?`Nom : ${c.name}\nTéléphone : ${c.phone}\nWilaya : ${c.wilaya}\nAdresse : ${c.addr}`+(c.note?`\nNote : ${c.note}`:''):'',
+    c?`Nom : ${c.name}\nTéléphone : ${c.phone}\nWilaya : ${c.wilaya}\nAdresse : ${c.addr}`:'',
     ls.join('\n'),
     `Sous-total : ${m(sub)}`, `Livraison : ${f==null?'à confirmer':m(f)}`, `Total : ${m(sub+(f||0))}${f==null?' + livraison':''}`].filter(Boolean).join('\n');
 }
@@ -685,7 +684,7 @@ $('#backBag').onclick = ()=>view('vBag');
 const normPhone = v => { v=v.replace(/[\s.\-()]/g,''); if(v.startsWith('+213')) v='0'+v.slice(4); else if(v.startsWith('00213')) v='0'+v.slice(5); else if(/^213\d{9}$/.test(v)) v='0'+v.slice(3); return v; };
 $('#vForm').addEventListener('submit', async e=>{
   e.preventDefault();
-  const c={ name:$('#fName').value.trim(), phone:normPhone($('#fPhone').value), wilaya:$('#fWilaya').value, addr:$('#fAddr').value.trim(), note:$('#fNote').value.trim() };
+  const c={ name:$('#fName').value.trim(), phone:normPhone($('#fPhone').value), wilaya:$('#fWilaya').value, addr:$('#fAddr').value.trim() };
   ['fName','fPhone','fWilaya','fAddr'].forEach(id=>$('#'+id).classList.remove('bad'));
   const bad = [ c.name.length<2&&'fName', !/^0[567]\d{8}$/.test(c.phone)&&'fPhone', !c.wilaya&&'fWilaya', c.addr.length<5&&'fAddr' ].filter(Boolean);
   if(bad.length){ bad.forEach(id=>$('#'+id).classList.add('bad')); $('#'+bad[0]).focus(); return toast(bad[0]==='fPhone'?t('badPhone'):t('badField')); }
