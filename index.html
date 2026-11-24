@@ -217,6 +217,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .trust span{font-size:12.5px;color:var(--muted);line-height:1.5}
 .cards{grid-template-columns:1fr}
 .card{grid-template-columns:112px 1fr}
+.card .gen{display:block;width:fit-content;max-width:100%;color:#fff;font-size:clamp(13.5px,3.8vw,15px);font-weight:600;line-height:1.4;padding:8px 12px;margin:2px 0 10px;border:1.5px solid var(--gold);border-radius:14px;background:rgba(217,191,140,.14)}
 .card .pr{font-size:15px;color:var(--cream);margin-bottom:14px}
 .card .acts{display:flex;gap:8px;flex-wrap:wrap}
 .card .acts button{padding:11px 14px}
@@ -469,7 +470,7 @@ const SLOTS = [
 /* ---- languages: French (default) + Arabic ---- */
 const I18N = {
   fr: {
-    cur:"DA", gm:"Pour homme", gf:"Pour femme", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
+    cur:"DA", gm:"Pour homme", gf:"Pour femme", gb:"Pour homme et pour femme", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
     menu:"Menu", openBag:"Ouvrir le panier", close:"Fermer", collectionAria:"Collection de parfums",
     hint:"Choisissez un flacon pour l'observer de près", soon:"BIENTÔT",
     mCollection:"Collection", mMaison:"La Maison", mHow:"Comment commander", mFaq:"Questions",
@@ -507,7 +508,7 @@ const I18N = {
     failT:"Commande non envoyée", failM:"Nous n'avons pas pu joindre notre système de commande : cette commande n'a PAS été envoyée. Copiez le récapitulatif et envoyez-le-nous."
   },
   ar: {
-    cur:"دج", gm:"للرجال", gf:"للنساء", prev:"السابق", next:"التالي", ml:"مل", edp:"ماء عطر", langBtn:"FR", langName:"Français",
+    cur:"دج", gm:"للرجال", gf:"للنساء", gb:"للرجال والنساء", prev:"السابق", next:"التالي", ml:"مل", edp:"ماء عطر", langBtn:"FR", langName:"Français",
     menu:"القائمة", openBag:"فتح السلة", close:"إغلاق", collectionAria:"مجموعة العطور",
     hint:"اختر زجاجة لتراها عن قرب", soon:"قريبًا",
     mCollection:"المجموعة", mMaison:"الدار", mHow:"كيف تطلب", mFaq:"أسئلة شائعة",
@@ -762,7 +763,7 @@ function renderCards(){
   const cls = cardsDone ? ' in' : '';
   $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
     <div class="card rv${cls}"><img src="${p.img}" alt="${p.name}">
-      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
+      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="gen">${t('edp')} · ${t('gb')}</div><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
       <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
       <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div>
       <a class="lnk" href="/product/${slugOf(p)}">${t('details')} →</a></div></div>`).join('')
