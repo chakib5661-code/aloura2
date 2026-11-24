@@ -763,7 +763,7 @@ function renderCards(){
   const cls = cardsDone ? ' in' : '';
   $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
     <div class="card rv${cls}"><img src="${p.img}" alt="${p.name}">
-      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="gen">${t('edp')} · ${t('gb')}</div><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
+      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="gen">${t('edp')} · ${(p.gender==='f'?t('gf'):p.gender==='m'?t('gm'):t('gb'))}</div><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
       <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
       <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div>
       <a class="lnk" href="/product/${slugOf(p)}">${t('details')} →</a></div></div>`).join('')
