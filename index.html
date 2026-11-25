@@ -330,6 +330,22 @@ html,body{background:#101010}
 .panel.g-m .eyebrow,.item[data-g=m] .price small{color:#c7c2bc}
 .tag.f{background:var(--burgundy);color:var(--ink);border-color:#7c2a55}
 .tag.m{background:var(--charcoal);color:var(--ink);border-color:rgba(255,255,255,.22)}
+
+/* ===== Aloura Rouge card (feminine collection only) ===== */
+.card.g-f{background:linear-gradient(150deg,#F8F3EF 0%,#F3DDE2 100%);border:1px solid rgba(197,163,106,.6);color:#291B25;padding:24px;border-radius:26px;box-shadow:0 22px 46px rgba(0,0,0,.35),inset 0 0 0 5px rgba(248,243,239,.55);gap:22px}
+.card.g-f:hover{border-color:#C5A36A;transform:translateY(-4px);box-shadow:0 28px 56px rgba(0,0,0,.42),inset 0 0 0 5px rgba(248,243,239,.55)}
+.card.g-f img{filter:drop-shadow(0 16px 14px rgba(101,27,69,.35))}
+.card.g-f .no{color:#C5A36A;letter-spacing:.34em;font-weight:500}
+.card.g-f h3{color:#291B25;letter-spacing:.03em}
+.card.g-f .gen{color:#651B45;background:rgba(233,197,206,.45);border:1px solid #C5A36A;font-weight:500}
+.card.g-f .nt{color:#5B4854}
+.card.g-f .pr{color:#651B45;font-weight:500}
+.card.g-f .acts .buy{background:#651B45;color:#F8F3EF;border:1px solid #651B45;letter-spacing:.2em;box-shadow:0 10px 22px rgba(101,27,69,.3);transition:background .3s,transform .25s}
+.card.g-f .acts .buy:hover{background:#7A2455;transform:translateY(-2px)}
+.card.g-f .acts button:not(.buy){background:transparent;color:#291B25;border-color:rgba(197,163,106,.8)}
+.card.g-f .acts button:not(.buy):hover{background:rgba(233,197,206,.5)}
+.card.g-f .lnk{color:#651B45;border-bottom-color:rgba(197,163,106,.7)}
+.card.g-f .lnk:hover{border-color:#651B45}
 </style>
 <!-- Vercel Web Analytics: turn it on in Vercel → Project → Analytics. Only works on the deployed site. -->
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
@@ -801,7 +817,7 @@ let cardsDone = false;
 function renderCards(){
   const cls = cardsDone ? ' in' : '';
   $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
-    <div class="card rv${cls}"><img src="${p.img}" alt="${p.name}">
+    <div class="card rv${cls}${p.gender==='f'?' g-f':''}"><img src="${p.img}" alt="${p.name}">
       <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="gen">${t('edp')} · ${(p.gender==='f'?t('gf'):p.gender==='m'?t('gm'):t('gb'))}</div><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
       <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
       <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div>
