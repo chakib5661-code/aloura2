@@ -151,7 +151,7 @@ function render(){
       ${pics.length>1?`<div class="thumbs">${pics.map((u,i)=>`<button data-g="${i}" class="${i===shot?'on':''}" aria-label="${p.name} ${i+1}"><img src="${u}" alt=""></button>`).join('')}</div>`:''}</div>
     <div class="info">
       <div class="eyebrow">${p.no}</div><h1>${p.name}</h1>
-      <div class="sub">${t('edp')} · ${(p.gender==='f'?t('gf'):p.gender==='m'?t('gm'):t('gb'))}</div>
+      <div class="sub">${t('edp')} · ${t('gb')}</div>
       ${desc?`<p class="desc">${desc}</p>`:''}
       <div class="notes">${p.notes.map(n=>`<span>${nn(n)}</span>`).join('')}</div>
       <div class="sizes">${Object.keys(p.sizes).map(sz=>`<button class="size ${+sz===size?'on':''}" data-s="${sz}"><span>${sz} ${t('ml')}</span><span>${money(p.sizes[sz])}</span></button>`).join('')}</div>
