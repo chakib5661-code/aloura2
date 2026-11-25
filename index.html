@@ -525,7 +525,7 @@ const SLOTS = [
 /* ---- languages: French (default) + Arabic ---- */
 const I18N = {
   fr: {
-    cur:"DA", gm:"Pour homme", gf:"Pour femme", gb:"Pour homme et pour femme", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
+    cur:"DA", gm:"pour homme", gf:"pour femme", gb:"pour homme et pour femme", prev:"Précédent", next:"Suivant", ml:"ml", edp:"Eau de parfum", langBtn:"ع", langName:"العربية",
     menu:"Menu", openBag:"Ouvrir le panier", close:"Fermer", collectionAria:"Collection de parfums",
     hint:"Choisissez un flacon pour l'observer de près", soon:"BIENTÔT",
     mCollection:"Collection", mMaison:"La Maison", mHow:"Comment commander", mFaq:"Questions",
@@ -818,7 +818,7 @@ function renderCards(){
   const cls = cardsDone ? ' in' : '';
   $('#cards').innerHTML = PRODUCTS.map(p=>p.soon ? '' : `
     <div class="card rv${cls}${p.gender==='f'?' g-f':''}"><img src="${p.img}" alt="${p.name}">
-      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="gen">${t('edp')} · ${(p.gender==='f'?t('gf'):p.gender==='m'?t('gm'):t('gb'))}</div><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
+      <div><div class="no">${p.no}</div><h3>${p.name}</h3><div class="gen">${t('edp')} ${(p.gender==='f'?t('gf'):p.gender==='m'?t('gm'):t('gb'))}</div><div class="nt">${p.notes.map(noteName).join(' · ')}</div>
       <div class="pr">${t('from')} ${money(Math.min(...Object.values(p.sizes)))}</div>
       <div class="acts"><button class="buy" data-buy="${p.id}">${t('addBag')}</button><button data-look="${p.id}">${t('look')}</button></div>
       <a class="lnk" href="/product/${slugOf(p)}">${t('details')} →</a></div></div>`).join('')
