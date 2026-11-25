@@ -330,6 +330,25 @@ html,body{background:#101010}
 .panel.g-m .eyebrow,.item[data-g=m] .price small{color:#c7c2bc}
 .tag.f{background:var(--burgundy);color:var(--ink);border-color:#7c2a55}
 .tag.m{background:var(--charcoal);color:var(--ink);border-color:rgba(255,255,255,.22)}
+/* ---------- Aloura Noir (masculine) — storefront card and shelf, scoped to the Noir product ---------- */
+:root{--nx-graphite:#0D0D0D;--nx-anthracite:#25282B;--nx-gold:#B89A60;--nx-gold-hi:#C7AB74;--nx-ivory:#E8E5DF;--nx-bronze:#59483A}
+.stage.g-m{--b1:rgba(184,154,96,.26);--b2:rgba(184,154,96,.09);--b3:rgba(184,154,96,0);--g1:rgba(184,154,96,.24);--g2:rgba(89,72,58,.16);--w1:rgba(199,171,116,.7);--l1:#f1ece2;--l2:#d8c79f;--ls:rgba(199,171,116,.5);--m:rgba(232,229,223,.8)}
+.panel.g-m{border-color:var(--nx-bronze);background:linear-gradient(180deg,rgba(37,40,43,.94),rgba(13,13,13,.97))}
+.panel.g-m .eyebrow,.item[data-g=m] .price small{color:var(--nx-gold)}
+.tag.m{background:var(--nx-anthracite);color:var(--nx-ivory);border-color:var(--nx-bronze)}
+.card:has(a.lnk[href$="alouranoir"]){position:relative;overflow:hidden;border-radius:4px;border-color:var(--nx-bronze);color:var(--nx-ivory);
+  background:repeating-linear-gradient(90deg,rgba(232,229,223,.022) 0 1px,transparent 1px 88px),repeating-linear-gradient(0deg,rgba(232,229,223,.014) 0 1px,transparent 1px 88px),linear-gradient(155deg,#25282B,#0D0D0D 85%);
+  transition:transform .6s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .6s}
+.card:has(a.lnk[href$="alouranoir"])::after{content:"";position:absolute;inset:8px;border:1px solid rgba(89,72,58,.45);border-radius:2px;pointer-events:none}
+.card:has(a.lnk[href$="alouranoir"]):hover{transform:translateY(-3px);border-color:rgba(184,154,96,.6);box-shadow:0 24px 50px rgba(0,0,0,.6)}
+.card:has(a.lnk[href$="alouranoir"]) h3{font-weight:300;letter-spacing:.12em;text-transform:uppercase}
+.card:has(a.lnk[href$="alouranoir"]) .no,.card:has(a.lnk[href$="alouranoir"]) .pr{color:var(--nx-gold)}
+.card:has(a.lnk[href$="alouranoir"]) .gen{border-color:var(--nx-bronze);border-radius:2px;background:transparent}
+.card:has(a.lnk[href$="alouranoir"]) .acts .buy{background:var(--nx-gold);border-color:var(--nx-gold);color:#0D0D0D;border-radius:2px;font-weight:500}
+.card:has(a.lnk[href$="alouranoir"]) .acts .buy:hover{background:#C7AB74}
+.card:has(a.lnk[href$="alouranoir"]) button{border-radius:2px;border-color:var(--nx-bronze)}
+.card:has(a.lnk[href$="alouranoir"]) .lnk{color:var(--nx-gold)}
+html[dir=rtl] .card:has(a.lnk[href$="alouranoir"]) h3{letter-spacing:0;text-transform:none}
 </style>
 <!-- Vercel Web Analytics: turn it on in Vercel → Project → Analytics. Only works on the deployed site. -->
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>

@@ -83,6 +83,50 @@ h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(40px,7
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--gold);color:#101010;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s}
 .toast.on{opacity:1}
 .sub,.pay,.notes span{border-width:1px;font-weight:500;color:var(--ink)}.add,.buy2{transition:background .3s}.add:hover,.buy2:hover{background:#d8b878}.fields input,.fields select{background:#1C1C1C}
+/* ---------- Aloura Noir (masculine) — scoped to body.noir, set by the inline script at the end of the page ---------- */
+:root{--nx-graphite:#0D0D0D;--nx-anthracite:#25282B;--nx-gold:#B89A60;--nx-gold-hi:#C7AB74;--nx-ivory:#E8E5DF;--nx-bronze:#59483A}
+html:has(body.noir){background:var(--nx-graphite)}
+body.noir{background:none;color:var(--nx-ivory);--gold:#B89A60;--cream:#E8E5DF;--ink:#E8E5DF;--muted:#A9A59E;--line:rgba(89,72,58,.75)}
+body.noir::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(90% 55% at 50% 0%,rgba(37,40,43,.9),rgba(13,13,13,0) 70%),repeating-linear-gradient(90deg,rgba(232,229,223,.022) 0 1px,transparent 1px 88px),repeating-linear-gradient(0deg,rgba(232,229,223,.014) 0 1px,transparent 1px 88px),var(--nx-graphite)}
+body.noir #main{animation:nxIn .9s ease backwards}
+@keyframes nxIn{from{opacity:0}to{opacity:1}}
+body.noir .back,body.noir .lang{background:rgba(37,40,43,.7);border-color:var(--nx-bronze);transition:border-color .4s,color .4s}
+body.noir .back:hover,body.noir .lang:hover{border-color:var(--nx-gold);color:var(--nx-gold)}
+body.noir .pic{position:relative}
+body.noir .pic::before{content:"";position:absolute;inset:6% 4%;border:1px solid var(--nx-bronze);border-radius:4px;background:radial-gradient(70% 60% at 50% 38%,rgba(184,154,96,.14),rgba(37,40,43,.55) 55%,rgba(13,13,13,0) 100%);z-index:0}
+body.noir .pic img{position:relative;z-index:1}
+body.noir .pic img.photo{border-radius:2px;box-shadow:0 30px 60px rgba(0,0,0,.7)}
+body.noir .eyebrow{color:var(--nx-gold);letter-spacing:.38em}
+body.noir h1{font-weight:300;letter-spacing:.1em;text-transform:uppercase;color:var(--nx-ivory)}
+body.noir .sub,body.noir .pay,body.noir .notes span{border:1px solid var(--nx-bronze);border-radius:2px;background:rgba(37,40,43,.55);color:var(--nx-ivory);font-weight:400}
+body.noir .notes span{letter-spacing:.06em}
+body.noir .desc,body.noir .pitch p,body.noir .faq details p{color:#B3AFA8}
+body.noir .size{border-radius:2px;background:rgba(37,40,43,.6);border-color:var(--nx-bronze)}
+body.noir .size.on{border-color:var(--nx-gold);color:var(--nx-ivory);background:rgba(184,154,96,.08)}
+body.noir .qty button{border-color:var(--nx-bronze);transition:border-color .3s,color .3s}
+body.noir .qty button:hover{border-color:var(--nx-gold);color:var(--nx-gold)}
+body.noir .add,body.noir .buy2{background:var(--nx-gold);color:#0D0D0D;border-radius:2px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;font-size:13px;transition:background .35s,transform .25s,box-shadow .35s}
+body.noir .add:hover,body.noir .buy2:hover{background:var(--nx-gold-hi);box-shadow:0 8px 24px rgba(184,154,96,.18);transform:translateY(-1px)}
+body.noir .go{border-color:var(--nx-gold);color:var(--nx-gold);border-radius:2px}
+body.noir .sec2{border-top-color:var(--nx-bronze)}
+body.noir .sec2 h2,body.noir .faq h2,body.noir .rev h2{font-weight:300;letter-spacing:.08em}
+body.noir .fields input,body.noir .fields select{background:var(--nx-anthracite);border-color:var(--nx-bronze);border-radius:2px;transition:border-color .3s}
+body.noir .fields input:focus,body.noir .fields select:focus{outline:none;border-color:var(--nx-gold)}
+body.noir .fields .bad{border-color:#c9696f}
+body.noir .sums .tot{color:var(--nx-ivory)}
+body.noir .thumbs button{border-radius:2px;background:var(--nx-anthracite);border-color:var(--nx-bronze);transition:opacity .3s,border-color .3s}
+body.noir .thumbs button.on{border-color:var(--nx-gold)}
+body.noir .more img{border-radius:2px;border:1px solid var(--nx-bronze)}
+body.noir .pitch article{border-radius:2px;border-color:var(--nx-bronze);background:linear-gradient(160deg,rgba(37,40,43,.85),rgba(13,13,13,.6));transition:border-color .4s}
+body.noir .pitch article:hover{border-color:rgba(184,154,96,.55)}
+body.noir .pitch h3{color:var(--nx-gold);font-weight:400;letter-spacing:.04em}
+body.noir .faq details{border-bottom-color:var(--nx-bronze)}
+body.noir .faq summary::after{color:var(--nx-gold)}
+body.noir .done{border-color:var(--nx-gold);border-radius:2px}
+body.noir .alt{border-color:var(--nx-bronze);border-radius:2px}
+body.noir .toast{background:var(--nx-gold);color:#0D0D0D;border-radius:2px}
+html[dir=rtl] body.noir h1,html[dir=rtl] body.noir .eyebrow,html[dir=rtl] body.noir .add,html[dir=rtl] body.noir .buy2{letter-spacing:0;text-transform:none}
+@media(prefers-reduced-motion:reduce){body.noir #main{animation:none}body.noir *{transition:none!important}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -140,7 +184,7 @@ function render(){
         <label>${t('fPhone')}<input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 / 06 / 07 …" value="${cust.phone||''}"></label>
         <label>${t('fWilaya')}<select id="fWilaya"><option value="">${t('wChoose')}</option>${WILAYAS.map((x,i)=>`<option value="${x}" ${x===w?'selected':''}>${String(i+1).padStart(2,'0')} · ${x}</option>`).join('')}</select></label>
         <label>${t('fAddr')}<input id="fAddr" autocomplete="street-address" placeholder="${t('phAddr')}" value="${cust.addr||''}"></label>
-        <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
+        <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none">
       </div>
       <div class="sums" id="sums">${sums}</div>
       <button class="buy2" type="submit" id="confirm">${t('confirm')}</button>
@@ -201,5 +245,6 @@ try{if(p&&window.fbq)fbq('track','ViewContent',{content_name:p.name,content_ids:
 </script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>if(typeof p!=='undefined'&&p&&p.gender==='m')document.body.classList.add('noir');</script>
 </body>
 </html>
