@@ -127,6 +127,58 @@ body.noir .alt{border-color:var(--nx-bronze);border-radius:2px}
 body.noir .toast{background:var(--nx-gold);color:#0D0D0D;border-radius:2px}
 html[dir=rtl] body.noir h1,html[dir=rtl] body.noir .eyebrow,html[dir=rtl] body.noir .add,html[dir=rtl] body.noir .buy2{letter-spacing:0;text-transform:none}
 @media(prefers-reduced-motion:reduce){body.noir #main{animation:none}body.noir *{transition:none!important}}
+
+/* ===== Aloura Rouge: ivory / blush / plum / champagne (feminine collection only) ===== */
+body.g-f{--bg:#F8F3EF;--surface:#FFFFFF;--ink:#291B25;--muted:#6F5B67;--gold:#C5A36A;--cream:#C5A36A;--plum:#651B45;--blush:#E9C5CE;--line:rgba(197,163,106,.45);
+  background:linear-gradient(180deg,#F8F3EF 0%,#F8F3EF 55%,#F3E4E6 100%);color:var(--ink)}
+html:has(body.g-f){background:#F8F3EF}
+body.g-f .bar,body.g-f .wrap{max-width:1080px}
+body.g-f .back,body.g-f .lang{background:rgba(255,255,255,.75);border-color:var(--line);color:var(--ink);box-shadow:0 6px 18px rgba(101,27,69,.07);transition:border-color .3s,box-shadow .3s}
+body.g-f .back:hover,body.g-f .lang:hover{border-color:var(--gold);box-shadow:0 8px 22px rgba(101,27,69,.12)}
+body.g-f .wrap{padding-top:36px;gap:36px}
+@media(min-width:800px){body.g-f .wrap{gap:36px 80px;padding-top:56px}}
+body.g-f .pic{background:none;padding:28px 20px;width:100%}
+body.g-f .pic img{filter:drop-shadow(0 26px 24px rgba(101,27,69,.28));animation:rf .9s cubic-bezier(.2,.8,.2,1) both}
+body.g-f .pic img.photo{border-radius:18px;box-shadow:0 20px 40px rgba(101,27,69,.2);width:min(440px,100%)}
+@keyframes rf{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+body.g-f .thumbs button{background:#fff;border-color:rgba(197,163,106,.35);opacity:.8;transition:all .3s}
+body.g-f .thumbs button:hover{opacity:1;transform:translateY(-2px)}
+body.g-f .thumbs button.on{border-color:var(--gold);opacity:1;box-shadow:0 6px 16px rgba(197,163,106,.35)}
+body.g-f .eyebrow{color:var(--gold);letter-spacing:.38em;font-weight:500}
+body.g-f h1{font-weight:300;color:var(--ink);letter-spacing:.06em;margin:12px 0 14px;position:relative;padding-bottom:20px}
+body.g-f h1::after{content:"";position:absolute;left:0;bottom:0;width:56px;height:1px;background:var(--gold)}
+html[dir=rtl] body.g-f h1::after{left:auto;right:0}
+body.g-f .sub,body.g-f .pay{border-color:var(--gold);color:var(--plum);background:rgba(233,197,206,.28);font-weight:500;border-width:1px}
+body.g-f .notes span{border:1px solid var(--gold);color:var(--ink);background:#fff;font-weight:500;box-shadow:0 4px 10px rgba(197,163,106,.15)}
+body.g-f .desc,body.g-f .pitch p,body.g-f .faq details p{color:#5B4854}
+body.g-f .size{background:#fff;border-color:var(--line);color:var(--ink)}
+body.g-f .size.on{border-color:var(--plum);color:var(--plum);background:rgba(233,197,206,.35)}
+body.g-f .add,body.g-f .buy2{background:var(--plum);color:#F8F3EF;border:1px solid var(--plum);box-shadow:0 12px 26px rgba(101,27,69,.28);letter-spacing:.12em;text-transform:uppercase;font-size:14px;transition:background .3s,transform .25s,box-shadow .3s}
+body.g-f .add:hover,body.g-f .buy2:hover{background:#7A2455;transform:translateY(-2px);box-shadow:0 16px 32px rgba(101,27,69,.34)}
+body.g-f .buy2:active{transform:none}
+body.g-f .go{border-color:var(--plum);color:var(--plum)}
+body.g-f .qty button{background:#fff;border-color:var(--line);color:var(--plum)}
+body.g-f .sec2{border-top-color:var(--line)}
+body.g-f .sec2 h2,body.g-f .rev h2,body.g-f .faq h2{color:var(--ink)}
+body.g-f .fields label{color:var(--muted)}
+body.g-f .fields input,body.g-f .fields select{background:#fff;border-color:rgba(197,163,106,.5);color:var(--ink);transition:border-color .3s,box-shadow .3s}
+body.g-f .fields input:focus,body.g-f .fields select:focus{outline:0;border-color:var(--plum);box-shadow:0 0 0 3px rgba(233,197,206,.7)}
+body.g-f .fields .bad{border-color:#B3263E}
+body.g-f .sums .tot{color:var(--plum)}
+body.g-f .alt{border-color:var(--line);color:var(--ink)}
+body.g-f .done{border-color:var(--gold);background:#fff}
+body.g-f .toast{background:var(--plum);color:#F8F3EF}
+body.g-f .more{max-width:720px;padding-bottom:70px}
+body.g-f .more img{border-radius:24px;box-shadow:0 24px 50px rgba(101,27,69,.16)}
+body.g-f .pitch{max-width:720px;gap:20px}
+body.g-f .pitch article{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px 28px;box-shadow:0 14px 34px rgba(101,27,69,.07);transition:transform .4s,box-shadow .4s}
+body.g-f .pitch article:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(101,27,69,.12)}
+body.g-f .pitch h3{color:var(--plum);font-size:25px}
+body.g-f .faq{max-width:720px}
+body.g-f .faq details{border-bottom-color:var(--line)}
+body.g-f .faq summary::after{color:var(--gold);font-size:20px}
+body.g-f .rev .shots button{background:#fff;border-color:var(--line)}
+@media(prefers-reduced-motion:reduce){body.g-f *{animation:none!important;transition:none!important}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -169,7 +221,7 @@ function render(){
   const h=document.documentElement; h.lang=LANG; h.dir=LANG==='ar'?'rtl':'ltr';
   $('#back').textContent=t('back'); $('#langBtn').textContent=t('langBtn');
   if(!p){ document.title='ALOURA'; $('#main').innerHTML=`<div class="missing"><p>${t('nf')}</p></div>`; return; }
-  document.title=p.name+' — ALOURA';
+  document.title=p.name+' — ALOURA'; document.body.classList.toggle('g-f',p.gender==='f');
   const nn=n=>NOTES[n]?NOTES[n][LANG]:n;
   const pics=(p.gallery&&p.gallery.length?p.gallery:[p.img]); if(shot>=pics.length) shot=0;
   const shots=[...(typeof REVIEWS!=='undefined'?REVIEWS:[]),...(p.reviews||[])];   // customer review screenshots
@@ -184,7 +236,7 @@ function render(){
         <label>${t('fPhone')}<input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 / 06 / 07 …" value="${cust.phone||''}"></label>
         <label>${t('fWilaya')}<select id="fWilaya"><option value="">${t('wChoose')}</option>${WILAYAS.map((x,i)=>`<option value="${x}" ${x===w?'selected':''}>${String(i+1).padStart(2,'0')} · ${x}</option>`).join('')}</select></label>
         <label>${t('fAddr')}<input id="fAddr" autocomplete="street-address" placeholder="${t('phAddr')}" value="${cust.addr||''}"></label>
-        <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none">
+        <input id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:fixed;left:-9999px;opacity:0;height:0;width:0">
       </div>
       <div class="sums" id="sums">${sums}</div>
       <button class="buy2" type="submit" id="confirm">${t('confirm')}</button>
